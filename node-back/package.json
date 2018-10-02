@@ -1,0 +1,11 @@
+{
+  "name": "viki-back",
+  "version": "1.0.0",
+  "description": "Backend for the application Viki",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "r:",
+  "license": "ISC"
+}
