@@ -1,11 +1,11 @@
 import React from 'react';
 import "../App.css";
 
-const ingesys = () => (
+const Ingesys = () => (
   <div >
   
     à faire 
   </div>
 )
 
-export default ingesys
+export default Ingesys
