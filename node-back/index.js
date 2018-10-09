@@ -12,7 +12,6 @@ const app = express()
 app.use(cors());
 
 // Connectiong to the DB; If no db exists, create one
-console.log(sqlConfig)
 const db = mysql.createConnection({
     host: sqlConfig.host,
     user: sqlConfig.user,

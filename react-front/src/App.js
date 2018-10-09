@@ -54,7 +54,7 @@ class App extends Component {
                 Gallery{" "}
               </Link>{" "}
             </li>
-            <body>bonjour</body>
+            
           </div>
         </header>
         <Switch>
