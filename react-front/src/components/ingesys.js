@@ -1,11 +1,14 @@
 import React from 'react';
 import "../App.css";
 
-const ingesys = () => (
-  <div >
-  
-    à faire 
-  </div>
-)
+class Ingesys extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>IngeSys works</h1>
+      </div>
+    )
+  }
+}
 
-export default ingesys
+export default Ingesys

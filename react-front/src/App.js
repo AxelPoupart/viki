@@ -54,17 +54,17 @@ class App extends Component {
                 Gallery{" "}
               </Link>{" "}
             </li>
-            <body>bonjoire</body>
+            <body>bonjour</body>
           </div>
         </header>
         <Switch>
-        <Route path="/login/" component={Login} />
-        <Route path="/logout/" component={Logout} />
-        <Route path="/ingseys" component={Ingesys} />
-        <Route path="/vm" component={Vm} />
-        <Route path="/appli" component={Appli} />
-        <Route path="/ingesys" component={Ingesys} />
-        <Redirect from="/" to="/ingesys/" />
+          <Route path="/login/" component={Login} />
+          <Route path="/logout/" component={Logout} />
+          <Route path="/ingesys" component={Ingesys} />
+          <Route path="/vm" component={Vm} />
+          <Route path="/appli" component={Appli} />
+          <Route path="/ingesys" component={Ingesys} />
+          <Redirect from="/" to="/ingesys/" />
       </Switch>
       </div>
     );
