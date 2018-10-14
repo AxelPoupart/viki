@@ -2,8 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 const Navbar = () => (
   <nav className="navbar navbar-dark">
-    <div className="container" >
-      <li >
+    <div className="container">
+      <li>
         <Link className="nav-link " to="/">
           ingseys{" "}
         </Link>{" "}
@@ -30,23 +30,12 @@ const Navbar = () => (
       </li>
       <li>
         {" "}
-        <Link className="nav-link" to="/contact">
-          {" "}
-          contact{" "}
-        </Link>{" "}
-      </li>
-      <li>
-        {" "}
-        <Link className="nav-link" to="/gallery">
-          {" "}
-          Gallery{" "}
-        </Link>{" "}
         <Link className="nav-link" to="/appli">
           {" "}
           Appli{" "}
         </Link>{" "}
       </li>
-      </div>
+    </div>
   </nav>
 );
 
