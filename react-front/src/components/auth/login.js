@@ -3,35 +3,37 @@ import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 
 
 function login(username, password) {
+  localStorage.removeItem('user');
   const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password })
+    body: JSON.stringify({ "username":username, "password":password})
   };
   return fetch("http://localhost:5000/auth/authenticate", requestOptions)
-    .then(handleResponse)
+    .then(res => res.json())
     .then(user => {
-      // login successful if there's a jwt token in the response
-      if (user.token) {
+      if(user.name===username){
+      console.log(user)
         // store user details and jwt token in local storage to keep user logged in between page refreshes
-        localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("user", JSON.stringify(user));
       }
 
       return user;
-    });
+    })
+    .catch(error => console.log(error));
 }
 
-function logout(){
-  localStorage.removeItem('user');
-}
+
+
 
 function handleResponse(response) {
+  console.log(response)
   return response.text().then(text => {
       const data = text && JSON.parse(text);
       if (!response.ok) {
           if (response.status === 401) {
               // auto logout if 401 response returned from api
-              logout();
+              
               
           }
 
@@ -54,11 +56,15 @@ class Login extends React.Component {
 
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
+      this.logout=this.logout.bind(this);
     }
 
     validateForm() {
       return this.state.username.length > 0 && this.state.password.length > 0;
     }
+    logout(){
+      localStorage.removeItem('user');}
+
 
     handleChange = event => {
       this.setState({
@@ -69,9 +75,10 @@ class Login extends React.Component {
 
 
     handleSubmit = event => {
+      
       event.preventDefault();
-       this.validateForm() ? login(this.username, this.password) :
-       console.log("invalid submission")
+      this.validateForm() ? login(this.state.username, this.state.password) :
+      console.log("invalid submission")
     }
 
     render() {
@@ -102,7 +109,18 @@ class Login extends React.Component {
         >
           Login
         </Button>
-      </form>
+        </form>
+        <form onSubmit={this.logout}>
+        <Button
+          block
+          bsSize="large"
+          
+          type="submit"
+        >
+          Logout
+        </Button>
+        </form>
+      
     </div>
       )}
       
