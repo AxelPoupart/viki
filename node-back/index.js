@@ -3,56 +3,36 @@ const mysql = require("mysql");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const sqlConfig = require("./config/sql");
-const authenticate = require("./auth/authenticate.js");
-const port = 5000;
 const basicAuth = require('./auth/authmiddleware');
+const auth = require('./routes/auth');
+
 // Define the main app
 const app = express();
-const users = require("./auth/users.json");
+const port = 5000;
+
 // Using middlewares
 app.use(cors());
 app.use(bodyParser());
 app.use(basicAuth);
 
 // Connectiong to the DB; If no db exists, create one
-/* const db = mysql.createConnection({
-    host: sqlConfig.host,
-    user: sqlConfig.user,
-    password: sqlConfig.password,
-    database: sqlConfig.database
+const db = module.exports = mysql.createConnection({
+  host: sqlConfig.host,
+  user: sqlConfig.user,
+  password: sqlConfig.password,
+  database: sqlConfig.database
 })
 
 db.connect((err) => {
-    if (err) throw err;
-    console.log('Connection with db established!')
-}) */
+  if (err) throw err;
+  console.log('Connection with db established!')
+})
 
-// Listenning...
+// Defining routes
+app.use('/auth', auth)
 
-app.post('/auth/authenticate',(req, res)=> {
-  
-  try{  
-  
-  username=req.body.username;
-  password=req.body.password;
-  
-  const user = users.find(
-    u => u.name == username && u.password == password
-  );
-  console.log(user);
-  if (user) {
-    
-   res.json(user) }else{ res.status(400).send({ message: 'Username or password is incorrect' })
-  } }
-  catch(error){console.log(error)} ;
-  });
-
-app.get("/", (req, res) => {
-    
-    res.send("hi");
-    
-  });
-
+// Listening...
 app.listen(port, () => {
   console.log(`Listenning on port ${port}...`);
+
 });
