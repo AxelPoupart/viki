@@ -21,4 +21,6 @@ router.post('/authenticate', (req, res) => {
     catch (error) { console.log(error) };
 });
 
+router.get('/authenticate', (req,res) => res.send("ca marche aussi"));
+
 module.exports = router;

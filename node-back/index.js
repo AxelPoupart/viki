@@ -15,7 +15,7 @@ app.use(cors());
 app.use(bodyParser());
 app.use(basicAuth);
 
-// Connectiong to the DB; If no db exists, create one
+/* Connectiong to the DB; If no db exists, create one
 const db = module.exports = mysql.createConnection({
   host: sqlConfig.host,
   user: sqlConfig.user,
@@ -27,7 +27,7 @@ db.connect((err) => {
   if (err) throw err;
   console.log('Connection with db established!')
 })
-
+*/
 // Defining routes
 app.use('/auth', auth)
 
