@@ -12,6 +12,7 @@ function login(username, password) {
   return fetch("http://localhost:5000/auth/authenticate", requestOptions)
     .then(res => res.json())
     .then(user => {
+      console.log(user)
       if(user.name===username){
       console.log(user)
         // store user details and jwt token in local storage to keep user logged in between page refreshes

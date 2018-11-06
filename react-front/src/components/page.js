@@ -5,6 +5,7 @@ import Login from "./auth/login.js";
 import Logout from "./auth/logout.js";
 import Vm from "./pages/vm.js";
 import Appli from "./pages/appli.js";
+import newApp from "./pages/newApp.js"
 import PrivateRoute from "./auth/privateroute.js";
 
 const Page = () =>(
@@ -16,6 +17,7 @@ const Page = () =>(
 <PrivateRoute path="/vm" component={Vm} />
 <PrivateRoute path="/appli" component={Appli} />
 <PrivateRoute path="/ingesys" component={Ingesys} />
+<PrivateRoute path="/newApp/" component={newApp} />
 <Redirect from="/" to="/login/" />
 </Switch>
 
