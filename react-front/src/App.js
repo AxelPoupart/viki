@@ -7,10 +7,9 @@ import Page from "./components/page"
 class App extends Component {
   render() {
     return (
-      <div className="App">
+      <div className="container App">
         <Navbar/>
         <Page/>
-       
       </div>
     );
   }

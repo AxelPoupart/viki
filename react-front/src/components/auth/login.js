@@ -3,7 +3,7 @@ import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 
 
 function login(username, password) {
-  localStorage.removeItem('user');
+  localStorage.clear();
   const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -12,9 +12,7 @@ function login(username, password) {
   return fetch("http://localhost:5000/auth/authenticate", requestOptions)
     .then(res => res.json())
     .then(user => {
-      console.log(user)
       if(user.name===username){
-      console.log(user)
         // store user details and jwt token in local storage to keep user logged in between page refreshes
       localStorage.setItem("user", JSON.stringify(user));
       }
@@ -26,7 +24,7 @@ function login(username, password) {
 
 
 
-
+/*
 function handleResponse(response) {
   console.log(response)
   return response.text().then(text => {
@@ -34,8 +32,8 @@ function handleResponse(response) {
       if (!response.ok) {
           if (response.status === 401) {
               // auto logout if 401 response returned from api
-              
-              
+
+
           }
 
           const error = (data && data.message) || response.statusText;
@@ -44,7 +42,7 @@ function handleResponse(response) {
 
       return data;
   })}
-
+*/
 class Login extends React.Component {
     constructor(props) {
       super(props);
@@ -72,14 +70,14 @@ class Login extends React.Component {
         [event.target.id]: event.target.value
       });
     }
-  
+
 
 
     handleSubmit = event => {
-      
+
       event.preventDefault();
       this.validateForm() ? login(this.state.username, this.state.password) :
-      console.log("invalid submission")
+      alert("invalid submission")
     }
 
     render() {
@@ -105,7 +103,7 @@ class Login extends React.Component {
         <Button
           block
           bsSize="large"
-          
+
           type="submit"
         >
           Login
@@ -115,16 +113,16 @@ class Login extends React.Component {
         <Button
           block
           bsSize="large"
-          
+
           type="submit"
         >
           Logout
         </Button>
         </form>
-      
+
     </div>
       )}
-      
+
   }
 
 

@@ -1,10 +1,9 @@
-
-
 module.exports = basicAuth;
 
 async function basicAuth(req, res, next) {
     // make authenticate path public
-    if (req.path === '/auth/authenticate') {
+    // /!\ Temporary solution for authorization
+    if (req.path === '/auth/authenticate' || req.path.split('/')[1] === 'AppCreation') {
         return next();
     }
 

@@ -4,36 +4,24 @@ const Navbar = () => (
   <nav className="navbar navbar-dark">
     <div className="container">
       <li>
-        <Link className="nav-link " to="/">
-          ingseys{" "}
-        </Link>{" "}
-      </li>
-      <li>
         <Link className="nav-link" to="/ingesys">
-          {" "}
-          ingesys{" "}
-        </Link>{" "}
+          ingesys
+        </Link>
       </li>
       <li>
-        {" "}
         <Link className="nav-link" to="/vm">
-          {" "}
-          vm{" "}
-        </Link>{" "}
+          vm
+        </Link>
       </li>
       <li>
-        {" "}
         <Link className="nav-link" to="/login">
-          {" "}
           login
-        </Link>{" "}
+        </Link>
       </li>
       <li>
-        {" "}
         <Link className="nav-link" to="/appli">
-          {" "}
-          Appli{" "}
-        </Link>{" "}
+          Appli
+        </Link>
       </li>
     </div>
   </nav>

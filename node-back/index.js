@@ -1,10 +1,10 @@
 const express = require("express");
-const mysql = require("mysql");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const sqlConfig = require("./config/sql");
 const basicAuth = require('./auth/authmiddleware');
+// importing routes
 const auth = require('./routes/auth');
+const appCreation = require('./routes/AppCreation');
 
 // Define the main app
 const app = express();
@@ -15,21 +15,12 @@ app.use(cors());
 app.use(bodyParser());
 app.use(basicAuth);
 
-/* Connectiong to the DB; If no db exists, create one
-const db = module.exports = mysql.createConnection({
-  host: sqlConfig.host,
-  user: sqlConfig.user,
-  password: sqlConfig.password,
-  database: sqlConfig.database
-})
+// Connectiong to the DB...
+require('./db handeling/start_cnx')
 
-db.connect((err) => {
-  if (err) throw err;
-  console.log('Connection with db established!')
-})
-*/
 // Defining routes
 app.use('/auth', auth)
+app.use('/AppCreation', appCreation)
 
 // Listening...
 app.listen(port, () => {
