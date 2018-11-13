@@ -20,11 +20,10 @@ function login(username, password) {
       return user;
     })
     .catch(error => console.log(error));
-}
+};
 
 
 
-<<<<<<< HEAD
 
 // function handleResponse(response) {
 //   console.log(response)
@@ -36,33 +35,14 @@ function login(username, password) {
               
               
 //           }
-=======
-/*
-function handleResponse(response) {
-  console.log(response)
-  return response.text().then(text => {
-      const data = text && JSON.parse(text);
-      if (!response.ok) {
-          if (response.status === 401) {
-              // auto logout if 401 response returned from api
-
-
-          }
->>>>>>> 03554e45406f97ab9419523e6d94557e393f2e8d
 
 //           const error = (data && data.message) || response.statusText;
 //           return Promise.reject(error);
 //       }
 
-<<<<<<< HEAD
 //       return data;
 //   })}
 
-=======
-      return data;
-  })}
-*/
->>>>>>> 03554e45406f97ab9419523e6d94557e393f2e8d
 class Login extends React.Component {
     constructor(props) {
       super(props);
