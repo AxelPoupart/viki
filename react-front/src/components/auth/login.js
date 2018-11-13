@@ -26,23 +26,23 @@ function login(username, password) {
 
 
 
-function handleResponse(response) {
-  console.log(response)
-  return response.text().then(text => {
-      const data = text && JSON.parse(text);
-      if (!response.ok) {
-          if (response.status === 401) {
-              // auto logout if 401 response returned from api
+// function handleResponse(response) {
+//   console.log(response)
+//   return response.text().then(text => {
+//       const data = text && JSON.parse(text);
+//       if (!response.ok) {
+//           if (response.status === 401) {
+//               // auto logout if 401 response returned from api
               
               
-          }
+//           }
 
-          const error = (data && data.message) || response.statusText;
-          return Promise.reject(error);
-      }
+//           const error = (data && data.message) || response.statusText;
+//           return Promise.reject(error);
+//       }
 
-      return data;
-  })}
+//       return data;
+//   })}
 
 class Login extends React.Component {
     constructor(props) {

@@ -1,4 +1,4 @@
-import Users from "../auth/users.js";
+import Taches from "./taches.js";
 
 
 import React, { Component } from 'react'
@@ -8,7 +8,7 @@ export default class appli extends Component {
     return (
       <div>
       dsfdsf
-        <Users/>
+        <Taches/>
       </div>
     )
   }
