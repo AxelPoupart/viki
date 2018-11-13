@@ -3,10 +3,7 @@ import { Link } from "react-router-dom";
 const Navbar = () => (
   <nav className="navbar navbar-dark">
     <div className="container">
-<<<<<<< HEAD
      
-=======
->>>>>>> 03554e45406f97ab9419523e6d94557e393f2e8d
       <li>
         <Link className="nav-link" to="/ingesys">
           ingesys
