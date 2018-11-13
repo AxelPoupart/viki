@@ -36,6 +36,7 @@ export default class newApp extends React.Component {
   }
 
   handleSubmit(event) {
+    event.preventDefault();
     this.setState({
       newApplication:{
         appCode: this.refs.appCode.value,
@@ -47,7 +48,8 @@ export default class newApp extends React.Component {
     }, ()=>{
       console.log(this.state.newApplication)
     });
-    event.preventDefault();
+    //this.props.onSubmit(this.state.newApplication);
+    //this.props.history.push('/appli')
   }
 
   render() {

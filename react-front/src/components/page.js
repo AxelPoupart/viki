@@ -16,9 +16,9 @@ const Page = () =>(
 
 
 <PrivateRoute path="/logout/" component={Logout} />
-<PrivateRoute path="/vm" component={Vm} />
 
 
+<Route path="/vm" component={Vm} />
 <Route path="/newApp/" component={newApp} />
 <Route exact path="/ingesys" component={Ingesys} />
 <Route path="/appli" component={Appli} />

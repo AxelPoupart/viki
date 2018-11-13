@@ -15,7 +15,7 @@ export default class vm extends Component {
     this.handleChange = this.handleChange.bind(this);
 
     this.state = {
-      searchAppli: '',
+      searchVm: '',
       vms: [], // contenant au moins title et description et un id
     };
   }
@@ -26,7 +26,7 @@ export default class vm extends Component {
   }
 
   handleChange(e) {
-    this.setState({ searchAppli: e.target.value });
+    this.setState({ searchVm: e.target.value });
   }
 
 
@@ -47,7 +47,7 @@ export default class vm extends Component {
           <ControlLabel>Search for a Virtual Machine</ControlLabel>
           <FormControl
             type="text"
-            value={this.state.searchAppli}
+            value={this.state.searchVm}
             placeholder="Search..."
             onChange={this.handleChange}
           />
@@ -58,7 +58,7 @@ export default class vm extends Component {
         id="accordion-uncontrolled-example"
         defaultActiveKey="1"
         >
-      {this.state.applis.map(vm => (
+      {this.state.vms.map(vm => (
         <Panel eventKey={vm._id}>
           <Panel.Heading>
             <Panel.Title toggle>{vm.title}</Panel.Title>

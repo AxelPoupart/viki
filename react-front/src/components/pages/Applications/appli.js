@@ -14,6 +14,7 @@ export default class appli extends Component {
     super(props, context);
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmitAppli = this.handleSubmitAppli.bind(this);
 
     this.state = {
       searchAppli: '',
@@ -30,6 +31,12 @@ export default class appli extends Component {
     this.setState({ searchAppli: e.target.value });
   }
 
+  handleSubmitAppli = app => {
+    console.log(app);
+    const applis = this.state.actions.concat([{title: app.appLabel, id: app.appCode}]);
+    this.setState( {applis} );
+  };
+
 
   render() {
     return (
@@ -37,7 +44,7 @@ export default class appli extends Component {
 
         <div id="navbar">
               <Navbar>
-                <Link className="nav-link" to="/newApp">
+                <Link onSubmit={this.handleSubmitAppli} applis={this.state.applis} className="nav-link" to="/newApp">
                   <Button bsStyle="success">Add application</Button>
                 </Link>
               </Navbar>
