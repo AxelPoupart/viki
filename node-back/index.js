@@ -10,6 +10,7 @@ const auth = require('./routes/auth');
 const app = express();
 const port = 5000;
 
+
 // Using middlewares
 app.use(cors());
 app.use(bodyParser());

@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-
+import { Link } from "react-router-dom";
 
 function login(username, password) {
   localStorage.removeItem('user');
@@ -72,6 +72,10 @@ class Login extends React.Component {
         [event.target.id]: event.target.value
       });
     }
+
+    logindev = (event) => {
+      this.history.push('/ingesys')
+    }
   
 
 
@@ -84,6 +88,7 @@ class Login extends React.Component {
 
     render() {
       return(<div className="Login">
+
       <form onSubmit={this.handleSubmit}>
         <FormGroup controlId="username" bsSize="large">
           <ControlLabel>username</ControlLabel>
@@ -93,6 +98,7 @@ class Login extends React.Component {
             value={this.state.username}
             onChange={this.handleChange}
           />
+
         </FormGroup>
         <FormGroup controlId="password" bsSize="large">
           <ControlLabel>Password</ControlLabel>
@@ -101,11 +107,11 @@ class Login extends React.Component {
             onChange={this.handleChange}
             type="password"
           />
+
         </FormGroup>
         <Button
           block
           bsSize="large"
-          
           type="submit"
         >
           Login
@@ -115,12 +121,15 @@ class Login extends React.Component {
         <Button
           block
           bsSize="large"
-          
           type="submit"
         >
           Logout
         </Button>
         </form>
+
+        <Link className="nav-link" to="/ingesys">
+          ingesys
+        </Link>
       
     </div>
       )}

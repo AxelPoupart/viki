@@ -1,4 +1,7 @@
 import React from 'react'
+import Navbar from '../../navbar/navbar';
+import { Link } from "react-router-dom";
+import { FormGroup, ControlLabel, FormControl, Panel, ListGroup, ListGroupItem, PanelGroup, Button } from 'react-bootstrap';
 
 export default class newApp extends React.Component {
   constructor(props) {
@@ -70,6 +73,15 @@ export default class newApp extends React.Component {
     // Return the application form
     return (
       <div>
+
+        <div id="navbar">
+              <Navbar>
+                <Link className="nav-link" to="/appli">
+                  <Button bsStyle="warning">Back</Button>
+                </Link>
+              </Navbar>
+          </div>
+
         <form onSubmit={this.handleSubmit}>
           <div>
             <label>Code de l'application</label><br />
