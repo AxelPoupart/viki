@@ -3,7 +3,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const sqlConfig = require("./config/sql");
 const session = require("express-session");
-const cookieParser = require("cookie-parser");
+
 
 const auth = require("./routes/auth");
 const content = require("./routes/content");
@@ -37,11 +37,12 @@ app.use(
 // Defining routes
 app.use("/auth", auth);
 app.use("/content", (req, res, next) => {
-  if (req.session.auth == true) {
-    res.status(200).send({ message: "authenticatesd" });
-  } else {
+  if (!(req.session.auth == true)) {
+    
     res.status(400).send({ message: "Not authenticatesd" });
-  }
+  };
+  next();
+
 });
 app.use("/content", content);
 

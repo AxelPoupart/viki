@@ -14,7 +14,7 @@ class Taches extends Component {
    
    fetch('http://localhost:5000/content/taches',{credentials: 'include'})
    
-   .then(res =>{console.log(res);res.json();})
+   .then(res => res.json())
   
    .then(taches => this.setState({taches}))
    
