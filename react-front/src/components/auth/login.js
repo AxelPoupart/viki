@@ -5,14 +5,18 @@ import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 function login(username, password) {
   localStorage.clear();
   const requestOptions = {
+    credentials: 'include',
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ "username":username, "password":password})
   };
+  
   return fetch("http://localhost:5000/auth/authenticate", requestOptions)
     .then(res => res.json())
     .then(user => {
+      
       if(user.name===username){
+        
         // store user details and jwt token in local storage to keep user logged in between page refreshes
       localStorage.setItem("user", JSON.stringify(user));
       }
@@ -48,6 +52,7 @@ class Login extends React.Component {
       super(props);
 
       this.state = {
+        loggedin:false,
         username: "",
         password: "",
         submitted: false
@@ -56,6 +61,16 @@ class Login extends React.Component {
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
       this.logout=this.logout.bind(this);
+    }
+
+    componentDidMount(){
+   
+      fetch('http://localhost:5000/content/',{credentials: 'include'})
+      
+      .then(res => this.state.loggedin=res)
+     
+      
+      
     }
 
     validateForm() {
@@ -74,6 +89,7 @@ class Login extends React.Component {
 
 
     handleSubmit = event => {
+      
 
       event.preventDefault();
       this.validateForm() ? login(this.state.username, this.state.password) :
@@ -82,6 +98,7 @@ class Login extends React.Component {
 
     render() {
       return(<div className="Login">
+      
       <form onSubmit={this.handleSubmit}>
         <FormGroup controlId="username" bsSize="large">
           <ControlLabel>username</ControlLabel>

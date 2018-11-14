@@ -11,8 +11,11 @@ class Taches extends Component {
    }
  }
  componentDidMount(){
-   fetch('http://localhost:5000/content/taches')
-   .then(res =>res.json())
+   
+   fetch('http://localhost:5000/content/taches',{credentials: 'include'})
+   
+   .then(res =>{console.log(res);res.json();})
+  
    .then(taches => this.setState({taches}))
    
  }
