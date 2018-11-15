@@ -33,11 +33,6 @@ class Ingesys extends Component {
               <Navbar />
           </div>
 
-          <Link className="nav-link" to="/appli">
-          Appli
-        </Link>
-
-
           <div id="container" className="inner-container">
               <ChatContainer onSubmit={this.handleSubmitMessage} messages={this.state.messages} />
           </div>

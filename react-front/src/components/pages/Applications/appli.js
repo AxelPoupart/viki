@@ -15,10 +15,12 @@ export default class appli extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmitAppli = this.handleSubmitAppli.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
 
     this.state = {
       searchAppli: '',
       applis: [], // contenant au moins title et description et un id
+      activeKey: ""
     };
   }
 
@@ -36,6 +38,11 @@ export default class appli extends Component {
     const applis = this.state.actions.concat([{title: app.appLabel, id: app.appCode}]);
     this.setState( {applis} );
   };
+
+  handleSelect(activeKey) {
+    debugger;
+    this.setState({ activeKey });
+  }
 
 
   render() {
@@ -65,16 +72,19 @@ export default class appli extends Component {
       </form>
 
       <PanelGroup accordion
-        id="accordion-uncontrolled-example"
+        id="accordion-controlled-example"
+        activeKey={this.state.activeKey}
+        onSelect={this.handleSelect}
         defaultActiveKey="1"
-        >
+      >
+      {this.state.activeKey}
       {this.state.applis.map(app => (
-        <Panel eventKey={app._id}>
+        <Panel eventKey={app._id} key={app._id} >
           <Panel.Heading>
-            <Panel.Title toggle>{app.title}</Panel.Title>
+            <Panel.Title toggle>{app.title} {app._id}</Panel.Title>
             <Button bsStyle="info">Info</Button>
           </Panel.Heading>
-          <Panel.Body >{app.description}</Panel.Body>
+          <Panel.Body collapsible >{app.description}</Panel.Body>
         </Panel>
       ))}
       </PanelGroup>
