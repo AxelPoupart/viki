@@ -119,13 +119,11 @@ class Login extends React.Component {
           />
 
         </FormGroup>
-        <Button
-          block
-          bsSize="large"
-          type="submit"
-        >
-          Login
-        </Button>
+
+        <Link className="nav-link" to="/ingesys">
+          <Button block bsStyle="primary" bsSize="large">Login</Button>
+        </Link>
+
         </form>
         <form onSubmit={this.logout}>
         <Button

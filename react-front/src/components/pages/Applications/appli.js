@@ -1,4 +1,3 @@
-import Users from "../../auth/users.js";
 import { FormGroup, ControlLabel, FormControl, Panel, ListGroup, ListGroupItem, PanelGroup, Button } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import React, { Component } from 'react'

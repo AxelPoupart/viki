@@ -15,7 +15,7 @@ class ActionService extends Component {
 
 
     getActions () {
-        axios.get(`${this.api}/actions`)
+        fetch(`${this.api}/actions`)
           .then(res => {
               console.log(res);
               return res;
