@@ -11,6 +11,7 @@ const content = require("./routes/content");
 const app = express();
 const port = 5000;
 
+
 // Using middlewares
 
 var corsOptions = {

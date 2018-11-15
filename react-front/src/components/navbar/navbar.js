@@ -1,29 +1,44 @@
 import React from "react";
 import { Link } from "react-router-dom";
-const Navbar = () => (
+import {  Button, ButtonToolbar } from 'react-bootstrap';
+
+
+
+const Navbar = (props) => (
   <nav className="navbar navbar-dark">
     <div className="container">
-     
-      <li>
+    <h1>ViKi, A Virtual Machine handle App</h1>
+
+      <ButtonToolbar> 
         <Link className="nav-link" to="/ingesys">
-          ingesys
+          <Button bsStyle="primary">Home</Button>
         </Link>
-      </li>
-      <li>
+
+
+ 
         <Link className="nav-link" to="/vm">
-          vm
+          <Button bsStyle="primary">Look for a VM</Button>
         </Link>
-      </li>
-      <li>
-        <Link className="nav-link" to="/login">
-          login
-        </Link>
-      </li>
-      <li>
+
+
+
         <Link className="nav-link" to="/appli">
-          Appli
+          <Button bsStyle="primary">Look for an Application</Button>
         </Link>
-      </li>
+
+
+
+        <Link className="nav-link" to="/logout">
+          <Button bsStyle="danger">Logout</Button>
+        </Link>
+
+        {props.children}
+
+
+        </ButtonToolbar>
+
+      
+      
     </div>
   </nav>
 );

@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-
+import { Link } from "react-router-dom";
 
 function login(username, password) {
   localStorage.clear();
@@ -108,6 +108,7 @@ class Login extends React.Component {
             value={this.state.username}
             onChange={this.handleChange}
           />
+
         </FormGroup>
         <FormGroup controlId="password" bsSize="large">
           <ControlLabel>Password</ControlLabel>
@@ -116,11 +117,11 @@ class Login extends React.Component {
             onChange={this.handleChange}
             type="password"
           />
+
         </FormGroup>
         <Button
           block
           bsSize="large"
-
           type="submit"
         >
           Login
@@ -130,7 +131,6 @@ class Login extends React.Component {
         <Button
           block
           bsSize="large"
-
           type="submit"
         >
           Logout

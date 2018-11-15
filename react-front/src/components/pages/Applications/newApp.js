@@ -1,4 +1,7 @@
 import React from 'react'
+import Navbar from '../../navbar/navbar';
+import { Link } from "react-router-dom";
+import { FormGroup, ControlLabel, FormControl, Panel, ListGroup, ListGroupItem, PanelGroup, Button } from 'react-bootstrap';
 
 let api = 'http://localhost:5000/AppCreation/'
 
@@ -70,6 +73,7 @@ export default class newApp extends React.Component {
   }
 
   handleSubmit(event) {
+    event.preventDefault();
     this.setState({
       newApplication: {
         appCode: this.refs.appCode.value,
@@ -94,7 +98,8 @@ export default class newApp extends React.Component {
           }
         })
     });
-    event.preventDefault();
+    //this.props.onSubmit(this.state.newApplication);
+    //this.props.history.push('/appli')
   }
 
   // Update subdomains depending on the selected domain
@@ -119,6 +124,15 @@ export default class newApp extends React.Component {
     // Return the application form
     return (
       <div>
+
+        <div id="navbar">
+              <Navbar>
+                <Link className="nav-link" to="/appli">
+                  <Button bsStyle="warning">Back</Button>
+                </Link>
+              </Navbar>
+          </div>
+
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label>Code de l'application</label><br />
