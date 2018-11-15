@@ -10,7 +10,7 @@ function login(username, password) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ "username":username, "password":password})
   };
- 
+  
   return fetch("http://localhost:5000/auth/authenticate", requestOptions)
     .then(res => res.json())
     .then(user => {
@@ -121,7 +121,7 @@ class Login extends React.Component {
         </FormGroup>
 
         <Link className="nav-link" to="/ingesys">
-          <Button block bsStyle="primary" bsSize="large">Login</Button>
+          <Button block bsStyle="primary" bsSize="large" type="submit">Login</Button>
         </Link>
 
         </form>
