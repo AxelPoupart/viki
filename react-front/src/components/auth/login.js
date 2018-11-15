@@ -10,7 +10,7 @@ function login(username, password) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ "username":username, "password":password})
   };
-  
+ 
   return fetch("http://localhost:5000/auth/authenticate", requestOptions)
     .then(res => res.json())
     .then(user => {
