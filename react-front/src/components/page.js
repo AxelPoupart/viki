@@ -16,13 +16,9 @@ const Page = () =>(
 
 
 <PrivateRoute path="/logout/" component={Logout} />
-
-
-<Route path="/vm" component={Vm} />
-<Route path="/newApp/" component={newApp} />
-<Route exact path="/ingesys" component={Ingesys} />
-<Route path="/appli" component={Appli} />
-
+<PrivateRoute path="/ingesys" component={Ingesys} />
+<PrivateRoute path="/vm" component={Vm} />
+<PrivateRoute path="/appli" component={Appli} />
 <Redirect from="/" to="/login/" />
 
 </Switch>

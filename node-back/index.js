@@ -1,39 +1,53 @@
 const express = require("express");
-const mysql = require("mysql");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const sqlConfig = require("./config/sql");
-const basicAuth = require('./auth/authmiddleware');
-const auth = require('./routes/auth');
+const session = require("express-session");
 
+
+const auth = require("./routes/auth");
+const content = require("./routes/content");
 // Define the main app
 const app = express();
 const port = 5000;
 
 
 // Using middlewares
-app.use(cors());
+
+var corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true
+};
+
+app.use(cors(corsOptions));
+
 app.use(bodyParser());
-app.use(basicAuth);
 
-/* Connectiong to the DB; If no db exists, create one
-const db = module.exports = mysql.createConnection({
-  host: sqlConfig.host,
-  user: sqlConfig.user,
-  password: sqlConfig.password,
-  database: sqlConfig.database
-})
+app.use(
+  session({
+    name: "wiki-dty",
+    secret: toString(Date.now()),
+    saveUninitialized: true,
+    resave: true
+  })
+);
 
-db.connect((err) => {
-  if (err) throw err;
-  console.log('Connection with db established!')
-})
-*/
+// Connectiong to the DB...
+//require('./db handeling/start_cnx')
+
 // Defining routes
-app.use('/auth', auth)
+app.use("/auth", auth);
+app.use("/content", (req, res, next) => {
+  if (!(req.session.auth == true)) {
+    
+    res.status(400).send({ message: "Not authenticatesd" });
+  };
+  next();
+
+});
+app.use("/content", content);
 
 // Listening...
 app.listen(port, () => {
   console.log(`Listenning on port ${port}...`);
-
 });
