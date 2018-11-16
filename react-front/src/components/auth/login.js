@@ -61,16 +61,13 @@ class Login extends React.Component {
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
       this.logout=this.logout.bind(this);
+      this.componentWillUnmount=this.componentWillUnmount.bind(this);
     }
 
-    componentDidMount(){
    
-      fetch('http://localhost:5000/content/',{credentials: 'include'})
-      
-      .then(res => this.state.loggedin=res)
-     
-      
-      
+
+    componentWillUnmount() {
+      login(this.state.username,this.state.password);
     }
 
     validateForm() {
