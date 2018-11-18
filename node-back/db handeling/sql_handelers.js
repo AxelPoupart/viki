@@ -2,6 +2,7 @@ const db = require('./start_cnx');
 
 exports.get_all_campuses = (callback) => {
     let query = 'SELECT * FROM `Campuses`'
+    console.log('Querying campuses')
     db.query(query, callback)
 }
 

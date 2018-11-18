@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const sqlConfig = require("./config/sql");
 const session = require("express-session");
 
 
@@ -33,7 +32,7 @@ app.use(
 );
 
 // Connectiong to the DB...
-//require('./db handeling/start_cnx')
+require('./db handeling/start_cnx')
 
 // Defining routes
 app.use("/auth", auth);
