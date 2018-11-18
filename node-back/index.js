@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const sqlConfig = require("./config/sql");
+//const sqlConfig = require("./config/sql");
 const session = require("express-session");
 
 

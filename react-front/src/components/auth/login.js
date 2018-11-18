@@ -86,6 +86,17 @@ class Login extends React.Component {
       });
     }
 
+    buttonDisplay(){
+      if (localStorage.getItem('user')) {
+        //this.history.push('/ingesys')
+        return (
+        <Link className="nav-link" to="/ingesys">
+          <Button bsStyle="success">Home</Button>
+        </Link>)
+      }
+      
+    }
+
 
 
     handleSubmit = event => {
@@ -120,9 +131,9 @@ class Login extends React.Component {
 
         </FormGroup>
 
-        <Link className="nav-link" to="/ingesys">
-          <Button block bsStyle="primary" bsSize="large" type="submit">Login</Button>
-        </Link>
+
+          <Button block bsStyle="primary" bsSize="large" type="submit" onClick={this.buttonDisplay}>Login</Button>
+
 
         </form>
         <form onSubmit={this.logout}>
@@ -134,6 +145,8 @@ class Login extends React.Component {
           Logout
         </Button>
         </form>
+
+        {this.buttonDisplay()}
 
     </div>
       )}
