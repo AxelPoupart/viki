@@ -33,7 +33,7 @@ app.use(
 );
 
 // Connectiong to the DB...
-//require('./db handeling/start_cnx')
+require('./db handeling/start_cnx')
 
 // Defining routes
 app.use("/auth", auth);

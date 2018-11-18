@@ -1,9 +1,9 @@
 import React from 'react'
 import Navbar from '../../navbar/navbar';
 import { Link } from "react-router-dom";
-import { FormGroup, ControlLabel, FormControl, Panel, ListGroup, ListGroupItem, PanelGroup, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
-let api = 'http://localhost:5000/AppCreation/'
+let api = 'http://localhost:5000/content/newapp/'
 
 export default class newApp extends React.Component {
   constructor(props) {
@@ -25,8 +25,10 @@ export default class newApp extends React.Component {
   }
 
   get_campuses() {
+    console.log('GET campuses')
     let campuses;
     let requestOptions = {
+      credentials: 'include',
       method: 'GET',
       headers: { "Content-Type": "application/json" },
     }
@@ -43,6 +45,7 @@ export default class newApp extends React.Component {
   get_domains() {
     let domains = [], subDomains = {};
     let requestOptions = {
+      credentials: 'include',
       method: 'GET',
       headers: { "Content-Type": "application/json" },
     }
@@ -66,8 +69,7 @@ export default class newApp extends React.Component {
   }
 
   componentDidMount() {
-    //TODO: have a GET request to the server to get an updated list of campuses, domains and subdomains
-    // the subdomains are dynamic depending on what domain the user selected
+    console.log('Mounting...')
     this.get_campuses()
     this.get_domains()
   }
@@ -84,6 +86,7 @@ export default class newApp extends React.Component {
       }
     }, () => {
       let requestOptions = {
+        credentials: 'include',
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(this.state.newApplication)

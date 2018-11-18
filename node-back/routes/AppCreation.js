@@ -3,9 +3,11 @@ const express = require('express')
 const router = express.Router()
 
 router.get('/campuses', (req, res) => {
+    console.log('GET campuses')
     handelers.get_all_campuses((err, results) => {
         if (err) throw err;
         let _res = results.map(campus => campus['CampusName'])
+        console.log('=======Returning Campuses.......')
         res.json({
             success: true,
             campuses: _res
