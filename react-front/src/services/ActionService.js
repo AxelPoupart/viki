@@ -1,16 +1,9 @@
 
-export default class ActionService {
 
-    constructor() {
-        super()
 
-        this.state = {
-            api: 'http://localhost:5000/content/actionserice/'
-        }
-    }
+    const api = 'http://localhost:5000/content/actionservice/';
     
-    
-    get_actions() {
+    function get_actions() {
     console.log('GET actions')
     let actions;
     let requestOptions = {
@@ -18,14 +11,14 @@ export default class ActionService {
       method: 'GET',
       headers: { "Content-Type": "application/json" },
     }
-    fetch(this.api + 'actions', requestOptions)
+    fetch(api + 'actions', requestOptions)
       .then(res => res.json())
       .then(res => {
         actions = res.actions
       })
     }
 
-    get_actionById(id) {
+    function get_actionById(id) {
         console.log('GET action by Id')
         let action;
         let requestOptions = {
@@ -33,14 +26,14 @@ export default class ActionService {
             method: 'GET',
             headers: { "Content-Type": "application/json" },
         }
-        fetch(this.api + `actions/${id}`, requestOptions)
+        fetch(api + `action/${id}`, requestOptions)
             .then(res => res.json())
             .then(res => {
                 action = res.action
             })
     }
 
-    get_actionsByUser(id) {
+    function get_actionsByUser(id) {
         console.log('GET action by User')
         let actions;
         let requestOptions = {
@@ -48,14 +41,14 @@ export default class ActionService {
             method: 'GET',
             headers: { "Content-Type": "application/json" },
         }
-        fetch(this.api + `actions/user/${id}`, requestOptions)
+        fetch(api + `actions/user/${id}`, requestOptions)
             .then(res => res.json())
             .then(res => {
                 actions = res.actions
             })
     }
 
-    get_actionsByAppli(id) {
+    function get_actionsByAppli(id) {
         console.log('GET action by Appli')
         let actions;
         let requestOptions = {
@@ -63,14 +56,14 @@ export default class ActionService {
             method: 'GET',
             headers: { "Content-Type": "application/json" },
         }
-        fetch(this.api + `actions/user/${id}`, requestOptions)
+        fetch(api + `actions/appli/${id}`, requestOptions)
             .then(res => res.json())
             .then(res => {
                 actions = res.actions
             })
     }
 
-    get_actionsBySearch(term) {
+    function get_actionsBySearch(term) {
         console.log('GET action by searching')
         let actions;
         let requestOptions = {
@@ -78,7 +71,7 @@ export default class ActionService {
             method: 'GET',
             headers: { "Content-Type": "application/json" },
         }
-        fetch(this.api + `actions/search/${term}`, requestOptions)
+        fetch(api + `actions/search/${term}`, requestOptions)
             .then(res => res.json())
             .then(res => {
                 actions = res.actions
@@ -86,4 +79,24 @@ export default class ActionService {
 
     }
 
-}
+
+    function post_action(action) {
+        console.log('POST action')
+        let requestOptions = {
+            credentials: 'include',
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: {
+                action
+               }
+        }
+        fetch(api + `actions/add`, requestOptions)
+            .then(res => {
+                console.log(res)
+                res.json()
+            })
+            .then(res => console.log(res))
+    }
+
+export { post_action, get_actionsBySearch, get_actionsByAppli, get_actionsByUser, get_actionById, get_actions }
+

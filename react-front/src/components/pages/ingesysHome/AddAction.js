@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { form, FormGroup, Button, FormControl, ControlLabel, HelpBlock, Table, Checkbox } from 'react-bootstrap';
 
+import {post_action} from '../../../services/ActionService'
+
     function FieldGroup({ id, label, help, ...props }) {
         return (
           <FormGroup controlId={id}>
@@ -35,8 +37,14 @@ class AddAction extends Component {
         this.props.history.push('/');
     };
 
+    addAction = (action) => {
+        post_action(action)
+        .then(console.log('POST lançé'))
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
+        this.addAction(this.state);
         this.props.onSubmit(this.state);
         const newAction = {
             title: "",
@@ -112,13 +120,11 @@ class AddAction extends Component {
           <ControlLabel>All Virtual Machines used</ControlLabel>
             <FormControl 
               id="vm"
-              type= "multipleChoice"
-              componentClass="select"
-              multiple
+              componentClass="Checkbox"
               value = {['', '']}
               onChange={this.handleInputChange}
             >
-            <Checkbox inline>VM1</Checkbox> <Checkbox inline>VM2</Checkbox>{' '}
+            <Checkbox inline>VM1</Checkbox> <Checkbox inline>VM2</Checkbox>
             <Checkbox inline>VM3</Checkbox>
             </FormControl>
           </FormGroup>

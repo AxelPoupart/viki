@@ -51,3 +51,14 @@ app.use("/content", content);
 app.listen(port, () => {
   console.log(`Listenning on port ${port}...`);
 });
+
+router.route('/actionservice/actions/add').get((req, res) => {
+  Issue.find((err, issues) => {
+      if (err)
+          console.log(err);
+      else
+          res.json(issues);
+  });
+});
+
+
