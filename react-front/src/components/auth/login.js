@@ -106,6 +106,8 @@ class Login extends React.Component {
 
     render() {
       return(<div className="Login">
+
+      <h1>ViKi, A Virtual Machine handle App</h1>
       
       <form onSubmit={this.handleSubmit}>
         <FormGroup controlId="username" bsSize="large">

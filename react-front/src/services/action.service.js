@@ -1,77 +1,89 @@
-import axios from 'axios'
-import React, { Component } from 'react'
 
+export default class ActionService {
 
-class ActionService extends Component {
+    constructor() {
+        super()
 
-    api = "http://localhost:3000/"
-
-
-    constructor () {
-      super()
-      this.handleClick = this.handleClick.bind(this)
+        this.state = {
+            api: 'http://localhost:5000/content/actionserice/'
+        }
     }
-
-
-
-    getActions () {
-        fetch(`${this.api}/actions`)
-          .then(res => {
-              console.log(res);
-              return res;
-          })
-    }
-
-    getActionsById (id) {
-        axios.get(`${this.api}/actions/${id}`)
-          .then(res => {
-              console.log(res);
-              return res;
-          })
-    }
-
-    getActionsByUser (user) {
-        axios.get(`${this.api}/actions/${user}`)
-          .then(res => {
-              console.log(res);
-              return res;
-          })
-    }
-
-    addActions (title, code, severity, description, appliId, userId) {
-        const action = {
-            title: title,
-            code: code,
-            description: description,
-            severity: severity,
-            appliId: appliId,
-            userId: userId
-          };
-        axios.post(`${this.api}/actions/add`, action)
-    }
-
-    updateActions (title, code, severity, description, appliId, userId, status) {
-        const action = {
-            title: title,
-            code: code,
-            description: description,
-            severity: severity,
-            appliId: appliId,
-            userId: userId,
-            status: status
-          };
-        axios.post(`${this.api}/actions/add`, action)
-    }
-
-    deleteAction (id) {
-        axios.get(`${this.api}/actions/delete/${id}`)
-          .then(res => {
-              console.log(res);
-              return res;
-          })
-    }
-
-
     
-  }
-  export default ActionService
+    
+    get_actions() {
+    console.log('GET actions')
+    let actions;
+    let requestOptions = {
+      credentials: 'include',
+      method: 'GET',
+      headers: { "Content-Type": "application/json" },
+    }
+    fetch(this.api + 'actions', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+        actions = res.actions
+      })
+    }
+
+    get_actionById(id) {
+        console.log('GET action by Id')
+        let action;
+        let requestOptions = {
+            credentials: 'include',
+            method: 'GET',
+            headers: { "Content-Type": "application/json" },
+        }
+        fetch(this.api + `actions/${id}`, requestOptions)
+            .then(res => res.json())
+            .then(res => {
+                action = res.action
+            })
+    }
+
+    get_actionsByUser(id) {
+        console.log('GET action by User')
+        let actions;
+        let requestOptions = {
+            credentials: 'include',
+            method: 'GET',
+            headers: { "Content-Type": "application/json" },
+        }
+        fetch(this.api + `actions/user/${id}`, requestOptions)
+            .then(res => res.json())
+            .then(res => {
+                actions = res.actions
+            })
+    }
+
+    get_actionsByAppli(id) {
+        console.log('GET action by Appli')
+        let actions;
+        let requestOptions = {
+            credentials: 'include',
+            method: 'GET',
+            headers: { "Content-Type": "application/json" },
+        }
+        fetch(this.api + `actions/user/${id}`, requestOptions)
+            .then(res => res.json())
+            .then(res => {
+                actions = res.actions
+            })
+    }
+
+    get_actionsBySearch(term) {
+        console.log('GET action by searching')
+        let actions;
+        let requestOptions = {
+            credentials: 'include',
+            method: 'GET',
+            headers: { "Content-Type": "application/json" },
+        }
+        fetch(this.api + `actions/search/${term}`, requestOptions)
+            .then(res => res.json())
+            .then(res => {
+                actions = res.actions
+            })
+
+    }
+
+}
