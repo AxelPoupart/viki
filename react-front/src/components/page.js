@@ -12,11 +12,11 @@ const Page = () => (
   <Switch>
     <Route path="/login/" component={Login} />
 
-    <Route path="/logout/" component={Logout} />
-    <Route path="/ingesys" component={Ingesys} />
-    <Route path="/vm" component={Vm} />
-    <Route path="/appli" component={Appli} />
-    <Route path="/newapp" component={newApp} />
+    <PrivateRoute path="/logout/" component={Logout} />
+    <PrivateRoute path="/ingesys" component={Ingesys} />
+    <PrivateRoute path="/vm" component={Vm} />
+    <PrivateRoute path="/appli" component={Appli} />
+    <PrivateRoute path="/newapp" component={newApp} />
 
     <Redirect from="/" to="/login/" />
   </Switch>
