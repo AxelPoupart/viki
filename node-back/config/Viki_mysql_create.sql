@@ -93,3 +93,4 @@ ALTER TABLE `ApplicationsVM` ADD CONSTRAINT `ApplicationsVM_fk1` FOREIGN KEY (`M
 ALTER TABLE `Logs` ADD CONSTRAINT `Logs_fk0` FOREIGN KEY (`UserID`) REFERENCES `Users`(`_id`);
 
 ALTER TABLE `Logs` ADD CONSTRAINT `Logs_fk1` FOREIGN KEY (`ApplicationID`) REFERENCES `Applications`(`_id`);
+

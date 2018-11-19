@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { form, FormGroup, Button, FormControl, ControlLabel, HelpBlock, Table } from 'react-bootstrap';
+import { form, FormGroup, Button, FormControl, ControlLabel, HelpBlock, Table, Checkbox } from 'react-bootstrap';
 
     function FieldGroup({ id, label, help, ...props }) {
         return (
@@ -109,7 +109,7 @@ class AddAction extends Component {
           </FormGroup>
 
           <FormGroup>
-            <ControlLabel>All Virtual Machines used</ControlLabel>
+          <ControlLabel>All Virtual Machines used</ControlLabel>
             <FormControl 
               id="vm"
               type= "multipleChoice"
@@ -118,11 +118,8 @@ class AddAction extends Component {
               value = {['', '']}
               onChange={this.handleInputChange}
             >
-              <option value="vm1"> VM1 </option>
-              <option value="vm2"> VM2 </option>
-              <option value="vm3"> VM3 </option>
-              <option value="vm4"> VM4 </option>
-              <option  value="vm5"> VM5 </option>
+            <Checkbox inline>VM1</Checkbox> <Checkbox inline>VM2</Checkbox>{' '}
+            <Checkbox inline>VM3</Checkbox>
             </FormControl>
           </FormGroup>
       

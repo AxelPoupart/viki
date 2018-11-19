@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from '../../navbar/navbar';
 import { Link } from "react-router-dom";
 import { Button } from 'react-bootstrap';
+import AppService from '../../../services/appli.service'
 
 let api = 'http://localhost:5000/content/newapp/'
 
@@ -25,22 +26,13 @@ export default class newApp extends React.Component {
   }
 
   get_campuses() {
-    console.log('GET campuses')
-    let campuses;
-    let requestOptions = {
-      credentials: 'include',
-      method: 'GET',
-      headers: { "Content-Type": "application/json" },
-    }
-    fetch(api + 'campuses', requestOptions)
-      .then(res => res.json())
-      .then(res => {
-        campuses = res.campuses
-      })
-      .then(() => {
+
+    AppService.get_campuses()
+      .then((campuses) => {
         this.setState({ campuses: campuses })
       })
-  }
+    }
+
 
   get_domains() {
     let domains = [], subDomains = {};
