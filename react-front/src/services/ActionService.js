@@ -26,7 +26,7 @@
             method: 'GET',
             headers: { "Content-Type": "application/json" },
         }
-        fetch(api + `action/${id}`, requestOptions)
+        fetch(api + `actions/${id}`, requestOptions)
             .then(res => res.json())
             .then(res => {
                 action = res.action

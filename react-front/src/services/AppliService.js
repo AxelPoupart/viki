@@ -40,71 +40,56 @@ function get_applications() {
           method: 'GET',
           headers: { "Content-Type": "application/json" },
       }
-      fetch(api + `application/${id}`, requestOptions)
+      fetch(api + `applications/${id}`, requestOptions)
           .then(res => res.json())
           .then(res => {
             application = res.application
           })
   }
 
-  function get_applicationsByUser(id) {
-      console.log('GET action by User')
+  function get_applicationsByVm(id) {
+      console.log('GET applications by User')
       let applications;
       let requestOptions = {
           credentials: 'include',
           method: 'GET',
           headers: { "Content-Type": "application/json" },
       }
-      fetch(api + `applications/user/${id}`, requestOptions)
+      fetch(api + `applications/vm/${id}`, requestOptions)
           .then(res => res.json())
           .then(res => {
             applications = res.applications
           })
   }
 
-  function get_actionsByAppli(id) {
-      console.log('GET action by Appli')
-      let actions;
+  function get_applicationsBySearch(term) {
+      console.log('GET applications by searching')
+      let applications;
       let requestOptions = {
           credentials: 'include',
           method: 'GET',
           headers: { "Content-Type": "application/json" },
       }
-      fetch(api + `actions/appli/${id}`, requestOptions)
+      fetch(api + `applications/search/${term}`, requestOptions)
           .then(res => res.json())
           .then(res => {
-              actions = res.actions
-          })
-  }
-
-  function get_actionsBySearch(term) {
-      console.log('GET action by searching')
-      let actions;
-      let requestOptions = {
-          credentials: 'include',
-          method: 'GET',
-          headers: { "Content-Type": "application/json" },
-      }
-      fetch(api + `actions/search/${term}`, requestOptions)
-          .then(res => res.json())
-          .then(res => {
-              actions = res.actions
+            applications = res.applications
           })
 
   }
 
 
-  function post_action(action) {
+  function post_application(application) {
       console.log('POST action')
       let requestOptions = {
           credentials: 'include',
           method: 'POST',
           headers: { "Content-Type": "application/json" },
           body: {
-              action
+            application
              }
       }
-      fetch(api + `actions/add`, requestOptions)
+      fetch(api + `applications/add`, requestOptions)
           .then(res => {
               console.log(res)
               res.json()
@@ -112,4 +97,4 @@ function get_applications() {
           .then(res => console.log(res))
   }
 
-export { post_action, get_actionsBySearch, get_actionsByAppli, get_actionsByUser, get_actionById, get_actions }
+export { post_application, get_applicationsBySearch, get_applicationsByVm, get_applicationById, get_applications, get_campuses }

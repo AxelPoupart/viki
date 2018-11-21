@@ -20,8 +20,10 @@ router.route('/actionservice/actions').get((req, res) => {
     get_all_actions((err, actions) => {
         if (err)
             console.log(err);
-        else
+        else {
+            res.status(200).json({'action': 'Added successfully!'});
             res.json(actions);
+        }
     });
 });
 
@@ -56,7 +58,7 @@ router.route('/actionservice/actions/appli/:appli').get((req, res) => {
     });
 });
 
-router.route(`/back-issues/issues/search/:term`).get((req, res) => {
+router.route(`/actionservice/actions/search/:term`).get((req, res) => {
     const term = req.params.term; //recherche par lettres dans le 'title' (classique search bar)
     get_actions_by_search(term, (err, issue) => {
         if (err)
