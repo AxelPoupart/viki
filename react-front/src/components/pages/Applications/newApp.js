@@ -2,7 +2,7 @@ import React from 'react'
 import Navbar from '../../navbar/navbar';
 import { Link } from "react-router-dom";
 import { Button } from 'react-bootstrap';
-import AppService from '../../../services/appli.service'
+const AppService = require('../../../services/AppliService');
 
 let api = 'http://localhost:5000/content/newapp/'
 
@@ -26,42 +26,36 @@ export default class newApp extends React.Component {
   }
 
   get_campuses() {
-
+    let campuses;
     AppService.get_campuses()
-      .then((campuses) => {
-        this.setState({ campuses: campuses })
-      })
-    }
+    .then(res => campuses = res.campuses)
+    .then(() => {
+      this.setState({campuses: campuses})
+    })
+  }
 
 
   get_domains() {
     let domains = [], subDomains = {};
-    let requestOptions = {
-      credentials: 'include',
-      method: 'GET',
-      headers: { "Content-Type": "application/json" },
+    AppService.get_domains()
+    .then(res => {
+      for (var key in res.domains) {
+        domains.push(res.domains[key])
+      };
+      subDomains = res.subDomains;
     }
-    fetch(api + 'domains', requestOptions)
-      .then(res => res.json())
-      .then(res => {
-        for (var key in res.domains) {
-          domains.push(res.domains[key])
-        };
-        subDomains = res.subDomains;
-      }
-      )
-      .then(() => {
-        this.setState({
-          domains: domains,
-          subDomains: subDomains
-        }, () => {
-          this.setState({ subDomainOptions: this.state.subDomains[this.state.domains[0]] })
-        })
+    )
+    .then(() => {
+      this.setState({
+        domains: domains,
+        subDomains: subDomains
+      }, () => {
+        this.setState({ subDomainOptions: this.state.subDomains[this.state.domains[0]] })
       })
+    })
   }
 
-  componentDidMount() {
-    console.log('Mounting...')
+  componentWillMount() {
     this.get_campuses()
     this.get_domains()
   }
@@ -76,14 +70,7 @@ export default class newApp extends React.Component {
         appDomain: this.refs.appDomain.value,
         appSubDomain: this.refs.appSubDomain.value
       }
-    }, () => {
-      let requestOptions = {
-        credentials: 'include',
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(this.state.newApplication)
-      };
-      fetch(api + 'newapp', requestOptions)
+    }, () => AppService.create_app(this.state.newApplication)
         .then(res => res.json())
         .then(res => {
           if (res.success) {
@@ -92,7 +79,7 @@ export default class newApp extends React.Component {
             alert(res.msg)
           }
         })
-    });
+    );
     //this.props.onSubmit(this.state.newApplication);
     //this.props.history.push('/appli')
   }
@@ -121,12 +108,12 @@ export default class newApp extends React.Component {
       <div>
 
         <div id="navbar">
-              <Navbar>
-                <Link className="nav-link" to="/appli">
-                  <Button bsStyle="warning">Back</Button>
-                </Link>
-              </Navbar>
-          </div>
+          <Navbar>
+            <Link className="nav-link" to="/appli">
+              <Button bsStyle="warning">Back</Button>
+            </Link>
+          </Navbar>
+        </div>
 
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">

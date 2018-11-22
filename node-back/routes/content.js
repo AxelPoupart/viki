@@ -7,6 +7,6 @@ const AppCreation = require('./AppCreation')
 
 router.get('/', (req,res,next) => {console.log(req.session.id,req.session);res.send(req.session.auth);next()});
 
-router.use('/newapp', AppCreation)
+router.use('/applicationservice/newapp', AppCreation)
 
-module.exports = router;
+module.exports = router; 

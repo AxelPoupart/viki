@@ -2,7 +2,6 @@ const db = require('./start_cnx');
 
 exports.get_all_campuses = (callback) => {
     let query = 'SELECT * FROM `Campuses`'
-    console.log('Querying campuses')
     db.query(query, callback)
 }
 
@@ -29,11 +28,9 @@ exports.new_application = (application, callback) => {
         CampusID: false
     }
     get_domain_by_label(application.appSubDomain, (err, result) => {
-        console.log('STEP 1')
         if (err) throw err;
         set.DomainID = result[0]['_id'];
         get_campus_by_name(application.appCampus, (err, result) => {
-            console.log('STEP 2')
             if (err) throw err;
             set.CampusID = result[0]['_id'];
             query = 'INSERT INTO `Applications` SET ?';

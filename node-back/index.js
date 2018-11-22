@@ -1,9 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const sqlConfig = require("./config/sql");
 const session = require("express-session");
-
 
 const auth = require("./routes/auth");
 const content = require("./routes/content");
@@ -38,12 +36,10 @@ require('./db handeling/start_cnx')
 // Defining routes
 app.use("/auth", auth);
 app.use("/content", (req, res, next) => {
-  if (!(req.session.auth == true)) {
-    
-    res.status(400).send({ message: "Not authenticatesd" });
+  if (!req.session.auth) {    
+    return res.status(400).send({ message: "Not authenticated" });
   };
   next();
-
 });
 app.use("/content", content);
 
@@ -51,14 +47,4 @@ app.use("/content", content);
 app.listen(port, () => {
   console.log(`Listenning on port ${port}...`);
 });
-
-router.route('/actionservice/actions/add').get((req, res) => {
-  Issue.find((err, issues) => {
-      if (err)
-          console.log(err);
-      else
-          res.json(issues);
-  });
-});
-
 
