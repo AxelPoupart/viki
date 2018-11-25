@@ -31,7 +31,12 @@ app.use(
 );
 
 // Connectiong to the DB...
-require('./db handeling/start_cnx')
+try {
+  require('./db handeling/start_cnx')
+} catch (error) {
+  console.log(error);
+}
+
 
 // Defining routes
 app.use("/auth", auth);
