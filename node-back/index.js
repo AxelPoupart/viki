@@ -12,6 +12,8 @@ const app = express();
 const port = 5000;
 
 
+app.get('/my-demo-route', (req, res) => res.send('hello world'))
+
 // Using middlewares
 
 var corsOptions = {
@@ -19,7 +21,7 @@ var corsOptions = {
   credentials: true
 };
 
-app.use(cors(corsOptions));
+//app.use(cors(corsOptions));
 
 app.use(bodyParser());
 
@@ -39,7 +41,7 @@ require('./db handeling/start_cnx')
 app.use("/auth", auth);
 app.use("/content", (req, res, next) => {
   if (!(req.session.auth == true)) {
-    
+    console.log('e')
     res.status(400).send({ message: "Not authenticatesd" });
   };
   next();
@@ -52,13 +54,6 @@ app.listen(port, () => {
   console.log(`Listenning on port ${port}...`);
 });
 
-router.route('/actionservice/actions/add').get((req, res) => {
-  Issue.find((err, issues) => {
-      if (err)
-          console.log(err);
-      else
-          res.json(issues);
-  });
-});
+
 
 

@@ -22,7 +22,7 @@ class AddAction extends Component {
         title: "",
         code: "",
         file: "",
-        campus: "",
+        campus: "Paris-Saclay",
         vm:[],
         description: "",
         creator:"",
@@ -50,7 +50,7 @@ class AddAction extends Component {
             title: "",
             code: "",
             file: "",
-            campus: "",
+            campus: "Paris-Saclay",
             vm:[],
             description: "",
             creator:"",
@@ -128,16 +128,15 @@ class AddAction extends Component {
             <Checkbox inline>VM3</Checkbox>
             </FormControl>
           </FormGroup>
-      
-          <FormGroup controlId="formControlsTextarea">
-            <ControlLabel>Description</ControlLabel>
-            <FormControl
-              componentClass="textarea"
-              placeholder="Description of the Action"
-              value={this.state.campus}
-              onChange={this.handleInputChange}
-            />
-          </FormGroup>
+
+          <FieldGroup
+            id="description"
+            type="text"
+            label="Action Description"
+            placeholder="Description of the Action"
+            value={this.state.description}
+            onChange={this.handleInputChange}
+          />
       
           <FormGroup>
             <ControlLabel>Creator of the action</ControlLabel>

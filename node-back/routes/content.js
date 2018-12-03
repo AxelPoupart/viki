@@ -9,4 +9,6 @@ router.get('/', (req,res,next) => {console.log(req.session.id,req.session);res.s
 
 router.use('/newapp', AppCreation)
 
+router.use('/newapp', AppCreation)
+
 module.exports = router;

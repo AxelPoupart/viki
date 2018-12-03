@@ -2,9 +2,9 @@ import React from 'react'
 import Navbar from '../../navbar/navbar';
 import { Link } from "react-router-dom";
 import { Button } from 'react-bootstrap';
-import AppService from '../../../services/appli.service'
+import { post_application, get_applicationsBySearch, get_applicationsByVm, get_applicationById, get_applications, get_campuses } from '../../../services/AppliService'
 
-let api = 'http://localhost:5000/content/newapp/'
+let api = '/content/newapp/'
 
 export default class newApp extends React.Component {
   constructor(props) {
@@ -27,7 +27,7 @@ export default class newApp extends React.Component {
 
   get_campuses() {
 
-    AppService.get_campuses()
+    get_campuses()
       .then((campuses) => {
         this.setState({ campuses: campuses })
       })

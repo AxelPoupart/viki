@@ -2,6 +2,8 @@ import React from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
+fetch('/my-demo-route').then(res => console.log(res.body))
+
 function login(username, password) {
   localStorage.clear();
   const requestOptions = {
@@ -11,7 +13,7 @@ function login(username, password) {
     body: JSON.stringify({ "username":username, "password":password})
   };
   
-  return fetch("http://localhost:5000/auth/authenticate", requestOptions)
+  return fetch("/auth/authenticate", requestOptions)
     .then(res => res.json())
     .then(user => {
       
@@ -130,9 +132,9 @@ class Login extends React.Component {
 
         </FormGroup>
 
-
+        <Link className="nav-link" to="/ingesys">
           <Button block bsStyle="primary" bsSize="large" type="submit" onClick={this.buttonDisplay}>Login</Button>
-
+          </Link>
 
         </form>
         <form onSubmit={this.logout}>
@@ -145,7 +147,7 @@ class Login extends React.Component {
         </Button>
         </form>
 
-        {this.buttonDisplay()}
+ 
 
     </div>
       )}

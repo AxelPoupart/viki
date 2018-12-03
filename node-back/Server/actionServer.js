@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.route('/actionservice/actions/add').post((req, res) => {
     let action = req //transformer req pour que ca colle
-    post_new_action(action, (err, res) => {
+    return post_new_action(action, (err, res) => {
         res.status(200).json({'action': 'Added successfully!'});
     })
     .catch(err => {
@@ -67,3 +67,5 @@ router.route(`/actionservice/actions/search/:term`).get((req, res) => {
             res.json(issue);
     });
 });
+
+mo
