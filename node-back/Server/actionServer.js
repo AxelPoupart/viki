@@ -4,7 +4,6 @@ import express from 'express';
 const app = express();
 const router = express.Router();
 
-
 router.route('/actionservice/actions/add').post((req, res) => {
     let action = req //transformer req pour que ca colle
     post_new_action(action, (err, res) => {
@@ -67,3 +66,5 @@ router.route(`/actionservice/actions/search/:term`).get((req, res) => {
             res.json(issue);
     });
 });
+
+module.exports = router; 

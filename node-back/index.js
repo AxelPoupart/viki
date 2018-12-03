@@ -31,11 +31,11 @@ app.use(
 );
 
 // Connectiong to the DB...
-try {
+ try {
   require('./db handeling/start_cnx')
 } catch (error) {
   console.log(error);
-}
+} 
 
 
 // Defining routes

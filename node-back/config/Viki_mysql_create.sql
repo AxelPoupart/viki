@@ -24,6 +24,7 @@ CREATE TABLE `Actions` (
 	`Status` varchar(255) NOT NULL,
 	`Comment` varchar(255),
 	`SysAdminID` int,
+	'Opening Time' varchar(255),
 	`Closing Time` varchar(255),
 	`ApplicationID` int NOT NULL,
 	PRIMARY KEY (`_id`)

@@ -86,9 +86,9 @@
             credentials: 'include',
             method: 'POST',
             headers: { "Content-Type": "application/json" },
-            body: {
+            body: JSON.stringify({
                 action
-               }
+               })
         }
         fetch(api + `actions/add`, requestOptions)
             .then(res => {
