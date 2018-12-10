@@ -57,3 +57,5 @@ router.route(`/vmservice/vms/search/:term`).get((req, res) => {
             res.json(applications);
     });
 });
+
+module.exports = router; 

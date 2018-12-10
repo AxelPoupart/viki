@@ -67,3 +67,5 @@ router.route(`/applicationservice/applications/search/:term`).get((req, res) => 
             res.json(applications);
     });
 });
+
+module.exports = router; 
