@@ -1,8 +1,6 @@
-const api = 'http://localhost:5000/content/applicationservice/';
+const api = 'content/applicationservice/';
 
 function get_campuses() {
-  console.log('GET campuses')
-  let campuses;
   let requestOptions = {
     credentials: 'include',
     method: 'GET',
@@ -10,11 +8,30 @@ function get_campuses() {
       "Content-Type": "application/json"
     },
   }
-  return fetch(this.api + 'campuses', requestOptions)
-    .then(res => res.json())
+  return fetch(api + 'newapp/campuses', requestOptions)
     .then(res => {
-      campuses = res.campuses
+      return res.json()
     })
+}
+
+function get_domains() {
+  let requestOptions = {
+    credentials: 'include',
+    method: 'GET',
+    headers: { "Content-Type": "application/json" },
+  }
+  return fetch(api + 'newapp/domains', requestOptions)
+    .then(res => res.json())
+}
+
+function create_app(application) {
+  let requestOptions = {
+    credentials: 'include',
+    method: 'POST',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(application)
+  };
+  return fetch(api + 'newapp/createapp', requestOptions)
 }
 
 function get_applications() {
@@ -94,9 +111,7 @@ function post_application(application) {
     headers: {
       "Content-Type": "application/json"
     },
-    body: {
-      application
-    }
+    body: JSON.stringify(application)
   }
   return fetch(api + `applications/add`, requestOptions)
     .then(res => {
@@ -112,5 +127,7 @@ export {
   get_applicationsByVm,
   get_applicationById,
   get_applications,
-  get_campuses
+  get_campuses,
+  get_domains,
+  create_app
 }

@@ -1,5 +1,13 @@
-const api = 'http://localhost:5000/content/vmservice/';
 
+
+
+
+
+const api = 'http://localhost:5000/content-dev/vmservice/';
+
+
+
+// This one is DONE
 function get_vms() {
     console.log('GET vms')
     let vms;
@@ -11,11 +19,48 @@ function get_vms() {
         },
     }
     return fetch(api + 'vms', requestOptions)
-        .then(res => res.json())
+    .then(res => {return res.json()})
+    .then(res => {return res})
+}
+
+// This one is DONE
+function post_vm(vm) {
+    console.log('POST vm')
+    console.log(JSON.stringify(vm))
+    let requestOptions = {
+        credentials: 'include',
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(vm)
+    }
+    return fetch(api + `vms/add`, requestOptions)
         .then(res => {
-            vms = res.vms
+            console.log(res)
+            return res.json()
         })
 }
+
+// In progress
+function get_vmsBySearch(term) {
+    console.log('GET vms by searching')
+    let vms;
+    let requestOptions = {
+        credentials: 'include',
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json"
+        },
+    }
+    return fetch(api + `vms/search/${term}`, requestOptions)
+        .then(res => {return res.json()})
+        .then(res => {return res})
+}
+
+
+
 
 function get_vmById(id) {
     console.log('GET vm by Id')
@@ -51,43 +96,9 @@ function get_vmsByAppli(id) {
         })
 }
 
-function get_vmsBySearch(term) {
-    console.log('GET vms by searching')
-    let vms;
-    let requestOptions = {
-        credentials: 'include',
-        method: 'GET',
-        headers: {
-            "Content-Type": "application/json"
-        },
-    }
-    return fetch(api + `vms/search/${term}`, requestOptions)
-        .then(res => res.json())
-        .then(res => {
-            vms = res.vms
-        })
-}
 
 
-function post_vm(vm) {
-    console.log('POST action')
-    let requestOptions = {
-        credentials: 'include',
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: {
-            vm
-        }
-    }
-    return fetch(api + `vms/add`, requestOptions)
-        .then(res => {
-            console.log(res)
-            res.json()
-        })
-        .then(res => console.log(res))
-}
+
 
 export {
     post_vm,

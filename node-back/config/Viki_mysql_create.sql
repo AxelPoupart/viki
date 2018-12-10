@@ -20,12 +20,12 @@ CREATE TABLE `UsersPrivileges` (
 CREATE TABLE `Actions` (
 	`_id` int NOT NULL AUTO_INCREMENT,
 	`Label` varchar(255) NOT NULL,
-	`Priority` varchar(255) NOT NULL,
-	`Status` varchar(255) NOT NULL,
+	`Priority` varchar(255) DEFAULT `Low`,
+	`Status` varchar(255) NOT NULL DEFAULT `In progress`,
 	`Comment` varchar(255),
 	`SysAdminID` int,
 	`Closing Time` varchar(255),
-	`ApplicationID` int NOT NULL,
+	`ApplicationID` int NOT NULL DEFAULT `0`,
 	PRIMARY KEY (`_id`)
 );
 

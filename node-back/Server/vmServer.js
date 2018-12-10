@@ -1,8 +1,60 @@
-import express from 'express';
+const express = require('express')
 
+const handelers = require('../db handeling/sql_handelers');
+
+const sqlVm = require('../db handeling/sqlVm')
 
 const app = express();
 const router = express.Router();
+
+
+
+
+// Add a new VM : DONE
+router.route('/vms/add').post((req, res) => {
+    console.log(req.body);
+    let vm = req.body 
+    sqlVm.post_new_vm(vm, (err) => {
+        console.log("Post presque done");
+        console.log(vm);
+        return res.json(vm)
+    });
+});
+
+// Get all vms : DONE
+router.route('/vms').get((req, res) => {
+    sqlVm.get_all_vms((err, vms) => {
+        console.log(vms)
+        return res.json(vms);
+    });
+});
+
+// Delete a VM : DONE
+router.route('/vms/delete').post((req, res) => {
+    console.log(req.body);
+    let Id = req.body.Id
+    sqlVm.delete_vm(Id, (err) => {
+        console.log("Delete presque done");
+        return res.json(req.body)
+    });
+});
+
+// Get vms by searching : 
+router.route('/vms/search/:term').get((req, res) => {
+    var term = req.params.term;
+    sqlVm.get_vms_search(term, (err, vms) => {
+        console.log(vms)
+        return res.json(vms);
+    });
+});
+
+
+
+
+
+
+
+
 
 
 router.route('/vmservice/vms/add').post((req, res) => {
@@ -57,3 +109,5 @@ router.route(`/vmservice/vms/search/:term`).get((req, res) => {
             res.json(applications);
     });
 });
+
+module.exports = router;

@@ -12,6 +12,7 @@ class ChatContainer extends Component {
     };
 
     handleSubmit = () => {
+        this.sendChat(this.state.newMessage);
         this.props.onSubmit(this.state.newMessage);
         this.setState({ newMessage: '' });
     };
@@ -20,6 +21,26 @@ class ChatContainer extends Component {
         //firebase.auth().signOut();
         //this.props.history.push('/login');
     };
+
+    sendChat(message) {
+        console.log('POST message')
+        let requestOptions = {
+            credentials: 'include',
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({chat: message})
+        }
+        return fetch(`http://localhost:5000/content-dev/chat-back/add`, requestOptions)
+            .then(res => {
+                console.log(res)
+                return res.json()
+            })
+    }
+
+
 
     handleKeyDown = e => {
         if (e.key === 'Enter') {
@@ -37,8 +58,8 @@ class ChatContainer extends Component {
             <div id="message-container">
                 <div className="message">
                     {this.props.messages.map(msg => (
-                        <div key={msg.id} className="message">
-                            <p>{msg.msg}</p>
+                        <div key={msg._id} className="message">
+                            <p>{msg.chat}</p>
                         </div>
                     ))}
                 </div>

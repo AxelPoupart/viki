@@ -1,5 +1,7 @@
-const api = '/content/actionservice/';
+const api = 'http://localhost:5000/content-dev/actionservice/';
 
+
+// THis one is DONE
 function get_actions() {
     console.log('GET actions')
     let actions;
@@ -11,11 +13,57 @@ function get_actions() {
         },
     }
     return fetch(api + 'actions', requestOptions)
-        .then(res => res.json())
+    .then(res => {return res.json()})
+    .then(res => {return res})
+}
+
+// THis one is DONE
+function post_action(action) {
+    console.log('POST action')
+    console.log(JSON.stringify(action))
+    let requestOptions = {
+        credentials: 'include',
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(action)
+    }
+    return fetch(api + `actions/add`, requestOptions)
         .then(res => {
-            actions = res.actions
+            console.log(res)
+            return res.json()
         })
 }
+
+// THis one is DONE
+function delete_actionById(Id) {
+    console.log('DELETE action')
+    let requestOptions = {
+        credentials: 'include',
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({Id: Id})
+    }
+    return fetch(api + `actions/delete`, requestOptions)
+        .then(res => {
+            console.log(res)
+            return res.json()
+        })
+}
+
+
+
+
+
+
+
+
+
 
 function get_actionById(id) {
     console.log('GET action by Id')
@@ -87,33 +135,9 @@ function get_actionsBySearch(term) {
 }
 
 
-function post_action(action) {
-    console.log('POST action')
-    let requestOptions = {
-        credentials: 'include',
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify(action)
-    }
-    return fetch(api + `actions/add`, requestOptions)
-        .then((res,err) => {
-            if (res === 400) {
-                debugger;
-                console.log(res)
-            }
-            else {
-                console.log(res)
-                res.json()
-            }
-            
-        })
-        .then(res => console.log(res))
-}
-
 export {
     post_action,
+    delete_actionById,
     get_actionsBySearch,
     get_actionsByAppli,
     get_actionsByUser,

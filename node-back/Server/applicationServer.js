@@ -1,4 +1,4 @@
-import express from 'express';
+const express = require('express')
 
 
 const app = express();
@@ -67,3 +67,5 @@ router.route(`/applicationservice/applications/search/:term`).get((req, res) => 
             res.json(applications);
     });
 });
+
+module.exports = router;
