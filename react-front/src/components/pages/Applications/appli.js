@@ -1,11 +1,14 @@
-import { FormGroup, ControlLabel, FormControl, Panel, PanelGroup, Button } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, Panel, ListGroup, ListGroupItem, PanelGroup, Button } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import React, { Component } from 'react'
 import Navbar from '../../navbar/navbar';
 
-const AppService = require('../../../services/AppliService');
 
 export default class appli extends Component {
+
+
+
+
   constructor(props, context) {
     super(props, context);
 
@@ -36,6 +39,7 @@ export default class appli extends Component {
   };
 
   handleSelect(activeKey) {
+    debugger;
     this.setState({ activeKey });
   }
 
@@ -47,7 +51,7 @@ export default class appli extends Component {
         <div id="navbar">
               <Navbar>
                 <Link onSubmit={this.handleSubmitAppli} applis={this.state.applis} className="nav-link" to="/newApp">
-                  <Button bsStyle="success">New application</Button>
+                  <Button bsStyle="success">Add application</Button>
                 </Link>
               </Navbar>
           </div>

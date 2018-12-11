@@ -20,13 +20,15 @@ CREATE TABLE `UsersPrivileges` (
 CREATE TABLE `Actions` (
 	`_id` int NOT NULL AUTO_INCREMENT,
 	`Label` varchar(255) NOT NULL,
-	`Priority` varchar(255) NOT NULL,
-	`Status` varchar(255) NOT NULL,
+	`Priority` varchar(255) DEFAULT "Low",
+    	`File` varchar(255),
+    	`Campus` varchar(255), 
+	`Status` varchar(255) NOT NULL DEFAULT "In progress",
 	`Comment` varchar(255),
+    	`Creator` varchar(255),
 	`SysAdminID` int,
-	'Opening Time' varchar(255),
-	`Closing Time` varchar(255),
-	`ApplicationID` int NOT NULL,
+	`Closing_Time` varchar(255),
+	`ApplicationID` int NOT NULL DEFAULT "0",
 	PRIMARY KEY (`_id`)
 );
 
@@ -48,6 +50,9 @@ CREATE TABLE `Campuses` (
 CREATE TABLE `Virtual Machines` (
 	`_id` int NOT NULL AUTO_INCREMENT,
 	`Label` varchar(255) NOT NULL,
+    	`File` varchar(255),
+    	`Campus` varchar(255),
+	`Comment` varchar(255),
 	PRIMARY KEY (`_id`)
 );
 

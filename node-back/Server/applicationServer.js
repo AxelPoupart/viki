@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require('express')
 
 
 const app = express();
@@ -68,4 +68,4 @@ router.route(`/applicationservice/applications/search/:term`).get((req, res) => 
     });
 });
 
-module.exports = router; 
+module.exports = router;

@@ -8,6 +8,7 @@ import Appli from "./pages/Applications/appli.js";
 import newApp from "./pages/Applications/newApp.js"
 import PrivateRoute from "./auth/privateroute.js";
 
+
 const Page = () => (
   <Switch>
     <Route path="/login/" component={Login} />

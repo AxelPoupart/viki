@@ -1,33 +1,51 @@
-express = require('express');
+const express = require('express')
 
+const handelers = require('../db handeling/sql_handelers');
+
+const sqlAction = require('../db handeling/sqlAction')
 
 const app = express();
 const router = express.Router();
 
-router.route('/actionservice/actions/add').post((req, res) => {
-    let action = req //transformer req pour que ca colle
-    post_new_action(action, (err, res) => {
-        res.status(200).json({'action': 'Added successfully!'});
-    })
-    .catch(err => {
-        res.status(400).send('Failed to create new record');
+// Add a new Action : DONE
+router.route('/actions/add').post((req, res) => {
+    console.log(req.body);
+    let action = req.body 
+    sqlAction.post_new_action(action, (err) => {
+        console.log("Post presque done");
+        console.log(action);
+        return res.json(action)
+    });
+});
+
+// Get all actions : DONE
+router.route('/actions').get((req, res) => {
+    sqlAction.get_all_actions((err, actions) => {
+        console.log(actions)
+        return res.json(actions);
     });
 });
 
 
-router.route('/actionservice/actions').get((req, res) => {
-    get_all_actions((err, actions) => {
-        if (err)
-            console.log(err);
-        else {
-            res.status(200).json({'action': 'Added successfully!'});
-            res.json(actions);
-        }
+router.route('/actions/delete').post((req, res) => {
+    console.log(req.body);
+    let Id = req.body.Id
+    sqlAction.delete_action(Id, (err) => {
+        console.log("Delete presque done");
+        return res.json(req.body)
     });
 });
 
 
-router.route('/actionservice/action/:id').get((req, res) => {
+
+
+
+
+
+
+
+
+router.route('/action/:id').get((req, res) => {
     let id = req.params.id; //à priori c'est ça mais pas sûr, à tester
     get_action_by_id(id, (err, action) => {
         if (err)
@@ -67,4 +85,5 @@ router.route(`/actionservice/actions/search/:term`).get((req, res) => {
     });
 });
 
-module.exports = router; 
+
+module.exports = router;

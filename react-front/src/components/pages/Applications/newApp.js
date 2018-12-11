@@ -2,7 +2,9 @@ import React from 'react'
 import Navbar from '../../navbar/navbar';
 import { Link } from "react-router-dom";
 import { Button } from 'react-bootstrap';
-const AppService = require('../../../services/AppliService');
+import { get_campuses, get_domains, create_app } from '../../../services/AppliService';
+
+let api = '/content/newapp/'
 
 export default class newApp extends React.Component {
   constructor(props) {
@@ -25,16 +27,19 @@ export default class newApp extends React.Component {
 
   get_campuses() {
     let campuses;
-    AppService.get_campuses()
-    .then(res => campuses = res.campuses)
+    get_campuses()
+    .then(res => {
+      campuses = res.campuses
+    })
     .then(() => {
       this.setState({campuses: campuses})
     })
   }
 
+
   get_domains() {
     let domains = [], subDomains = {};
-    AppService.get_domains()
+    get_domains()
     .then(res => {
       for (var key in res.domains) {
         domains.push(res.domains[key])
@@ -67,7 +72,7 @@ export default class newApp extends React.Component {
         appDomain: this.refs.appDomain.value,
         appSubDomain: this.refs.appSubDomain.value
       }
-    }, () => AppService.create_app(this.state.newApplication)
+    }, () => create_app(this.state.newApplication)
         .then(res => res.json())
         .then(res => {
           if (res.success) {

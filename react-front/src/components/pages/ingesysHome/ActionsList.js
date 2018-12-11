@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
-import { Table } from 'react-bootstrap';
+import { Table, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import AddAction from './AddAction';
-
+import { post_action,
+    get_actionsBySearch,
+    get_actionsByAppli,
+    get_actionsByUser,
+    get_actionById,
+    delete_actionById,
+    get_actions } from '../../../services/ActionService';
 
 
 
@@ -14,13 +20,12 @@ class ActionList extends Component {
 
     handleAdd = (e) => {
         const hide = !this.state.hide;
-        this.setState( {hide} );
-        
+        this.setState( {hide} ); 
     };
 
     handleSubmitAction = act => {
         console.log(act);
-        const actions = this.state.actions.concat([{title: act.title, id: act.code}]);
+        const actions = this.state.actions.concat([{Label: act.Label, _id: act._id}]);
         this.setState( {actions} );
     };
 
@@ -29,6 +34,31 @@ class ActionList extends Component {
             return <AddAction onSubmit={this.handleSubmitAction} actions={this.state.actions} />
         } 
     }
+
+    display_actions() {
+        get_actions().then(act => {
+            for (var e in act) {
+                const current_action = act[e];
+                const actions = this.state.actions.concat([current_action]);
+                this.setState( {actions} );
+            }
+        })
+    }
+
+    suppress_action(key) {
+        delete_actionById(key)
+        .then(res => {
+            this.setState( {actions: []} );
+            this.display_actions() 
+        })
+
+    }
+
+    componentWillMount() {
+        this.display_actions()
+      }
+
+
 
 
     render() {
@@ -41,13 +71,15 @@ class ActionList extends Component {
                             <tr>
                                 <th>#</th>
                                 <th>Action Name</th>
+                                <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
                         {this.state.actions.map(act => (
-                            <tr key={act.id} className="actions">
-                                <td>{act.id}</td>
-                                <td>{act.title}</td>
+                            <tr key={act._id} className="actions">
+                                <td>{act._id}</td>
+                                <td>{act.Label}</td>
+                                <td><Button bsStyle="danger" className="red" value="DeleteAction" onClick={() => this.suppress_action(act._id)}><strong>X</strong></Button></td>
                             </tr>
                         ))}
                         </tbody>
@@ -60,9 +92,7 @@ class ActionList extends Component {
                     </button>
                 </div>
                     <div id="add-act" >
-                    {this.displayAdd()
-                    }
-                
+                    {this.displayAdd()}
                 </div>
 
 

@@ -20,11 +20,6 @@ get_campus_by_name = (name, callback) => {
     db.query(query, [name], callback)
 }
 
-exports.get_privileges_by_userid = (id, callback) => {
-    let query = 'SELECT p.Label FROM `Privileges` as p JOIN `UsersPrivileges` AS up ON p._id=up.PrivilegesID WHERE up.UserID = ' + toString(id)
-    db.query(query, [name], callback)
-}
-
 exports.new_application = (application, callback) => {
     let set = {
         Code: application.appCode,

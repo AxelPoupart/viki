@@ -1,0 +1,23 @@
+#home_global
+{
+    width: flex;
+}
+ 
+
+#chat
+{
+    float: left;
+}
+
+#actions
+{
+    float: left;
+    margin-left: 30px;
+}
+ 
+.centre
+{
+    height: 100px;
+    width: 100px;
+    margin-left: 100px;
+}
