@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 import { Button } from 'react-bootstrap';
 const AppService = require('../../../services/AppliService');
 
-let api = 'http://localhost:5000/content/newapp/'
-
 export default class newApp extends React.Component {
   constructor(props) {
     super(props)
@@ -33,7 +31,6 @@ export default class newApp extends React.Component {
       this.setState({campuses: campuses})
     })
   }
-
 
   get_domains() {
     let domains = [], subDomains = {};

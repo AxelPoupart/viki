@@ -1,4 +1,4 @@
-import { FormGroup, ControlLabel, FormControl, Panel, ListGroup, ListGroupItem, PanelGroup, Button } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, Panel, PanelGroup, Button } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import React, { Component } from 'react'
 import Navbar from '../../navbar/navbar';
@@ -59,7 +59,7 @@ export default class vm extends Component {
         defaultActiveKey="1"
         >
       {this.state.vms.map(vm => (
-        <Panel eventKey={vm._id}>
+        <Panel key={vm._id}>
           <Panel.Heading>
             <Panel.Title toggle>{vm.title}</Panel.Title>
             <Button bsStyle="info">Info</Button>

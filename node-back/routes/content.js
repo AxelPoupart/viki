@@ -4,7 +4,7 @@ const router = express.Router();
 const AppCreation = require('../Server/AppCreation')
 const ActionService =require ('../Server/actionServer')
 const AppliService =require ('../Server/applicationServer')
-const VmService =require ('../Server/VmServices')
+const VmService =require ('../Server/vmServer')
 // const taches = require('./taches.json');
 
 router.get('/', (req,res,next) => {console.log(req.session.id,req.session);res.send(req.session.auth);next()});

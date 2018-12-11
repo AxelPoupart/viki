@@ -9,9 +9,7 @@ exports.get_campuses = () => {
     headers: { "Content-Type": "application/json" },
   }
   return fetch(api + 'newapp/campuses', requestOptions)
-    .then(res => {
-      return res.json()
-    })
+    .then(res => res.json())
 }
 
 exports.get_domains = () => {
@@ -65,7 +63,7 @@ exports.get_applicationById = (id) => {
 }
 
 exports.get_applicationsByVm = (id) => {
-  console.log('GET applications by User')
+  console.log('GET applications by VM')
   let applications;
   let requestOptions = {
     credentials: 'include',
