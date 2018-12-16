@@ -89,7 +89,6 @@ ALTER TABLE `Applications` ADD CONSTRAINT `Applications_fk0` FOREIGN KEY (`Domai
 
 ALTER TABLE `Applications` ADD CONSTRAINT `Applications_fk1` FOREIGN KEY (`CampusID`) REFERENCES `Campuses`(`_id`);
 
-
 ALTER TABLE `Domains` ADD CONSTRAINT `Domains_fk0` FOREIGN KEY (`ParentID`) REFERENCES `Domains`(`_id`);
 
 ALTER TABLE `ApplicationsVM` ADD CONSTRAINT `ApplicationsVM_fk0` FOREIGN KEY (`ApplicationID`) REFERENCES `Applications`(`_id`);
