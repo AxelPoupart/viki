@@ -15,6 +15,8 @@ function get_actions() {
     return fetch(api + 'actions', requestOptions)
     .then(res => {return res.json()})
     .then(res => {return res})
+    .catch((err) => console.log(err)
+    )
 }
 
 // THis one is DONE
