@@ -1,8 +1,6 @@
 const db = require('./start_cnx');
 
 
-
-
 // Select all actions
 exports.get_all_actions = (callback) => {
     let query = 'SELECT * FROM `actions`';
