@@ -63,6 +63,7 @@ app.use("/auth", auth);
 app.use("/content-dev", content_dev);
 
 app.use("/content", (req, res, next) => {
+  console.log(req.session.auth)
   if (!req.session.auth) {
     return res.status(400).send({ message: "Not authenticated" });
   }
