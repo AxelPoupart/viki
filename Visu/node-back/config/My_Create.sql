@@ -33,9 +33,7 @@ CREATE TABLE `applications` (
 
 CREATE TABLE `users` (
 	`_id` int NOT NULL AUTO_INCREMENT,
-	`name` varchar(255) NOT NULL,
-    `status` varchar(255),
 	`mail` varchar(255),
-	`password` varchar(255),
 	PRIMARY KEY (`_id`)
 );
+

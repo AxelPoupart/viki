@@ -6,10 +6,7 @@ const AppCreation = require('./AppCreation')
 const ActionServer = require('../Server/actionServer')
 const ApplicationServer = require('../Server/applicationServer')
 const VmServer = require('../Server/vmServer')
-<<<<<<< HEAD
-=======
 const sqlAction = require('../db handeling/sqlAction')
->>>>>>> 26d11db5a0fac4895258f09f2360a16a8fbc8efb
 
 // const taches = require('./taches.json');
 
@@ -43,7 +40,6 @@ router.route('/actions').get((req, res) => {
     });
 });
 
-<<<<<<< HEAD
 router.use('/newapp', AppCreation)
 
 router.use('/actionservice', ActionServer )
@@ -57,8 +53,6 @@ router.get('/try', (req,res) => {
     return res.json("c'est ok")
 });
 
-
-const sqlAction = require('../db handeling/sqlAction')
 
 router.route('/actions').get((req, res) => {
     sqlAction.get_all_actions((err, actions) => {
@@ -81,6 +75,3 @@ router.route('/actions').get((req, res) => {
 
 
 module.exports = router;
-=======
-module.exports = router;
->>>>>>> 26d11db5a0fac4895258f09f2360a16a8fbc8efb

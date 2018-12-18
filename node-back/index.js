@@ -42,16 +42,6 @@ try {
 
 
 //Connect to mongoDB server (Chat)
-<<<<<<< HEAD
-mongoose.connect('mongodb://localhost/chat-back');
-mongoose.set('debug', true);
-
-const connection = mongoose.connection;
-
-connection.once('open', () => {
-    console.log('MongoDB database connection established successfully!')
-});
-=======
 try {
   mongoose.connect('mongodb://localhost/chat-back', { useNewUrlParser: true });
   mongoose.set('debug', true);
@@ -65,7 +55,6 @@ try {
 } catch (error) {
   console.log( error)
 }
->>>>>>> 26d11db5a0fac4895258f09f2360a16a8fbc8efb
 
 
 
@@ -74,18 +63,12 @@ app.use("/auth", auth);
 app.use("/content-dev", content_dev);
 
 app.use("/content", (req, res, next) => {
+  console.log(req.session.auth)
   if (!req.session.auth) {
     return res.status(400).send({ message: "Not authenticated" });
   }
-<<<<<<< HEAD
-  console.log("Authentified")
-  next();
-});
-
-=======
   next();
 }, content);
->>>>>>> 26d11db5a0fac4895258f09f2360a16a8fbc8efb
 
 // Listening...
 app.listen(port, () => {
