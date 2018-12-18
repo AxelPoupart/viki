@@ -29,7 +29,21 @@ class Action extends Component {
             )
         }
     }
+    //verif de /content
+    componentDidMount(){
+        let requestOptions = {
+            credentials: 'include',
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+        fetch("http://localhost:5000/auth/authenticate", requestOptions)
+        .then(res =>  console.log(res))
+    }
 
+
+    
 
 
 

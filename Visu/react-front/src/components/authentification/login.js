@@ -39,22 +39,20 @@ class Login extends React.Component {
 
     
     login(username, password) {
+        localStorage.clear();
         // Ask for authentification service
-        get_auth(username, password)
+        return get_auth(username, password)
             .then(user => {
                 if (user.name === username) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem("user", JSON.stringify(user));
-                    this.setState({
-                        loggedin: true
-                    })
+                    console.log("succes ?");
+                    this.setState({loggedin:true})
+                    console.log(this.state.loggedin);
                     return user;
                 }
             })
-            .then(user => {
-                this.redirect();
-                return user
-            })
+           
     }
 
     validateForm() {
@@ -81,9 +79,9 @@ class Login extends React.Component {
     // Redirige vers la page d'acceuil si le user est log
     redirect() {
         if (this.state.loggedin) {
-            return <Redirect from = "/login" to = "/ingesys/" /> ;
-        } 
-        return null;
+            return <Redirect from = "/login" to = "/actions/" /> ;
+        } else
+            return null;
     }
 
     render() {
