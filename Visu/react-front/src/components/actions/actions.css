@@ -1,0 +1,47 @@
+
+
+.home_global
+{
+    float: center; 
+}
+
+
+
+
+.chat_list
+{
+    margin: 30px;
+    margin-left: 50px;
+    width: flex;
+}
+
+.chat
+{
+    float: left;
+    margin-right: 30px;
+    max-height: 500px;
+}
+
+.progressList
+{
+    margin: 30px;
+    float: left;
+    width: flex;
+    min-width: 500px;
+    max-width: 600px;
+}
+
+.divider
+{
+    margin: 30px;
+}
+
+.doneList
+{
+    margin: 30px;
+    float: left;
+    width: flex;
+    min-width: 500px;
+    max-width: 600px;
+}
+

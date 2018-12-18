@@ -1,0 +1,20 @@
+#appli
+{
+    float: center;
+    margin: 30px;
+}
+
+#appli-list
+{
+    width: flex;
+    float: inline-start;
+    max-width: 800px;
+    min-width: 300px;
+}
+
+#appli-add
+{
+    float: inline-end;
+    width: flex;
+    margin: 20px;
+}

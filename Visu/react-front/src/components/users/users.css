@@ -1,0 +1,25 @@
+
+
+.homeGlobal
+{
+    float: center; 
+}
+
+.switch
+{
+    float: left;
+}
+
+.logout
+{
+    float: right;
+}
+
+
+.userList
+{
+    margin: 30px;
+    width: flex;
+}
+
+

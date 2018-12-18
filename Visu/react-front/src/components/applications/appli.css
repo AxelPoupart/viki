@@ -1,0 +1,12 @@
+#home_global
+{
+    float: center;
+}
+
+#applilist
+{
+    width: flex;
+    float: center;
+    min-width: 400px;
+}
+

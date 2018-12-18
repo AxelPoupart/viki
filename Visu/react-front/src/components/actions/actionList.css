@@ -1,0 +1,20 @@
+#actionList
+{
+    float: right;
+    max-width: 700px;
+}
+
+#action-list
+{
+    width: flex;
+    float: left;
+    min-width: 400px;
+    max-width: 700px;
+}
+
+#action-add
+{
+    float: right;
+    width: flex;
+    margin: 20px;
+}

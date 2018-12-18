@@ -1,0 +1,10 @@
+#loginForm
+{
+  max-width: 300px;
+  margin: 50px auto;
+}
+
+textField {
+    margin-right: 10px;
+    width: 200,
+  }

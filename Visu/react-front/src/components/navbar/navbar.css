@@ -1,0 +1,11 @@
+
+.container
+{
+    max-height: 50px;
+}
+
+.children
+{
+    padding-right: 0%;
+    max-height: 40px;
+}

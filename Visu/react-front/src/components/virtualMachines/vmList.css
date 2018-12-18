@@ -1,0 +1,20 @@
+#vm
+{
+    float: center;
+    margin: 30px;
+}
+
+#vm-list
+{
+    width: flex;
+    float: inline-start;
+    max-width: 800px;
+    min-width: 300px;
+}
+
+#vm-add
+{
+    float: inline-end;
+    width: flex;
+    margin: 20px;
+}
