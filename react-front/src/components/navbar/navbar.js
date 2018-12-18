@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Button, ButtonToolbar } from "react-bootstrap";
 
-export default class appli extends Component {
+export default class appli extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -10,31 +10,19 @@ export default class appli extends Component {
     }
     this.componentDidMount=   this.componentDidMount.bind(this);
     };
-    
-  
 
   componentDidMount = () => {
     const requestOptions = {
       credentials: "include",
       method: "GET",
       headers: { "Content-Type": "application/json" },
-      
     }
     
     fetch("http://localhost:5000/auth/", requestOptions)
       .then(res => res.json())
       .then(user => this.setState({user: user}) )
-      
-      
-        
-        
-      
-      .catch(error => console.log(error));
-
-    }  
-  
-  
-
+      .catch((err) => console.log(err));
+    }
 
   render() {
     return (
@@ -59,7 +47,7 @@ export default class appli extends Component {
               <Button bsStyle="danger">Logout</Button>
             </Link>
 
-            {props.children}
+            {this.props.children}
           </ButtonToolbar>
         </div>
       </nav>

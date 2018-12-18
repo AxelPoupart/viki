@@ -1,9 +1,6 @@
-
-
-
-const sqlConfig = module.exports = {
-  host: 'localhost',
-  user: 'root',
-  password: 'Idiomatic2102',
-  database: 'Viki'
+const config = module.exports = {
+	host: 'localhost',
+	user: 'ft_blue',
+	password: 'momo97',
+	database: 'Viki'
 }

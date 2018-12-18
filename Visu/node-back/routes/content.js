@@ -40,13 +40,4 @@ router.route('/actions').get((req, res) => {
     });
 });
 
-
-
-
-
-
-
-
-
-
 module.exports = router;

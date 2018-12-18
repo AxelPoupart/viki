@@ -1,0 +1,101 @@
+{
+    "Non Classé": [
+        "Divers",
+        "Obsolète"
+    ],
+    "Parc Informatique": [
+        "Gestion de parc"
+    ],
+    "Réseaux": [
+        "DHCP",
+        "Divers",
+        "DNS",
+        "Gestion",
+        "Métrologie",
+        "Radius",
+        "Sécurité",
+        "SSH",
+        "Supervision",
+        "Temps",
+        "VLAN",
+        "VPN"
+    ],
+    "Virtualisation": [
+        "Gestion",
+        "Logs",
+        "Sauvegardes",
+        "Template",
+        "Virtualisation"
+    ],
+    "Mail et Partage": [
+        "Archive",
+        "GED",
+        "Gestion de projets",
+        "Mail",
+        "Moteur de recherche",
+        "Partage"
+    ],
+    "Habilitations et Accès": [
+        "Accès physiques",
+        "AD",
+        "Authentification",
+        "Impression",
+        "LDAP",
+        "MonCompte",
+        "Workflow"
+    ],
+    "Recherche": [
+        "Contrats de recherche",
+        "MesoCentre"
+    ],
+    "Pédagogie": [
+        "Coding",
+        "Edunao",
+        "Innovation",
+        "Licences",
+        "Moodle",
+        "Sondages",
+        "TA",
+        "Vidéo"
+    ],
+    "Scolarité": [
+        "Centrale",
+        "eSUP",
+        "Evaluation des enseignements",
+        "MyWay",
+        "Personalisation des parcours",
+        "Stages",
+        "Supélec"
+    ],
+    "Recrutements et Partenariats": [
+        "Candidatures",
+        "Concours",
+        "CRM",
+        "ExEd",
+        "Marketing"
+    ],
+    "Gestion Admin": [
+        "Badges",
+        "Bibliothèque",
+        "Finances",
+        "Reporting",
+        "RH",
+        "Sécurité",
+        "Vacataires",
+        "Workflow"
+    ],
+    "Portail de Services": [
+        "Affichage",
+        "Annuaire",
+        "Resa"
+    ],
+    "Web": [
+        "Fondation",
+        "Partage",
+        "Web",
+        "Web Institutionnel",
+        "Web Associations",
+        "Web institutionnel",
+        "Web Labo"
+    ]
+}
