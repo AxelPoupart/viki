@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 
 
 
+
+
+
 class ChatContainer extends Component {
 
     state = { newMessage: '' };
@@ -17,10 +20,26 @@ class ChatContainer extends Component {
         this.setState({ newMessage: '' });
     };
 
-    handleLogout = (event) => {
-        //firebase.auth().signOut();
-        //this.props.history.push('/login');
-    };
+
+    sendChat(message) {
+        console.log('POST message')
+        let requestOptions = {
+            credentials: 'include',
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({chat: message})
+        }
+        return fetch(`http://localhost:5000/content-dev/chat-back/add`, requestOptions)
+            .then(res => {
+                console.log(res)
+                return res.json()
+            })
+    }
+
+
 
     sendChat(message) {
         console.log('POST message')

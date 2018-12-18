@@ -28,7 +28,13 @@ export default class newApp extends React.Component {
   get_campuses() {
     let campuses;
     get_campuses()
+<<<<<<< HEAD
     .then(res => campuses = res.campuses)
+=======
+    .then(res => {
+      campuses = res.campuses
+    })
+>>>>>>> 26d11db5a0fac4895258f09f2360a16a8fbc8efb
     .then(() => {
       this.setState({campuses: campuses})
     })

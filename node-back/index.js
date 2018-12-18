@@ -15,14 +15,13 @@ app.get('/my-demo-route', (req, res) => res.send('hello world'))
 
 // Using middlewares
 
-var corsOptions = {
+app.use(cors({
   origin: "http://localhost:3000",
   credentials: true
-};
+}));
 
-app.use(cors(corsOptions));
-
-app.use(bodyParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json())
 
 app.use(
   session({
@@ -33,7 +32,8 @@ app.use(
   })
 );
 
-// Connectiong to the DB...
+// Connectiong to the SQL DB...
+
 try {
   require('./db handeling/start_cnx')
 } catch (error) {
@@ -42,6 +42,7 @@ try {
 
 
 //Connect to mongoDB server (Chat)
+<<<<<<< HEAD
 mongoose.connect('mongodb://localhost/chat-back');
 mongoose.set('debug', true);
 
@@ -50,6 +51,21 @@ const connection = mongoose.connection;
 connection.once('open', () => {
     console.log('MongoDB database connection established successfully!')
 });
+=======
+try {
+  mongoose.connect('mongodb://localhost/chat-back', { useNewUrlParser: true });
+  mongoose.set('debug', true);
+  
+  const connection = mongoose.connection;
+  
+  connection.once('open', () => {
+    console.log('MongoDB database connection established successfully!')
+  });
+   
+} catch (error) {
+  console.log( error)
+}
+>>>>>>> 26d11db5a0fac4895258f09f2360a16a8fbc8efb
 
 
 
@@ -58,13 +74,18 @@ app.use("/auth", auth);
 app.use("/content-dev", content_dev);
 
 app.use("/content", (req, res, next) => {
-  if (!req.session.auth) {    
+  if (!req.session.auth) {
     return res.status(400).send({ message: "Not authenticated" });
   }
+<<<<<<< HEAD
   console.log("Authentified")
   next();
 });
 
+=======
+  next();
+}, content);
+>>>>>>> 26d11db5a0fac4895258f09f2360a16a8fbc8efb
 
 // Listening...
 app.listen(port, () => {

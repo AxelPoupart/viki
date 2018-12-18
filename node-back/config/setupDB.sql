@@ -20,12 +20,25 @@ CREATE TABLE `UsersPrivileges` (
 CREATE TABLE `Actions` (
 	`_id` int NOT NULL AUTO_INCREMENT,
 	`Label` varchar(255) NOT NULL,
+<<<<<<< HEAD:node-back/config/Viki_mysql_create.sql
 	`Priority` varchar(255) DEFAULT `Low`,
 	`Status` varchar(255) NOT NULL DEFAULT `In progress`,
+=======
+	`Priority` varchar(255) DEFAULT "Low",
+    	`File` varchar(255),
+    	`Campus` varchar(255), 
+	`Status` varchar(255) NOT NULL DEFAULT "In progress",
+>>>>>>> 26d11db5a0fac4895258f09f2360a16a8fbc8efb:node-back/config/setupDB.sql
 	`Comment` varchar(255),
+    	`Creator` varchar(255),
 	`SysAdminID` int,
+<<<<<<< HEAD:node-back/config/Viki_mysql_create.sql
 	`Closing Time` varchar(255),
 	`ApplicationID` int NOT NULL DEFAULT `0`,
+=======
+	`Closing_Time` varchar(255),
+	`ApplicationID` int NOT NULL DEFAULT "0",
+>>>>>>> 26d11db5a0fac4895258f09f2360a16a8fbc8efb:node-back/config/setupDB.sql
 	PRIMARY KEY (`_id`)
 );
 
@@ -47,6 +60,9 @@ CREATE TABLE `Campuses` (
 CREATE TABLE `Virtual Machines` (
 	`_id` int NOT NULL AUTO_INCREMENT,
 	`Label` varchar(255) NOT NULL,
+    	`File` varchar(255),
+    	`Campus` varchar(255),
+	`Comment` varchar(255),
 	PRIMARY KEY (`_id`)
 );
 
@@ -82,7 +98,6 @@ ALTER TABLE `Actions` ADD CONSTRAINT `Actions_fk1` FOREIGN KEY (`ApplicationID`)
 ALTER TABLE `Applications` ADD CONSTRAINT `Applications_fk0` FOREIGN KEY (`DomainID`) REFERENCES `Domains`(`_id`);
 
 ALTER TABLE `Applications` ADD CONSTRAINT `Applications_fk1` FOREIGN KEY (`CampusID`) REFERENCES `Campuses`(`_id`);
-
 
 ALTER TABLE `Domains` ADD CONSTRAINT `Domains_fk0` FOREIGN KEY (`ParentID`) REFERENCES `Domains`(`_id`);
 
