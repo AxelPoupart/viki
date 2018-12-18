@@ -12,26 +12,26 @@ const Chat = require('../model_mongo/Chat')
 
 router.get('/', (req,res,next) => {console.log(req.session.id,req.session);res.send(req.session.auth);next()});
 
-router.use('/applicationservice/newapp', AppCreation)
+
 
 router.use('/newapp', AppCreation)
 
 
 // Actions Back
 router.use('/actionservice', ActionServer )
-app.use('/actionservice', router)
+
 
 // Vm Back
 router.use('/vmservice', VmServer )
-app.use('/vmservice', router)
+
 
 // Appli Back
 router.use('/appliservice', AppliServer )
-app.use('/appliservice', router)
+
 
 // USers Back
 router.use('/userservice', UserServer )
-app.use('/userservice', router)
+
 
 
 

@@ -28,6 +28,7 @@ CREATE TABLE `actions`(
 );
 CREATE TABLE `applications`(
     `_id` INT NOT NULL AUTO_INCREMENT,
+    `code` VARCHAR(255) NOT NULL,
     `label` VARCHAR(255) NOT NULL,
     `campus` VARCHAR(255),
     `comment` VARCHAR(255),
