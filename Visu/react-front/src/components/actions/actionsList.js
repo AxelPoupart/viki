@@ -16,7 +16,6 @@ import AddAction from './addAction';
 
 import { 
     delete_actionById,
-    get_actions,
     changeActionStatus,
     getActionsByStatus
 } from '../../services/actionService.js'
@@ -75,14 +74,6 @@ class ActionList extends Component {
             getActionsByStatus("Done")
                 .then(act => this.prom(act));
         }
-        getActionsByStatus().then(act => {
-            for (var e in act) {
-                const current_action = act[e];
-                console.log(current_action);
-                const actions = this.state.actions.concat([current_action]);
-                this.setState( {actions} );
-            }
-        })
     }
 
     suppress_action(key) {
@@ -136,7 +127,6 @@ class ActionList extends Component {
                                     checked={(act.status === "Done")}
                                     onChange={(e => this.handleChangeStatus(e, act._id, act.status))}
                                     value="checkedG"
-                                    color="green"
                                 />
 
                                 <IconButton aria-label="Delete" variant="contained" color="secondary" style={{float: "right" }} onClick={() => this.suppress_action(act._id)}>
