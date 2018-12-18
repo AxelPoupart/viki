@@ -9,7 +9,7 @@ import ActionList from './actionsList';
 import Button from '@material-ui/core/Button';
 
 import { 
-    getUserById
+    
     } from '../../services/userService.js'
 
 
@@ -23,7 +23,7 @@ class Action extends Component {
     switchStatus() {
         if (this.state.user.status === "admin") {
             return (
-                <Link className="nav-link" to="/logout">
+                <Link className="navLink" to="/logout">
                     <Button variant="contained"> Switch status </Button>
                 </Link>
             )
@@ -31,13 +31,9 @@ class Action extends Component {
     }
 
 
-
-
-
-
     render() {
       return  (
-        <div className="home_global">
+        <div className="homeGlobal">
 
             <Navbar>
                 <Link className="nav-link" to="/logout">
@@ -50,7 +46,7 @@ class Action extends Component {
                 }
             </div>
 
-            <div className="chat_list" >
+            <div className="chatList" >
                 <div className="chat">
                     <ChatContainer/>
                 </div>

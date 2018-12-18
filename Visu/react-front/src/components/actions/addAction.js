@@ -13,7 +13,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Input from '@material-ui/core/Input';
 
 import {post_action} from '../../services/actionService';
 
@@ -21,19 +20,17 @@ import './addAction.css';
 
 
 
-
-
-
 class AddAction extends Component {
 
     state = { 
-        Label: "",
-        Priority: "Low",
-        File: "",
-        Campus: "Paris-Saclay",
-        Closing_Time: "2017-05-24",
-        Comment: "",
-        Creator:""
+        label: "",
+        priority: "Low",
+        file: "",
+        closingTime: "2017-05-24",
+        comment: "",
+        creatorId:"",
+        actionTakerId: "",
+        applicationId:""
     }
 
     addAction = (action) => {

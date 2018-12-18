@@ -28,8 +28,6 @@ class ActionList extends Component {
 
     state = { actions: [], hide: false}
 
-
-
     handleAdd = (e) => {
         const hide = !this.state.hide;
         this.setState( {hide} ); 
@@ -113,8 +111,6 @@ class ActionList extends Component {
     }
 
 
-
-
     render() {
         return (
             <div id="action">
@@ -125,20 +121,20 @@ class ActionList extends Component {
                         <ExpansionPanel key={act._id}>
                             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 
-                                <Typography>{act.Label} &nbsp; &nbsp; &nbsp; &nbsp;</Typography>
+                                <Typography>{act.label} &nbsp; &nbsp; &nbsp; &nbsp;</Typography>
 
-                                <Typography>{act.Status}</Typography>
+                                <Typography>{act.status}</Typography>
 
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
 
                                 <Typography>
-                                    {act.Comment}
+                                    {act.comment}
                                 </Typography>
 
                                 <Checkbox
-                                    checked={(act.Status === "Done")}
-                                    onChange={(e => this.handleChangeStatus(e, act._id, act.Status))}
+                                    checked={(act.status === "Done")}
+                                    onChange={(e => this.handleChangeStatus(e, act._id, act.status))}
                                     value="checkedG"
                                     color="green"
                                 />

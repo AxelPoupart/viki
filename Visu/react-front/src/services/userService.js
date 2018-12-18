@@ -23,6 +23,17 @@ function reqPost(obj) {
     return requestOptions;
 }
 
+function generateReqOptions(method, body={}) {
+    return {
+        credentials: 'include',
+        method: method,
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+    }
+}
+
 
 // THis one is DONE
 function getUsers() {
@@ -81,13 +92,6 @@ function changeUserStatus(id, status) {
     return fetch(api + 'users/changestatus', requestOptions)
         .then(res =>  res.json())
 }
-
-
-
-
-
-
-
 
 export {
     post_user,

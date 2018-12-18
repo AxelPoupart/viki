@@ -53,7 +53,10 @@ router.get('/try', (req,res) => {
     return res.json("c'est ok")
 });
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> b58289d235ced8f4ef4ddd2fdd8b26d01d6df11c
 router.route('/actions').get((req, res) => {
     sqlAction.get_all_actions((err, actions) => {
         if (err)
