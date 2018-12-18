@@ -18,7 +18,7 @@ export default class appli extends React.Component {
       headers: { "Content-Type": "application/json" },
     }
     
-    fetch("http://localhost:5000/auth/", requestOptions)
+    fetch("http://localhost:5000/auth/authenticate", requestOptions)
       .then(res => res.json())
       .then(user => this.setState({user: user}) )
       .catch((err) => console.log(err));
