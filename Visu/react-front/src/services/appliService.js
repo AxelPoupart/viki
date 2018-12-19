@@ -1,26 +1,23 @@
 import { generateRequest } from './generalService'
 
-const api = 'http://localhost:5000/content/appliservice/';
+let api = 'http://localhost:5000/content/applicationservice/';
 
 // This one is DONE
 function get_applis() {
-    console.log('GET applis')
     let requestOptions = generateRequest('GET')
     return fetch(api + 'applis', requestOptions)
         .then(res => res.json())
+        .catch(err => console.log(err))
 }
 
 // This one is DONE
 function post_appli(appli) {
-    console.log('POST appli')
-    console.log(JSON.stringify(appli))
-    /*let requestOptions = generateRequest('POST', appli)
-    return fetch(api + `applis/add`, requestOptions)
+    let requestOptions = generateRequest('POST', appli)
+    return fetch(api + `newapp/createapp`, requestOptions)
         .then(res => {
-            console.log(res)
             return res.json()
         })
-        .catch(err => alert(err))*/
+        .catch(err => console.log(err))
 }
 
 // This one is DONE

@@ -6,11 +6,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 
@@ -50,7 +45,10 @@ export default class AddAppli extends Component {
     get_campuses() {
         let campuses;
         get_campuses()
-            .then(res => campuses = res.campuses)
+            .then(res => {
+                console.log(res)
+                campuses = res.campuses
+            })
             .then(() => {
                 this.setState({ campuses: campuses })
                 this.setState({ selectedCampus: campuses[0]})
@@ -94,15 +92,15 @@ export default class AddAppli extends Component {
                 appSubDomain: this.state.selectedSubDomain,
                 comment: this.state.appComment
             }
-        }, () => post_appli(this.state.newApplication))
-            /*.then(res => res.json())
+        }, () => post_appli(this.state.newApplication)
+            .then(res => res.json())
             .then(res => {
                 if (res.success) {
                     alert(res.msg)
                 } else {
                     alert(res.msg)
                 }
-            }));*/
+            }));
     }
 
     handleChange = (event) => {

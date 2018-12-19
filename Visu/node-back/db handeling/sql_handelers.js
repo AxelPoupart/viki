@@ -15,26 +15,18 @@ get_domain_by_label = (label, callback) => {
     db.query(query, [label], callback)
 }
 
-get_campus_by_name = (name, callback) => {
-    let query = 'SELECT * FROM `Campuses` WHERE `CampusName` = ?'
-    db.query(query, [name], callback)
-}
-
 exports.new_application = (application, callback) => {
     let set = {
-        Code: application.appCode,
-        Label: application.appLabel,
-        DomainID: false,
-        CampusID: false
+        code: application.appCode,
+        label: application.appLabel,
+        domainId: false,
+        campus: application.appCampus,
+        comment: application.comment
     }
     get_domain_by_label(application.appSubDomain, (err, result) => {
         if (err) throw err;
-        set.DomainID = result[0]['_id'];
-        get_campus_by_name(application.appCampus, (err, result) => {
-            if (err) throw err;
-            set.CampusID = result[0]['_id'];
-            query = 'INSERT INTO `Applications` SET ?';
-            db.query(query, [set], callback)
-        })  
+        set.domainId = result[0]['_id'];
+        query = 'INSERT INTO `applications` SET ?';
+        db.query(query, [set], callback)
     })
 }

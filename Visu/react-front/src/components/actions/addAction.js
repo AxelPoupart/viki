@@ -6,17 +6,13 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 
 import {post_action} from '../../services/actionService';
 
 import './addAction.css';
+import { get_applis } from '../../services/appliService';
 
 
 
@@ -26,11 +22,13 @@ class AddAction extends Component {
         label: "",
         priority: "Low",
         file: "",
-        closingTime: "2017-05-24",
+        closingTime: "",
         comment: "",
-        creatorId:"",
-        actionTakerId: "",
-        applicationId:""
+        creatorId: 1,
+        actionTakerId: 0,
+        applicationId:"Application",
+        applicationLabel:"Application",
+        applis: []
     }
 
     addAction = (action) => {
@@ -41,26 +39,55 @@ class AddAction extends Component {
         })
     }
 
+    componentWillMount() {
+        get_applis()
+            .then(appli => {
+                for (var e in appli) {
+                    const current_appli = appli[e];
+                    console.log(current_appli);
+                    const applis = this.state.applis.concat([current_appli]);
+                    this.setState( {applis} )
+                }
+            })
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
-        this.addAction(this.state)
+        const actions = { 
+            label: this.state.label,
+            priority: this.state.priority,
+            file: this.state.file,
+            closingTime: this.state.closingTime,
+            comment: this.state.comment,
+            creatorId: this.state.creatorId,
+            actionTakerId: this.state.actionTakerId,
+            applicationId: this.state.applicationId
+        }
+        this.addAction(actions)
         .then(res => {
             this.props.onSubmit(res);
         });
         this.setState({ 
-            Label: "",
-            Priority: "",
-            File: "",
-            Campus: "Paris-Saclay",
-            Closing_Time: "2017-05-24",
-            Comment: "",
-            Creator:""
+            label: "",
+            priority: "Low",
+            file: "",
+            closingTime: "",
+            comment: "",
+            creatorId:"",
+            actionTakerId: "",
+            applicationId:"",
+            applicationLabel:""
          })
     };
 
     handleInputChange = e => {
         console.log(e.target.name);
         this.setState({ [e.target.name]: e.target.value });
+    };
+
+    handleAppliChange = e => {
+        console.log(e.target.value);
+        this.setState({ applicationId: e.target.value });
     };
 
     handleClockChange(value, formattedValue) {
@@ -81,26 +108,26 @@ class AddAction extends Component {
 
                 <form onSubmit={this.handleSubmit}>
                     <TextField
-                        name="Label"
+                        name="label"
                         type="text"
                         fullWidth
                         margin="normal"
                         variant="filled"
                         label="Action Title"
                         placeholder="Enter title"
-                        value={this.state.Label}
+                        value={this.state.label}
                         onChange={this.handleInputChange.bind(this)}
                     />
 
                     <TextField
-                        name="Comment"
+                        name="comment"
                         type="text"
                         label="Action Description"
                         placeholder="Description of the Action"
                         fullWidth
                         margin="normal"
                         variant="filled"
-                        value={this.state.Comment}
+                        value={this.state.comment}
                         onChange={this.handleInputChange.bind(this)}
                     />
 
@@ -111,15 +138,15 @@ class AddAction extends Component {
                     >
                         <InputLabel>Priority</InputLabel>
                         <Select
-                            name="Priority"
-                            value={this.state.Priority}
+                            name="priority"
+                            value={this.state.priority}
                             onChange={this.handleInputChange.bind(this)}
                         >
                             <MenuItem value="Low">Low</MenuItem>
                             <MenuItem value="Medium">Medium</MenuItem>
                             <MenuItem value="Hight">Hight</MenuItem>
                         </Select>
-                    </FormControl>
+                    </FormControl> 
 
 
                     <FormControl
@@ -127,61 +154,26 @@ class AddAction extends Component {
                         margin="normal"
                         variant="filled"
                     >
-                        <InputLabel>Campus</InputLabel>
-                        <Select 
-                            name="Campus"
-                            value={this.state.Campus}
-                            onChange={this.handleInputChange.bind(this)}
+                        <InputLabel>Application</InputLabel>
+                        <Select
+                            name="applicationId"
+                            value={this.state.applicationId}
+                            placeholder={this.state.applicationLabel}
                         >
-                            <MenuItem value="Paris-Saclay">Paris-Saclay</MenuItem>
-                            <MenuItem value="Rennes">Rennes</MenuItem>
-                            <MenuItem value="Metz">Metz</MenuItem>
+                            {this.state.applis.map(appli => (
+                                <div key= {appli._id}>
+                                    <MenuItem value= {appli._id} onClick={this.handleAppliChange} >{appli.label}</MenuItem>
+                                </div>
+                                ))}
                         </Select>
-                    </FormControl>
+                    </FormControl> 
 
 
                     <TextField
-                        id="contained-button-file"
-                        multiple
-                        name="File"
-                        type="file"
-                        style={{display: "none"}}
-                    />
-                    <label htmlFor="contained-button-file">
-                        <Button 
-                            variant="contained"
-                            component="span"
-                            name="File"
-                            type="file"
-                            label="File"
-                            margin="normal"
-                            value={this.state.file}
-                            onClick={this.handleInputChange.bind(this)}
-                        >
-                            Upload
-                        </Button>
-
-                        <TextField
-                            name="File"
-                            type="text"
-                            fullWidth
-                            margin="normal"
-                            variant="filled"
-                            placeholder="File title"
-                            value={this.state.file}
-                            InputProps={{
-                                readOnly: true,
-                              }}
-                        />
-
-                    </label>
-
-
-                    <TextField
-                        name="Closing_Time"
+                        name="closingTime"
                         label="Closing Time"
                         type="date"
-                        value={this.state.Closing_Time}
+                        value={this.state.closingTime}
                         onChange={this.handleInputChange.bind(this)}
                     />
                 
@@ -190,33 +182,7 @@ class AddAction extends Component {
 
                     </CardContent>
                     </Card>
-
-
                     </div>
-
-            <div id="container">
-                    <Table >
-                        <TableHead>
-                            <TableRow>
-                                <TableCell >Action Title</TableCell >
-                                <TableCell >Priority</TableCell >
-                                <TableCell >File</TableCell >
-                                <TableCell >Campus</TableCell >
-                                <TableCell >Closing time</TableCell >
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            <TableRow>
-                                <TableCell>{this.state.Label}</TableCell>
-                                <TableCell>{this.state.Priority}</TableCell>
-                                <TableCell>{this.state.File}</TableCell>
-                                <TableCell>{this.state.Campus}</TableCell>
-                                <TableCell>{this.state.Closing_Time}</TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
-            </div>
-
             </div>
 
         );

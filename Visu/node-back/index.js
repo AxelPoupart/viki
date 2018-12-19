@@ -42,7 +42,8 @@ try {
 
 
 //Connect to mongoDB server (Chat)
-mongoose.connect('mongodb://localhost/chat-back');
+try {
+  mongoose.connect('mongodb://localhost/chat-back');
 mongoose.set('debug', true);
 
 const connection = mongoose.connection;
@@ -50,6 +51,10 @@ const connection = mongoose.connection;
 connection.once('open', () => {
     console.log('MongoDB database connection established successfully!')
 });
+} catch (error) {
+  console.log(error)
+}
+
 
 
 
@@ -63,7 +68,7 @@ app.use("/content", (req, res, next) => {
   }
   else {console.log("Authentified")}
   next();
-});
+}, content);
 
 
 // Listening...
