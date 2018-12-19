@@ -14,9 +14,6 @@ router.get('/', (req,res,next) => {console.log(req.session.id,req.session);res.s
 
 router.use('/applicationservice/newapp', AppCreation)
 
-router.use('/newapp', AppCreation)
-
-
 // Actions Back
 router.use('/actionservice', ActionServer )
 app.use('/actionservice', router)

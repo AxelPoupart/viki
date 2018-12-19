@@ -13,162 +13,228 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Input from '@material-ui/core/Input';
 
-import {post_appli} from '../../services/appliService';
+import { post_appli } from '../../services/appliService';
+import { get_campuses, get_domains } from '../../services/generalService';
 
 import './addAppli.css';
 
 
-class AddAppli extends Component {
-
-    state = { 
-        Label: "",
-        File: "",
-        Campus: "Paris-Saclay",
-        Comment: ""
+export default class AddAppli extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            appCode: "",
+            appLabel: "",
+            appComment: "",
+            campuses: [],
+            selectedCampus: "",
+            domains: [],
+            selectedDomain: "",
+            subDomains: {},
+            selectedSubDomain: "",
+            subDomainOptions: [],
+            newApplication: {
+                appCode: '',
+                appLabel: '',
+                appCampus: '',
+                appDomain: '',
+                appSubDomain: '',
+                comment: ''
+            }
+        }
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleChange = this.handleChange.bind(this)
     }
 
-    handleSubmit = (e) => {
+    get_campuses() {
+        let campuses;
+        get_campuses()
+            .then(res => campuses = res.campuses)
+            .then(() => {
+                this.setState({ campuses: campuses })
+                this.setState({ selectedCampus: campuses[0]})
+            })
+    }
+
+    get_domains() {
+        let domains = [], subDomains = {};
+        get_domains()
+            .then(res => {
+                for (var key in res.domains) {
+                    domains.push(res.domains[key])
+                };
+                subDomains = res.subDomains;
+            })
+            .then(() => {
+                this.setState({
+                    domains: domains,
+                    subDomains: subDomains
+                }, () => {
+                    this.setState({ selectedDomain: this.state.domains[1]})
+                    this.setState({ subDomainOptions: this.state.subDomains[this.state.domains[1]]}, () => this.setState({ selectedSubDomain: this.state.subDomainOptions[0]}))
+                })
+            })
+        
+    }
+
+    componentWillMount() {
+        this.get_campuses()
+        this.get_domains()
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        this.setState({
+            newApplication: {
+                appCode: this.state.appCode,
+                appLabel: this.state.appLabel,
+                appCampus: this.state.selectedCampus,
+                appDomain: this.state.selectedDomain,
+                appSubDomain: this.state.selectedSubDomain,
+                comment: this.state.appComment
+            }
+        }, () => post_appli(this.state.newApplication))
+            /*.then(res => res.json())
+            .then(res => {
+                if (res.success) {
+                    alert(res.msg)
+                } else {
+                    alert(res.msg)
+                }
+            }));*/
+    }
+
+    handleChange = (event) => {
+        this.setState({ [event.target.name] : event.target.value})
+    }
+
+    /*handleSubmit = (e) => {
         e.preventDefault();
         post_appli(this.state)
-        .then(res => {
-            this.props.onSubmit(res);
-        });
-        this.setState({ 
-            Label: "",
-            File: "",
+            .then(res => {
+                this.props.onSubmit(res);
+            });
+        this.setState({
+            label: "",
+            filePath: "",
             Campus: "Paris-Saclay",
             Comment: ""
-         })
-    };
+        })
+    };*/
 
-    handleInputChange = e => {
-        console.log(e.target.name);
-        this.setState({ [e.target.name]: e.target.value });
-    };
-
-    render() {
-        return(
-            <div>
-
-                <div id="container">
-
-                <Card >
-                    <CardContent id = "addCard">
-
-                <form onSubmit={this.handleSubmit}>
-                    <TextField
-                        name="Label"
-                        type="text"
-                        fullWidth
-                        margin="normal"
-                        variant="filled"
-                        label="Application Title"
-                        placeholder="Enter title"
-                        value={this.state.Label}
-                        onChange={this.handleInputChange.bind(this)}
-                    />
-
-                    <TextField
-                        name="Comment"
-                        type="text"
-                        label="Application Description"
-                        placeholder="Description of the Application"
-                        fullWidth
-                        margin="normal"
-                        variant="filled"
-                        value={this.state.Comment}
-                        onChange={this.handleInputChange.bind(this)}
-                    />
-
-                    <FormControl
-                        fullWidth
-                        margin="normal"
-                        variant="filled"
-                    >
-                        <InputLabel>Campus</InputLabel>
-                        <Select 
-                            name="Campus"
-                            value={this.state.Campus}
-                            onChange={this.handleInputChange.bind(this)}
-                        >
-                            <MenuItem value="Paris-Saclay">Paris-Saclay</MenuItem>
-                            <MenuItem value="Rennes">Rennes</MenuItem>
-                            <MenuItem value="Metz">Metz</MenuItem>
-                        </Select>
-                    </FormControl>
-
-
-                    <TextField
-                        id="contained-button-file"
-                        multiple
-                        name="File"
-                        type="file"
-                        style={{display: "none"}}
-                    />
-                    <label htmlFor="contained-button-file">
-                        <Button 
-                            variant="contained"
-                            component="span"
-                            name="File"
-                            type="file"
-                            label="File"
-                            margin="normal"
-                            value={this.state.file}
-                            onClick={this.handleInputChange.bind(this)}
-                        >
-                            Upload
-                        </Button>
-
-                        <TextField
-                            name="File"
-                            type="text"
-                            fullWidth
-                            margin="normal"
-                            variant="filled"
-                            placeholder="File title"
-                            value={this.state.file}
-                            InputProps={{
-                                readOnly: true,
-                              }}
-                        />
-
-                    </label>
-                
-                    <Button variant="contained" color="primary" onClick={this.handleSubmit.bind(this)} >Submit</Button>
-                    </form>
-
-                    </CardContent>
-                    </Card>
-
-
-                    </div>
-
-            <div id="container">
-                    <Table >
-                        <TableHead>
-                            <TableRow>
-                                <TableCell >Application Title</TableCell >
-                                <TableCell >File</TableCell >
-                                <TableCell >Campus</TableCell >
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            <TableRow>
-                                <TableCell>{this.state.Label}</TableCell>
-                                <TableCell>{this.state.File}</TableCell>
-                                <TableCell>{this.state.Campus}</TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
-            </div>
-
-            </div>
-
-        );
+    updateSubDomains = (event) => {
+        let selectedDomain = event.target.value
+        this.state.selectedDomain = selectedDomain
+        let subDomainOptions = this.state.subDomains[selectedDomain]
+        this.setState({ subDomainOptions: subDomainOptions }, () => this.setState({selectedSubDomain: this.state.subDomainOptions[0]}))
     }
 
-}
+    render() {
+        // Declaring options
+        let campusesOptions = this.state.campuses.map(campus => {
+            return <MenuItem key={campus} value={campus}>{campus}</MenuItem>
+        })
+        let domainsOptions = this.state.domains.map(domain => {
+            return <MenuItem key={domain} value={domain}>{domain}</MenuItem>
+        })
+        let subDomainOptions = this.state.subDomainOptions.map(subDomain => {
+            return <MenuItem key={subDomain} value={subDomain}>{subDomain}</MenuItem>
+        })
+        return (
+            <div>
+                <div id="container">
+                    <Card >
+                        <CardContent id="addCard">
+                            <form onSubmit={this.handleSubmit}>
+                                <TextField
+                                    name="appCode"
+                                    type="text"
+                                    fullWidth
+                                    margin="normal"
+                                    variant="filled"
+                                    label="Code de l'application"
+                                    placeholder="Enter application code"
+                                    onChange={this.handleChange}
+                                    value={this.state.appCode}
+                                />
 
-export default AddAppli;
+                                <TextField
+                                    name="appLabel"
+                                    type="text"
+                                    fullWidth
+                                    margin="normal"
+                                    variant="filled"
+                                    label="Libellé de l'application"
+                                    placeholder="Enter title"
+                                    onChange={this.handleChange}
+                                    value={this.state.appLabel}
+                                />
+
+                                <TextField
+                                    name="appComment"
+                                    type="text"
+                                    label="Application Description"
+                                    placeholder="Description of the Application"
+                                    fullWidth
+                                    margin="normal"
+                                    variant="filled"
+                                    onChange={this.handleChange}
+                                    value={this.state.appComment}
+                                />
+
+                                <FormControl
+                                    fullWidth
+                                    margin="normal"
+                                    variant="filled"
+                                >
+                                    <InputLabel>Campus</InputLabel>
+                                    <Select
+                                        name="selectedCampus"
+                                        value={this.state.selectedCampus}
+                                        onChange={this.handleChange}
+                                    >
+                                        {campusesOptions}
+                                    </Select>
+                                </FormControl>
+
+                                <FormControl
+                                    fullWidth
+                                    margin="normal"
+                                    variant="filled"
+                                >
+                                    <InputLabel>Domain</InputLabel>
+                                    <Select
+                                        name="Domain"
+                                        value={this.state.selectedDomain}
+                                        onChange={this.updateSubDomains}
+                                    >
+                                        {domainsOptions}
+                                    </Select>
+                                </FormControl>
+
+                                <FormControl
+                                    fullWidth
+                                    margin="normal"
+                                    variant="filled"
+                                >
+                                    <InputLabel>Sous domaine</InputLabel>
+                                    <Select
+                                        name="selectedSubDomain"
+                                        value={this.state.selectedSubDomain}
+                                        onChange={this.handleChange}
+                                    >
+                                        {subDomainOptions}
+                                    </Select>
+                                </FormControl>
+
+                                <Button variant="contained" color="primary" onClick={this.handleSubmit.bind(this)} >Submit</Button>
+                            </form>
+
+                        </CardContent>
+                    </Card>
+                </div>
+            </div>
+        );
+    }
+}
