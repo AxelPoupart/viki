@@ -11,16 +11,6 @@ INSERT INTO `domains` (`_id`, `label`, `parentId`) VALUES ('10', 'Recrutements e
 INSERT INTO `domains` (`_id`, `label`, `parentId`) VALUES ('11', 'Gestion Admin', '11');
 INSERT INTO `domains` (`_id`, `label`, `parentId`) VALUES ('12', 'Portail de Services', '12');
 INSERT INTO `domains` (`_id`, `label`, `parentId`) VALUES ('13', 'Web', '13');
-
-
-
-
-
-
-
-
-
-
 INSERT INTO `domains` (`label`, `parentId`) VALUES ('Divers', '1');
 INSERT INTO `domains` (`label`, `parentId`) VALUES ('Obsolète', '1');
 INSERT INTO `domains` (`label`, `parentId`) VALUES ('Gestion de parc', '2');

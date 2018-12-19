@@ -1,8 +1,6 @@
 const express = require('express')
 const router = express.Router();
-const app = express();
 
-const AppCreation = require('./AppCreation')
 const ActionServer = require('../Server/actionServer')
 const AppliServer = require('../Server/appliServer')
 const VmServer = require('../Server/vmServer')
@@ -12,9 +10,6 @@ const Chat = require('../model_mongo/Chat')
 
 router.get('/', (req,res,next) => {console.log(req.session.id,req.session);res.send(req.session.auth);next()});
 
-
-
-router.use('/newapp', AppCreation)
 
 
 // Actions Back

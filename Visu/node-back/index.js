@@ -68,7 +68,7 @@ app.use("/content", (req, res, next) => {
   }
   else {console.log("Authentified")}
   next();
-});
+}, content);
 
 
 // Listening...
