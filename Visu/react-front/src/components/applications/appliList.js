@@ -29,8 +29,9 @@ class AppliList extends Component {
         this.setState( {hide} ); 
     };
 
-    handleSubmitAppli = appli => {
+    confirmAppSent = appli => {
         console.log(appli);
+        this.setState({hide: false});
         const applis = this.state.applis.concat([appli]);
         this.setState( {applis} );
     };
@@ -40,7 +41,7 @@ class AppliList extends Component {
             return (
                 <div>
                     <Button color="primary" onClick={e => {this.setState({hide: false});}}>Cancel</Button>
-                    <AddAppli onSubmit={this.handleSubmitAppli} applis={this.state.applis} />
+                    <AddAppli applis={this.state.applis} confirmAppSent={this.confirmAppSent.bind(this)}/>
                 </div>
             )
         } else { 

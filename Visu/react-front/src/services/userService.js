@@ -37,7 +37,6 @@ function generateReqOptions(method, body={}) {
 
 // THis one is DONE
 function getUsers() {
-    console.log('GET users')
     let requestOptions = reqGet();
     return fetch(api + 'users', requestOptions)
     .then(res =>  res.json())
@@ -57,7 +56,6 @@ function post_user(action) {
 
 // THis one is DONE
 function delete_userById(id) {
-    console.log('DELETE action')
     let requestOptions = reqPost({Id: id})
     return fetch(api + `users/delete`, requestOptions)
         .then(res => {
@@ -68,7 +66,6 @@ function delete_userById(id) {
 
 // THis one is DONE
 function getUserById(id) {
-    console.log('GET user By id')
     let requestOptions = reqGet();
     return fetch(api + 'users/:id', requestOptions)
         .then(res =>  res.json())
@@ -76,7 +73,6 @@ function getUserById(id) {
 
 // THis one is DONE
 function getByStatus(status) {
-    console.log('GET ingesys')
     let requestOptions = reqGet();
     return fetch(api + `users/status/${status}`, requestOptions)
     .then(res =>  res.json())
@@ -84,7 +80,6 @@ function getByStatus(status) {
 
 // THis one is DONE
 function changeUserStatus(id, status) {
-    console.log('CHANGE user status')
     let requestOptions = reqPost({
         id: id,
         status: status

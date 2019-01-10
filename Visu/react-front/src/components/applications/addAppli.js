@@ -42,6 +42,7 @@ export default class AddAppli extends Component {
         this.handleChange = this.handleChange.bind(this)
     }
 
+    // Get campuses registered in the database and store them in a state
     get_campuses() {
         let campuses;
         get_campuses()
@@ -51,10 +52,11 @@ export default class AddAppli extends Component {
             })
             .then(() => {
                 this.setState({ campuses: campuses })
-                this.setState({ selectedCampus: campuses[0]})
+                this.setState({ selectedCampus: campuses[0] })
             })
     }
 
+    // Get the domains and their respective subdomains registered in the database and store them in a state
     get_domains() {
         let domains = [], subDomains = {};
         get_domains()
@@ -69,11 +71,11 @@ export default class AddAppli extends Component {
                     domains: domains,
                     subDomains: subDomains
                 }, () => {
-                    this.setState({ selectedDomain: this.state.domains[1]})
-                    this.setState({ subDomainOptions: this.state.subDomains[this.state.domains[1]]}, () => this.setState({ selectedSubDomain: this.state.subDomainOptions[0]}))
+                    this.setState({ selectedDomain: this.state.domains[0] })
+                    this.setState({ subDomainOptions: this.state.subDomains[this.state.domains[0]] }, () => this.setState({ selectedSubDomain: this.state.subDomainOptions[0] }))
                 })
             })
-        
+
     }
 
     componentWillMount() {
@@ -81,51 +83,61 @@ export default class AddAppli extends Component {
         this.get_domains()
     }
 
+    // Upon submitting the form, do a form control to prevent empty fields
     handleSubmit(event) {
         event.preventDefault();
-        this.setState({
-            newApplication: {
-                appCode: this.state.appCode,
-                appLabel: this.state.appLabel,
-                appCampus: this.state.selectedCampus,
-                appDomain: this.state.selectedDomain,
-                appSubDomain: this.state.selectedSubDomain,
-                comment: this.state.appComment
-            }
-        }, () => post_appli(this.state.newApplication)
-            .then(res => res.json())
-            .then(res => {
-                if (res.success) {
-                    alert(res.msg)
-                } else {
-                    alert(res.msg)
+        if (!this.state.appCode.trim()) {
+            alert("Please fill in the aplication code");
+        } else if (!this.state.appLabel.trim()) {
+            alert("Please fill in the application label");
+        } else {
+            // if the form control is successful, send a post request to the server
+            this.setState({
+                newApplication: {
+                    appCode: this.state.appCode,
+                    appLabel: this.state.appLabel,
+                    appCampus: this.state.selectedCampus,
+                    appDomain: this.state.selectedDomain,
+                    appSubDomain: this.state.selectedSubDomain,
+                    comment: this.state.appComment
                 }
-            }));
+            }, () => post_appli(this.state.newApplication)
+                .then(res => {
+                    if (res.success) {
+                        alert(res.msg)
+                        // if the creation is done, hide the form to create the apps and reset all the values
+                        this.props.confirmAppSent(this.state.newApplication)
+                        this.setState({ selectedDomain: this.state.domains[0] })
+                        this.setState({ subDomainOptions: this.state.subDomains[this.state.domains[0]] }, () => this.setState({ selectedSubDomain: this.state.subDomainOptions[0] }))
+                        this.setState({
+                            appCode: '',
+                            appLabel: '',
+                            appComment: '',
+                            newApplication: {
+                                appCode: '',
+                                appLabel: '',
+                                appCampus: '',
+                                appDomain: '',
+                                appSubDomain: '',
+                                comment: ''
+                            }
+                        })
+                    } else {
+                        alert(res.msg)
+                    }
+                }));
+        }
     }
 
     handleChange = (event) => {
-        this.setState({ [event.target.name] : event.target.value})
+        this.setState({ [event.target.name]: event.target.value })
     }
-
-    /*handleSubmit = (e) => {
-        e.preventDefault();
-        post_appli(this.state)
-            .then(res => {
-                this.props.onSubmit(res);
-            });
-        this.setState({
-            label: "",
-            filePath: "",
-            Campus: "Paris-Saclay",
-            Comment: ""
-        })
-    };*/
 
     updateSubDomains = (event) => {
         let selectedDomain = event.target.value
         this.state.selectedDomain = selectedDomain
         let subDomainOptions = this.state.subDomains[selectedDomain]
-        this.setState({ subDomainOptions: subDomainOptions }, () => this.setState({selectedSubDomain: this.state.subDomainOptions[0]}))
+        this.setState({ subDomainOptions: subDomainOptions }, () => this.setState({ selectedSubDomain: this.state.subDomainOptions[0] }))
     }
 
     render() {

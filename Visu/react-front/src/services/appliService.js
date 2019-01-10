@@ -7,7 +7,10 @@ function get_applis() {
     let requestOptions = generateRequest('GET')
     return fetch(api + 'applis', requestOptions)
         .then(res => res.json())
-        .catch(err => console.log(err))
+        .catch(err => {
+            console.log(err);
+            alert('error while getting apps')
+        })
 }
 
 // This one is DONE
@@ -17,7 +20,10 @@ function post_appli(appli) {
         .then(res => {
             return res.json()
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+            console.log(err);
+            alert('error while posting the app')
+        })
 }
 
 // This one is DONE

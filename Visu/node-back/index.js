@@ -22,7 +22,8 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use(bodyParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}))
 
 app.use(
   session({
@@ -34,25 +35,18 @@ app.use(
 );
 
 // Connectiong to the DB...
-try {
-  require('./db handeling/start_cnx')
-} catch (error) {
-  console.log(error);
-}
+require('./db handeling/start_cnx')
 
 
 //Connect to mongoDB server (Chat)
 try {
-  mongoose.connect('mongodb://localhost/chat-back');
-mongoose.set('debug', true);
-
+mongoose.connect('mongodb://localhost/chat-back', {useNewUrlParser: true});
 const connection = mongoose.connection;
-
 connection.once('open', () => {
     console.log('MongoDB database connection established successfully!')
 });
 } catch (error) {
-  console.log(error)
+  console.log('Mongoose database connexion failed !')
 }
 
 
@@ -63,6 +57,7 @@ app.use("/auth", auth);
 app.use("/content-dev", content_dev);
 
 app.use("/content", (req, res, next) => {
+  console.log('addressing content in index.js; \n======req Object keys======\n' + Object.keys(req) + '\n=====REQ.SESSION KEYS ====\n' + Object.keys(req.session))
   if (!req.session.auth) {    
     return res.status(400).send({ message: "Not authenticated" });
   }
@@ -75,5 +70,3 @@ app.use("/content", (req, res, next) => {
 app.listen(port, () => {
   console.log(`Listenning on port ${port}...`);
 });
-
-

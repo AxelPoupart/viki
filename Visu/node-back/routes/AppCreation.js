@@ -40,7 +40,7 @@ router.post('/createapp', (req, res) => {
         if (result) {
             return res.json({
                 success: true,
-                msg: 'La nouvelle application a été crée avec succés'
+                msg: 'La nouvelle application a été crée avec succès'
             })
         }
         return res.json({

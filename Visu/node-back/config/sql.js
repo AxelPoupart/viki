@@ -1,6 +1,6 @@
-const config =module.exports = {
-  host: "localhost",
-  user: "root",
-  password: "Idiomatic2102",
-  database: "viki"
+const config = module.exports = {
+	host: 'localhost',
+	user: 'ft_blue',
+	password: 'momo97',
+	database: 'viki'
 }
