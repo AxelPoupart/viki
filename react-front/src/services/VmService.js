@@ -1,16 +1,9 @@
-
-
-
-
-
 const api = 'http://localhost:5000/content-dev/vmservice/';
-
 
 
 // This one is DONE
 function get_vms() {
     console.log('GET vms')
-    let vms;
     let requestOptions = {
         credentials: 'include',
         method: 'GET',
@@ -19,8 +12,7 @@ function get_vms() {
         },
     }
     return fetch(api + 'vms', requestOptions)
-    .then(res => {return res.json()})
-    .then(res => {return res})
+    .then(res => res.json())
 }
 
 // This one is DONE
@@ -43,10 +35,9 @@ function post_vm(vm) {
         })
 }
 
-// In progress
+// This one is DONE
 function get_vmsBySearch(term) {
     console.log('GET vms by searching')
-    let vms;
     let requestOptions = {
         credentials: 'include',
         method: 'GET',
@@ -55,16 +46,40 @@ function get_vmsBySearch(term) {
         },
     }
     return fetch(api + `vms/search/${term}`, requestOptions)
-        .then(res => {return res.json()})
-        .then(res => {return res})
+        .then(res => res.json())
+}
+
+
+// THis one is DONE
+function delete_vmById(Id) {
+    console.log('DELETE vm')
+    let requestOptions = {
+        credentials: 'include',
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({Id: Id})
+    }
+    return fetch(api + `vms/delete`, requestOptions)
+        .then(res => {
+            console.log(res)
+            return res.json()
+        })
 }
 
 
 
 
+
+
+
+
+//_____________________________________________________________________________
+
 function get_vmById(id) {
     console.log('GET vm by Id')
-    let vm;
     let requestOptions = {
         credentials: 'include',
         method: 'GET',
@@ -74,14 +89,10 @@ function get_vmById(id) {
     }
     return fetch(api + `vms/${id}`, requestOptions)
         .then(res => res.json())
-        .then(res => {
-            vm = res.vm
-        })
 }
 
 function get_vmsByAppli(id) {
     console.log('GET vms by applications')
-    let vms;
     let requestOptions = {
         credentials: 'include',
         method: 'GET',
@@ -91,9 +102,6 @@ function get_vmsByAppli(id) {
     }
     return fetch(api + `vms/appli/${id}`, requestOptions)
         .then(res => res.json())
-        .then(res => {
-            vms = res.vms
-        })
 }
 
 
@@ -105,5 +113,6 @@ export {
     get_vmsBySearch,
     get_vmsByAppli,
     get_vmById,
-    get_vms
+    get_vms,
+    delete_vmById
 }

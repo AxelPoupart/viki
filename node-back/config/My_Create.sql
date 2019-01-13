@@ -1,4 +1,4 @@
-CREATE TABLE `Actions` (
+CREATE TABLE `actions` (
 	`_id` int NOT NULL AUTO_INCREMENT,
 	`Label` varchar(255) NOT NULL,
 	`Priority` varchar(255) DEFAULT "Low",
@@ -13,7 +13,7 @@ CREATE TABLE `Actions` (
 	PRIMARY KEY (`_id`)
 );
 
-CREATE TABLE `Virtual machines` (
+CREATE TABLE `virtual machines` (
 	`_id` int NOT NULL AUTO_INCREMENT,
 	`Label` varchar(255) NOT NULL,
     `File` varchar(255),
@@ -21,3 +21,19 @@ CREATE TABLE `Virtual machines` (
 	`Comment` varchar(255),
 	PRIMARY KEY (`_id`)
 );
+
+CREATE TABLE `applications` (
+	`_id` int NOT NULL AUTO_INCREMENT,
+	`Label` varchar(255) NOT NULL,
+    `File` varchar(255),
+    `Campus` varchar(255),
+	`Comment` varchar(255),
+	PRIMARY KEY (`_id`)
+);
+
+CREATE TABLE `users` (
+	`_id` int NOT NULL AUTO_INCREMENT,
+	`mail` varchar(255),
+	PRIMARY KEY (`_id`)
+);
+

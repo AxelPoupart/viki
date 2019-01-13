@@ -15,13 +15,14 @@ app.get('/my-demo-route', (req, res) => res.send('hello world'))
 
 // Using middlewares
 
-app.use(cors({
+var corsOptions = {
   origin: "http://localhost:3000",
   credentials: true
-}));
+};
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json())
+app.use(cors(corsOptions));
+
+app.use(bodyParser());
 
 app.use(
   session({
@@ -32,8 +33,7 @@ app.use(
   })
 );
 
-// Connectiong to the SQL DB...
-
+// Connectiong to the DB...
 try {
   require('./db handeling/start_cnx')
 } catch (error) {
@@ -43,18 +43,18 @@ try {
 
 //Connect to mongoDB server (Chat)
 try {
-  mongoose.connect('mongodb://localhost/chat-back', { useNewUrlParser: true });
-  mongoose.set('debug', true);
-  
-  const connection = mongoose.connection;
-  
-  connection.once('open', () => {
+  mongoose.connect('mongodb://localhost/chat-back');
+mongoose.set('debug', true);
+
+const connection = mongoose.connection;
+
+connection.once('open', () => {
     console.log('MongoDB database connection established successfully!')
-  });
-   
+});
 } catch (error) {
-  console.log( error)
+  console.log(error)
 }
+
 
 
 
@@ -63,12 +63,13 @@ app.use("/auth", auth);
 app.use("/content-dev", content_dev);
 
 app.use("/content", (req, res, next) => {
-  console.log(req.session.auth)
-  if (!req.session.auth) {
-    return res.status(400).send({ message: "Not authenticated" });
+  if (!req.session.auth) {    
+    return res.status(401).send({ message: "Not authenticated" });
   }
+  else {console.log("Authentified")}
   next();
 }, content);
+
 
 // Listening...
 app.listen(port, () => {

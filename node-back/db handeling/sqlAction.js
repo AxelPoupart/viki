@@ -1,11 +1,6 @@
 const db = require('./start_cnx');
 
-<<<<<<< HEAD
 
-
-
-=======
->>>>>>> b58289d235ced8f4ef4ddd2fdd8b26d01d6df11c
 // Select all actions
 exports.get_all_actions = (callback) => {
     let query = 'SELECT * FROM `actions`';
@@ -28,4 +23,20 @@ exports.delete_action = (Id, callback) => {
     let query = "DELETE FROM `actions` WHERE `_id` = ?";
     console.log(query);
     return db.query(query, Id, callback)
+}
+
+// Change action status
+exports.changeStatus = (infos, callback) => {
+    let id = infos.id;
+    let status = infos.status;
+    let query = "UPDATE `actions` SET `status` = ? WHERE `_id` = ?";
+    console.log(query);
+    return db.query(query, [status, id], callback)
+}
+
+// Select actions by status
+exports.getActionsByStatus = (status, callback) => {
+    let query = 'SELECT * FROM `actions` WHERE `status` = ?';
+    console.log(query);
+    return db.query(query, [status], callback)
 }

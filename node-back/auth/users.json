@@ -1,22 +1,22 @@
 
   [
-   {
-    "id": "1",
-    "name" :"kubat",
-    "password": "password",
-    "privileges": "sysadmin"
-  },
-{
-  "id": "2",
-  "name" :"moad",
-  "password": "password",
-  "privileges": "ingesys"
-},
-{
-  "id": "3",
-  "name" :"axel",
-  "password": "password",
-  "privileges": "sysadmin"
-}
-
-]
+    {
+     "id": "1",
+     "name" :"kubat",
+     "password": "password",
+     "privileges": "sysadmin"
+   },
+ {
+   "id": "2",
+   "name" :"moad",
+   "password": "password",
+   "privileges": "ingesys"
+ },
+ {
+   "id": "3",
+   "name" :"axel",
+   "password": "password",
+   "privileges": "sysadmin"
+ }
+ 
+ ]

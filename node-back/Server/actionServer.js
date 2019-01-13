@@ -21,12 +21,16 @@ router.route('/actions/add').post((req, res) => {
 // Get all actions : DONE
 router.route('/actions').get((req, res) => {
     sqlAction.get_all_actions((err, actions) => {
-        console.log(actions)
-        return res.json(actions);
+        if (err)
+            console.log(err);
+        else {
+            console.log(actions)
+            return res.json(actions);  
+        }
     });
 });
 
-
+// Delete an action by Id
 router.route('/actions/delete').post((req, res) => {
     console.log(req.body);
     let Id = req.body.Id
@@ -36,9 +40,30 @@ router.route('/actions/delete').post((req, res) => {
     });
 });
 
+//Change action status
+router.route('/actions/changestatus').post((req, res) => {
+    let infos = req.body;
+    sqlAction.changeStatus(infos, (err, user) => {
+        if (err)
+            console.log(err);
+        else
+            res.json(user);
+    });
+});
 
 
-
+// Get actions by status : DONE
+router.route('/actions/status/:status').get((req, res) => {
+    let status = req.params.status;
+    sqlAction.getActionsByStatus(status, (err, actions) => {
+        if (err)
+            console.log(err);
+        else {
+            console.log(actions)
+            return res.json(actions);  
+        }
+    });
+});
 
 
 
@@ -84,6 +109,9 @@ router.route(`/actionservice/actions/search/:term`).get((req, res) => {
             res.json(issue);
     });
 });
+
+
+
 
 
 module.exports = router;

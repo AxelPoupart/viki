@@ -3,10 +3,9 @@ const express = require('express')
 const router = express.Router()
 
 router.get('/campuses', (req, res) => {
-    console.log('GET CAMPUSES')
     handelers.get_all_campuses((err, results) => {
         if (err) throw err;
-        let _res = results.map(campus => campus['CampusName'])
+        let _res = results.map(campus => campus['campusName'])
         res.json({
             success: true,
             campuses: _res
@@ -15,15 +14,16 @@ router.get('/campuses', (req, res) => {
 })
 
 router.get('/domains', (req, res) => {
+    console.log('DOMAIN GETTER')
     handelers.get_all_domains((err, results) => {
         if (err) throw err;
         let domains = {}, subDomains = {};
         results.forEach(dom => {
-            if (dom['_id'] === dom['ParentID']) {
-                domains[dom['_id']] = dom['Label'];
-                subDomains[dom['Label']] = []
+            if (dom['_id'] === dom['parentId']) {
+                domains[dom['_id']] = dom['label'];
+                subDomains[dom['label']] = []
             } else {
-                subDomains[domains[dom['ParentID']]].push(dom['Label']);
+                subDomains[domains[dom['parentId']]].push(dom['label']);
             }
         })
         res.json({

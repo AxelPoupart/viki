@@ -1,28 +1,31 @@
 const express = require('express')
 const router = express.Router();
-const app = express();
 
-const AppCreation = require('./AppCreation')
 const ActionServer = require('../Server/actionServer')
-const ApplicationServer = require('../Server/applicationServer')
+const AppliServer = require('../Server/appliServer')
 const VmServer = require('../Server/vmServer')
+const UserServer = require('../Server/userServer')
 const Chat = require('../model_mongo/Chat')
 
 
 router.get('/', (req,res,next) => {console.log(req.session.id,req.session);res.send(req.session.auth);next()});
 
-router.use('/applicationservice/newapp', AppCreation)
-
-router.use('/newapp', AppCreation)
 
 
 // Actions Back
 router.use('/actionservice', ActionServer )
-app.use('/actionservice', router)
+
 
 // Vm Back
 router.use('/vmservice', VmServer )
-app.use('/vmservice', router)
+
+
+// Appli Back
+router.use('/appliservice', AppliServer )
+
+
+// USers Back
+router.use('/userservice', UserServer )
 
 
 
@@ -46,7 +49,7 @@ router.route('/chat-back/add').post((req, res) => {
     let chat = new Chat(req.body);
     chat.save()
         .then(chat => {
-            res.status(200).json({'chat': 'Added successfully!'});
+            res.status(200).json(chat);
         })
         .catch(err => {
             res.status(400).send('Failed to create new record');

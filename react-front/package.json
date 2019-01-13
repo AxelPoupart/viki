@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^3.8.3",
+    "@material-ui/icons": "^3.0.2",
     "axios": "^0.18.0",
     "create-react-class": "^15.6.3",
     "react": "^16.5.2",
@@ -11,15 +13,16 @@
     "react-bootstrap-date-picker": "^5.1.0",
     "react-dom": "^16.5.2",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.0.3"
+    "react-scripts": "2.0.3",
+    "typeface-roboto": "0.0.54"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build --help",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:5000/",
+  "proxy": "http://localhost:5001/",
   "eslintConfig": {
     "extends": "react-app"
   },
