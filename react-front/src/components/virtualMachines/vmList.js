@@ -56,7 +56,6 @@ class VmList extends Component {
         get_vms().then(vm => {
             for (var e in vm) {
                 const current_vm = vm[e];
-                console.log(current_vm);
                 const vms = this.state.vms.concat([current_vm]);
                 this.setState( {vms} );
             }

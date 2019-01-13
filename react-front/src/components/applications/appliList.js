@@ -13,37 +13,39 @@ import AddIcon from '@material-ui/icons/Add';
 
 import AddAppli from './addAppli';
 
-import { 
+import {
     delete_appliById,
-    get_applis } from '../../services/appliService.js'
+    get_applis
+} from '../../services/appliService.js'
 
 import './appliList.css';
 
 
 class AppliList extends Component {
 
-    state = { applis: [], hide: false}
+    state = { applis: [], hide: false }
 
     handleAdd = (e) => {
         const hide = !this.state.hide;
-        this.setState( {hide} ); 
+        this.setState({ hide });
     };
 
-    handleSubmitAppli = appli => {
+    confirmAppSent = appli => {
         console.log(appli);
+        this.setState({ hide: false });
         const applis = this.state.applis.concat([appli]);
-        this.setState( {applis} );
+        this.setState({ applis });
     };
 
     displayAdd() {
         if (this.state.hide) {
             return (
                 <div>
-                    <Button color="primary" onClick={e => {this.setState({hide: false});}}>Cancel</Button>
-                    <AddAppli onSubmit={this.handleSubmitAppli} applis={this.state.applis} />
+                    <Button color="primary" onClick={e => { this.setState({ hide: false }); }}>Cancel</Button>
+                    <AddAppli applis={this.state.applis} confirmAppSent={this.confirmAppSent.bind(this)} />
                 </div>
             )
-        } else { 
+        } else {
             return (
                 <Fab color="primary" aria-label="Add" onClick={this.handleAdd.bind(this)}>
                     <AddIcon />
@@ -54,21 +56,23 @@ class AppliList extends Component {
 
     display_applis() {
         get_applis().then(applis => {
-            for (const e of applis) {
-                const current_appli = e;
-                console.log(current_appli);
-                const newApplis = this.state.applis.concat([current_appli]);
-                this.setState( {applis: newApplis} );
+            if (applis) {
+                for (const e of applis) {
+                    const current_appli = e;
+                    console.log(current_appli);
+                    const newApplis = this.state.applis.concat([current_appli]);
+                    this.setState({ applis: newApplis });
+                }
             }
         })
     }
 
     suppress_appli(key) {
         delete_appliById(key)
-        .then(res => {
-            this.setState( {appli: []} );
-            this.display_applis() 
-        })
+            .then(res => {
+                this.setState({ appli: [] });
+                this.display_applis()
+            })
 
     }
 
@@ -92,7 +96,7 @@ class AppliList extends Component {
                                     <Typography>
                                         {appli.Comment}
                                     </Typography>
-                                    <IconButton aria-label="Delete" variant="contained" color="secondary" style={{float: "right" }} onClick={() => this.suppress_appli(appli._id)}>
+                                    <IconButton aria-label="Delete" variant="contained" color="secondary" style={{ float: "right" }} onClick={() => this.suppress_appli(appli._id)}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </ExpansionPanelDetails>
@@ -104,7 +108,7 @@ class AppliList extends Component {
                 <div id="appli-add" >
                     {this.displayAdd()}
                 </div>
-                
+
 
             </div>
         );
