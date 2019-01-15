@@ -44,26 +44,26 @@ class Navbar extends React.Component {
 
   handleClose = () => {
     this.setState({ anchorEl: null });
-  };
+	};
+	
+	display_user_info = (user) => {
+		if (this.state.user!=null){
+			
+			const {privileges,useremail} = user
+			return <div> {privileges} </div>
 
-  display_user_info = (user) => {
-    if (this.state.user != null) {
+		} else
+		return null;
+	}
 
-      const { privileges, username } = user
-      return <div> {privileges} </div>
-
-    } else
-      return null;
-  }
-
-  display_admin_menu = (user) => {
-    if (user && user.privileges === "sysadmin") {
-
-
-      return (
-        <MenuItem onClick={this.handleClose}>
-          <Link className="nav-link" to="users">
-            dans le futur page admin
+	display_admin_menu = (user) => {
+		if (user && user.privileges==="sysadmin" ){
+			
+			
+			return (
+			<MenuItem onClick={this.handleClose}>
+			<Link className="nav-link" to="users">
+				dans le futur page admin
 			</Link>
         </MenuItem>
       )
