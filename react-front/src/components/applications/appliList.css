@@ -12,9 +12,19 @@
     min-width: 300px;
 }
 
-#appli-add
+.addAppli
 {
-    float: inline-end;
-    width: flex;
-    margin: 20px;
+    align-self: flex-end;
+}
+
+li
+{
+    padding: 5px;
+}
+
+.activate
+{
+    position: relative;
+    bottom: 8px;
+    font-size: 120%
 }

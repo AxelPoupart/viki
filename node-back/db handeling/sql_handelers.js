@@ -10,23 +10,12 @@ exports.get_all_domains = (callback) => {
     db.query(query, callback)
 }
 
-get_domain_by_label = (label, callback) => {
+exports.get_domain_by_label = (label, callback) => {
     let query = 'SELECT * FROM `domains` WHERE `label` = ?'
     db.query(query, [label], callback)
 }
 
-exports.new_application = (application, callback) => {
-    let set = {
-        code: application.appCode,
-        label: application.appLabel,
-        domainId: false,
-        campus: application.appCampus,
-        comment: application.comment
-    }
-    get_domain_by_label(application.appSubDomain, (err, result) => {
-        if (err) throw err;
-        set.domainId = result[0]['_id'];
-        query = 'INSERT INTO `applications` SET ?';
-        db.query(query, [set], callback)
-    })
+exports.get_machine_by_label = (label, callback) => {
+    let query = 'SELECT * FROM `virtualMachines` WHERE `label` = ?'
+    db.query(query, [label], callback)
 }

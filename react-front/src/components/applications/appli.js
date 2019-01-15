@@ -1,44 +1,34 @@
 import React, { Component } from 'react';
 
-import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
-
 import Navbar from '../navbar/navbar';
 import AppliList from './appliList';
 import AppliSearch from './appliSearch';
 
 import './appli.css';
+import AddAppli from './addAppli';
 
 
 class Appli extends Component {
 
-  state = { user: null, actions: []  }
+    state = { user: null, actions: [] }
 
-  handleLogout = (event) => {
-      this.props.history.push('/login');
-  }
+    handleLogout = (event) => {
+        this.props.history.push('/login');
+    }
 
-  render() {
-      return  (
-        <div id="home_global">
+    render() {
+        return (
+            <div className="home_global">
 
-            <Navbar>
-                <Button variant="contained" color="secondary"> Logout </Button>
-            </Navbar>
+                <Navbar page="Gestion des applications" />
 
-            <div>
                 <AppliSearch />
+
+                <AppliList />
+
             </div>
-
-            <Divider />
-
-            <div id="applilist">
-                <AppliList />  
-            </div>
-
-        </div>
-      );
-  } 
+        );
+    }
 
 }
 

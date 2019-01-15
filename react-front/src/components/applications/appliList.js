@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import Pagination from 'react-js-pagination';
 
 import AddAppli from './addAppli';
 
@@ -22,8 +23,16 @@ import './appliList.css';
 
 
 class AppliList extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            applis: [],
+            hide: false,
+            activePage: 1,
+            itemsPerPage: 10
+        };
 
-    state = { applis: [], hide: false }
+    }
 
     handleAdd = (e) => {
         const hide = !this.state.hide;
@@ -59,7 +68,6 @@ class AppliList extends Component {
             if (applis) {
                 for (const e of applis) {
                     const current_appli = e;
-                    console.log(current_appli);
                     const newApplis = this.state.applis.concat([current_appli]);
                     this.setState({ applis: newApplis });
                 }
@@ -67,7 +75,7 @@ class AppliList extends Component {
         })
     }
 
-    suppress_appli(key) {
+    deleteApp(key) {
         delete_appliById(key)
             .then(res => {
                 this.setState({ appli: [] });
@@ -82,21 +90,25 @@ class AppliList extends Component {
 
 
     render() {
+        let pageItems = [];
+        for (let i = (this.state.activePage - 1) * this.state.itemsPerPage; i < this.state.activePage * this.state.itemsPerPage + 1; i++) {
+            if (i < this.state.applis.length) pageItems.push(this.state.applis[i])
+        }
         return (
-            <div id="appli">
+            <div id="appli" style={{ display: 'flex', flexDirection: 'column' }}>
 
                 <div id="appli-list">
-                    {this.state.applis.map(appli => (
+                    {pageItems.map(appli => (
                         <div key={appli._id}>
                             <ExpansionPanel>
                                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                                    <Typography>{appli.Label}</Typography>
+                                    <Typography>{appli.label}</Typography>
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>
                                     <Typography>
-                                        {appli.Comment}
+                                        {appli.comment}
                                     </Typography>
-                                    <IconButton aria-label="Delete" variant="contained" color="secondary" style={{ float: "right" }} onClick={() => this.suppress_appli(appli._id)}>
+                                    <IconButton aria-label="Delete" variant="contained" color="secondary" style={{ float: "right" }} onClick={() => this.deleteApp(appli._id)}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </ExpansionPanelDetails>
@@ -105,7 +117,22 @@ class AppliList extends Component {
                     ))}
                 </div>
 
-                <div id="appli-add" >
+                <div style={{ alignSelf: 'center', marginTop: '15px' }}>
+                    <Pagination
+                        prevPageText="prev"
+                        nextPageText="next"
+                        firstPageText="first"
+                        lastPageText="last"
+                        activeClass="activate"
+                        pageRangeDisplayed={10}
+                        activePage={this.state.activePage}
+                        itemsCountPerPage={this.state.itemsPerPage}
+                        totalItemsCount={this.state.applis.length}
+                        onChange={(pageNumber) => this.setState({ activePage: pageNumber })}
+                    />
+                </div>
+
+                <div className="addAppli">
                     {this.displayAdd()}
                 </div>
 

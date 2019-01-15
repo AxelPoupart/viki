@@ -57,7 +57,7 @@ class AppliSearch extends Component {
                         placeholder="Search…"
                         name="term"
                         onChange={this.handleChange.bind(this)}
-                        margin="normal"
+                        margin="dense"
                         value={this.state.term}
                     />
                 </div>

@@ -13,7 +13,8 @@ function get_applis() {
 // This one is DONE
 function post_appli(appli) {
     let requestOptions = generateRequest('POST', appli)
-    return fetch(api + `newapp/createapp`, requestOptions)
+    
+    return fetch(api + `add`, requestOptions)
         .then(res => {
             return res.json()
         })
@@ -22,7 +23,6 @@ function post_appli(appli) {
 
 // This one is DONE
 function get_applisBySearch(term) {
-    console.log('GET applis by searching')
     let requestOptions = generateRequest('GET')
     return fetch(api + `applis/search/${term}`, requestOptions)
         .then(res => res.json())

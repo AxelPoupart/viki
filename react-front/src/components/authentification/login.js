@@ -11,12 +11,6 @@ import './login.css';
 
 import Navbar from '../navbar/navbar';
 
-
-
-
-
-
-
 class Login extends React.Component {
 
     constructor(props) {
@@ -89,8 +83,6 @@ class Login extends React.Component {
           <div className="Login">
             {this.redirect()}
 
-            <Navbar />
-
             <Card id = "loginForm">
                 <CardContent>
     
@@ -124,12 +116,6 @@ class Login extends React.Component {
             
             </CardContent>
         </Card>
-
-        <form onSubmit={this.logout}>
-            <Button block bsSize="large" type="submit">
-                Logout
-            </Button>
-        </form>
     
           </div>
         );
