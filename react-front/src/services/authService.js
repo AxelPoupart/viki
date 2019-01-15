@@ -1,11 +1,11 @@
-function get_auth(username, password) {
+function get_auth(email, password) {
     localStorage.clear();
     const requestOptions = {
         credentials: "include",
         method: "POST",
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify({
-            username: username,
+            email: email,
             password: password
         })
     };

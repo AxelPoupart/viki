@@ -25,7 +25,7 @@ class Login extends React.Component {
         //Initial state
         this.state = {
             loggedin: false,
-            username: "",
+            useremail: "",
             password: "",
             submitted: false
         };
@@ -38,12 +38,12 @@ class Login extends React.Component {
     }
 
     
-    login(username, password) {
+    login(useremail, password) {
         localStorage.clear();
         // Ask for authentification service
-        return get_auth(username, password)
+        return get_auth(useremail, password)
             .then(user => {
-                if (user.name === username) {
+                if (user.name === useremail) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem("user", JSON.stringify(user));
                     console.log("succes ?");
@@ -56,7 +56,7 @@ class Login extends React.Component {
     }
 
     validateForm() {
-        return this.state.username.length > 0 && this.state.password.length > 0;
+        return this.state.useremail.length > 0 && this.state.password.length > 0;
     }
 
     logout() {
@@ -72,7 +72,7 @@ class Login extends React.Component {
     handleSubmit = event => {
         event.preventDefault();
         this.validateForm() 
-            ? this.login(this.state.username, this.state.password)
+            ? this.login(this.state.useremail, this.state.password)
             : alert("invalid submission");
     };
 
@@ -96,9 +96,9 @@ class Login extends React.Component {
     
             <form onSubmit={this.handleSubmit}>
               <TextField
-                id ="username"
-                label = "Username"
-                value={this.state.username}
+                id ="useremail"
+                label = "useremail"
+                value={this.state.useremail}
                 onChange={this.handleChange}
                 margin="normal"
                 />

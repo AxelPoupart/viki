@@ -15,22 +15,22 @@ exports.add_new_user = (user, callback) => {
 
   return db.query(query, [set], callback);
 };
+// A revoir
+// exports.set_user_privileges = (user_id, privileges_id, callback) => {
+//   let query =
+//     " UPDATE `UsersPrivileges` SET `PrivilegesID` = privileges_id  WHERE `UserID` = ?";
 
-exports.set_user_privileges = (user_id, privileges_id, callback) => {
-  let query =
-    " UPDATE `UsersPrivileges` SET `PrivilegesID` = privileges_id  WHERE `UserID` = ?";
-
-  return db.query(query, user_id, callback);
-};
+//   return db.query(query, user_id, callback);
+// };
 
 exports.get_user_privileges = (user_id, callback) => {
   let query =
-    "SELECT label FROM `Privileges`  JOIN `UsersPrivileges`  ON `Privileges._id` = `UsersPrivileges.PrivilegesID` WHERE `UserID` = ? ";
+    "SELECT * FROM `privileges`  JOIN `UsersPrivileges` up  ON `privileges._id` = `up.PrivilegesID` WHERE `up.UserID` = ? ";
   db.query(query, user_id, callback);
 };
 
 
-// Delete an action
+// Delete an user
 exports.deleteUser = (Id, callback) => {
   let query = "DELETE FROM `users` WHERE `_id` = ?";
   console.log(query);
@@ -44,3 +44,14 @@ exports.getByStatus = (status, callback) => {
   return db.query(query, [status], callback);
 };
 
+exports.set_user_privileges = (user_id,privileges_id, callback) => {
+  
+  let query = " UPDATE `UsersPrivileges` SET `PrivilegesID` = privileges_id  WHERE `UserID` = ?";
+  
+  return db.query(query, user_id, callback)
+}
+
+exports.get_user_privileges = (user_id, callback) => {
+  let query = 'SELECT label FROM `Privileges`  JOIN `UsersPrivileges`  ON `Privileges._id` = `UsersPrivileges.PrivilegesID` WHERE `UserID` = ? ';
+  db.query(query, user_id, callback)
+}

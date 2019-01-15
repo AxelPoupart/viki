@@ -1,3 +1,5 @@
 node-back/node_modules
 node-back/config/sql.js
 react-front/node_modules
+node-back/config/database/Listes-VMs.xlsx
+node-back/db handeling/dbtest.js

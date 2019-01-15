@@ -49,7 +49,7 @@ class Navbar extends React.Component {
 	display_user_info = (user) => {
 		if (this.state.user!=null){
 			
-			const {privileges,username} = user
+			const {privileges,useremail} = user
 			return <div> {privileges} </div>
 
 		} else
