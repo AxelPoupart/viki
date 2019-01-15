@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const user_db = require("../db handeling/sqlUser");
-
+const crypto =requir("crypto")
 router.post("/authenticate", (req, res) => {
   console.log("AUTH middleware");
   email = req.body.email;
   password = req.body.password;
+  hash=crypto.createHmac('sha256', email+password).digest('hex')
 
   user_db.getUsers((err, results) => {
     if (err) {
@@ -17,13 +18,13 @@ router.post("/authenticate", (req, res) => {
       JSON.parse(
         JSON.stringify({
           email: user["Email"],
-          password: user["Password"],
+          hash: user["Hash"],
           id: user["_id"]
         })
       )
     );
 
-    const user = users.find(u => u.email == email && u.password == password);
+    const user = users.find(u => u.email == email && u.hash == hash);
     if (user) {
       req.session.user_id = user.id;
       req.session.auth = true;
