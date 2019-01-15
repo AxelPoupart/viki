@@ -7,7 +7,7 @@ import 'typeface-roboto'
 class App extends Component {
   render() {
     return (
-      <div className="App">
+      <div style={{width: '75%', margin:'auto'}}>
 
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" >
         </link>

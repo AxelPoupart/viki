@@ -22,9 +22,7 @@ class Vm extends Component {
       return  (
         <div id="home_global">
 
-            <Navbar>
-                <Button variant="contained" color="secondary"> Logout </Button>
-            </Navbar>
+            <Navbar />
 
             <div>
                 <VmSearch />

@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 
 import PairAppMachine from './pairAppMachine';
 
-import { Select, FormControl, InputLabel, MenuItem, TextField, Button, Card, CardContent, Divider } from '@material-ui/core';
+import { Select, FormControl, InputLabel, MenuItem, TextField, Button, Card, CardContent, Fab } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import { post_appli } from '../../services/appliService';
 import { get_domains } from '../../services/generalService';
 import { get_vms } from '../../services/vmService';
-
-import './addAppli.css';
-
 
 export default class AddAppli extends Component {
     constructor(props) {
@@ -25,20 +24,16 @@ export default class AddAppli extends Component {
             subDomainOptions: [],
             machines: [],
             pairedMachines: [{
-                machine: 'testMachine',
-                service: 'testService'
-            }, {
-                machine: 'testMachine2',
-                service: 'testService2'
-            }
-            ],
+                machine: '',
+                service: ''
+            }],
             newApplication: {
                 appCode: '',
                 appLabel: '',
                 appDomain: '',
                 appSubDomain: '',
                 comment: '',
-                coupledMachines: []
+                pairedMachines: []
             }
         }
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -60,8 +55,8 @@ export default class AddAppli extends Component {
                     domains: domains,
                     subDomains: subDomains
                 }, () => {
-                    this.setState({ selectedDomain: this.state.domains[0] })
-                    this.setState({ subDomainOptions: this.state.subDomains[this.state.domains[0]] }, () => this.setState({ selectedSubDomain: this.state.subDomainOptions[0] }))
+                    this.setState({ selectedDomain: this.state.domains[1] })
+                    this.setState({ subDomainOptions: this.state.subDomains[this.state.domains[1]] }, () => this.setState({ selectedSubDomain: this.state.subDomainOptions[0] }))
                 })
             })
     }
@@ -76,6 +71,14 @@ export default class AddAppli extends Component {
         this.getMachines();
     }
 
+    filterMachines = (callback) => {
+        let pairedMachines = this.state.pairedMachines;
+        for (let pair of pairedMachines) {
+            if (!pair.machine && !pair.service) pairedMachines.splice(pairedMachines.indexOf(pair), 1)
+        }
+        this.setState({ pairedMachines: pairedMachines }, callback);
+    }
+
     // Upon submitting the form, do a form control to prevent empty fields
     handleSubmit(event) {
         event.preventDefault();
@@ -85,14 +88,14 @@ export default class AddAppli extends Component {
             alert("Please fill in the application label");
         } else {
             // if the form control is successful, send a post request to the server
-            this.setState({
+            this.filterMachines(() => this.setState({
                 newApplication: {
                     appCode: this.state.appCode,
                     appLabel: this.state.appLabel,
                     appDomain: this.state.selectedDomain,
                     appSubDomain: this.state.selectedSubDomain,
                     comment: this.state.appComment,
-                    coupledMachines: this.state.pairedMachines
+                    pairedMachines: this.state.pairedMachines
                 }
             }, () => post_appli(this.state.newApplication)
                 .then(res => {
@@ -102,8 +105,8 @@ export default class AddAppli extends Component {
                         // confirmAppSent allows the upper component to hide the new-app panel
                         this.props.confirmAppSent(this.state.newApplication)
                         // Reset the panel after app was created
-                        this.setState({ selectedDomain: this.state.domains[0] })
-                        this.setState({ subDomainOptions: this.state.subDomains[this.state.domains[0]] }, () => this.setState({ selectedSubDomain: this.state.subDomainOptions[0] }))
+                        this.setState({ selectedDomain: this.state.domains[1] })
+                        this.setState({ subDomainOptions: this.state.subDomains[this.state.domains[1]] }, () => this.setState({ selectedSubDomain: this.state.subDomainOptions[0] }))
                         this.setState({
                             appCode: '',
                             appLabel: '',
@@ -115,14 +118,14 @@ export default class AddAppli extends Component {
                                 appDomain: '',
                                 appSubDomain: '',
                                 comment: '',
-                                coupledMachines: [],
+                                pairedMachines: [],
 
                             }
                         })
                     } else {
                         alert(res.msg)
                     }
-                }));
+                })))
         }
     }
 
@@ -132,9 +135,29 @@ export default class AddAppli extends Component {
 
     updateSubDomains = (event) => {
         let selectedDomain = event.target.value
-        this.state.selectedDomain = selectedDomain
+        this.setState({ selectedDomain: selectedDomain})
         let subDomainOptions = this.state.subDomains[selectedDomain]
         this.setState({ subDomainOptions: subDomainOptions }, () => this.setState({ selectedSubDomain: this.state.subDomainOptions[0] }))
+    }
+
+    addPair = () => {
+        let pairedMachines = this.state.pairedMachines;
+        pairedMachines.push({ machine: '', service: '' });
+        this.setState({ pairedMachines: pairedMachines });
+    }
+
+    deletePair = () => {
+        let pairedMachines = this.state.pairedMachines;
+        pairedMachines.pop();
+        this.setState({ pairedMachines: pairedMachines });
+    }
+
+    updatePairedMachine = (key, machine, service) => {
+        let pairedMachines = this.state.pairedMachines;
+        pairedMachines[key] = {
+            machine: machine,
+            service: service
+        }
     }
 
     render() {
@@ -148,10 +171,7 @@ export default class AddAppli extends Component {
 
         let pairedMachines = this.state.pairedMachines.map(pair => {
             return (
-                <div>
-                    <PairAppMachine machines={this.state.machines} pair={pair} />
-                    <Divider />
-                </div>
+                <PairAppMachine key={this.state.pairedMachines.indexOf(pair)} index={this.state.pairedMachines.indexOf(pair)} machines={this.state.machines} pair={pair} updatePairedMachine={this.updatePairedMachine.bind(this)} />
             )
         })
 
@@ -233,6 +253,19 @@ export default class AddAppli extends Component {
                                     variant="filled"
                                 >
                                     {pairedMachines}
+                                </FormControl>
+
+                                <FormControl
+                                    fullWidth
+                                    margin="normal"
+                                    variant="filled"
+                                >
+                                    <Fab style={{ position: "absolute", right: "0px" }} size="small" color="primary" aria-label="Add a new pair vm/app" onClick={this.addPair.bind(this)}>
+                                        <AddIcon />
+                                    </Fab>
+                                    <Fab style={{ position: "absolute", right: "50px" }} size="small" color="secondary" aria-label="Delete last pair vm/app" onClick={this.deletePair.bind(this)}>
+                                        <DeleteIcon />
+                                    </Fab>
                                 </FormControl>
 
                                 <Button variant="contained" color="primary" onClick={this.handleSubmit.bind(this)} >Ajouter l'application</Button>

@@ -4,20 +4,13 @@ const handelers = require('../db handeling/sql_handelers');
 
 const sqlAppli = require('../db handeling/sqlAppli')
 
-const app = express();
 const router = express.Router();
 
-
-
-
-// Add a new Appli : DONE
-router.route('/applis/add').post((req, res) => {
-    console.log(req.body);
+router.route('/add').post((req, res) => {
     let appli = req.body 
     sqlAppli.post_new_appli(appli, (err) => {
-        console.log("Post presque done");
-        console.log(appli);
-        return res.json(appli)
+        if (err) return res.send({msg: "The operation failed"});
+        return res.json({msg:"The application was added successfully", appli: JSON.stringify(appli)})
     });
 });
 

@@ -1,6 +1,7 @@
-#home_global
+h2
 {
-    float: center;
+    text-align: center;
+    margin: 15px
 }
 
 #applilist
