@@ -7,11 +7,13 @@ exports.getUsers = callback => {
 
 exports.add_new_user = (user, callback) => {
   let set = {
-    id: user.id,
-    Email: user.email,
+    
+    mail: user.email,
+    hash: user.hash
     
   };
   let query = "INSERT INTO `Users` SET ?";
+  console.log(set);
 
   return db.query(query, [set], callback);
 };
@@ -37,6 +39,14 @@ exports.deleteUser = (Id, callback) => {
   return db.query(query, [Id], callback);
 };
 
+// New user account
+exports.new_user = (user, callback) => {
+  let set = user
+  let query = "INSERT INTO `users` SET ?";
+  console.log(query);
+  return db.query(query, [set], callback)
+}
+
 // Select all ingesys
 exports.getByStatus = (status, callback) => {
   let query = "SELECT * FROM `users` WHERE `status` = ?";
@@ -46,12 +56,12 @@ exports.getByStatus = (status, callback) => {
 
 exports.set_user_privileges = (user_id,privileges_id, callback) => {
   
-  let query = " UPDATE `UsersPrivileges` SET `PrivilegesID` = privileges_id  WHERE `UserID` = ?";
+  let query = " UPDATE `usersPrivileges` SET `PrivilegesID` = privileges_id  WHERE `UserID` = ?";
   
   return db.query(query, user_id, callback)
 }
 
 exports.get_user_privileges = (user_id, callback) => {
-  let query = 'SELECT label FROM `Privileges`  JOIN `UsersPrivileges`  ON `Privileges._id` = `UsersPrivileges.PrivilegesID` WHERE `UserID` = ? ';
+  let query = 'SELECT label FROM `privileges`  JOIN `usersPrivileges`  ON `privileges._id` = `usersPrivileges.PrivilegesID` WHERE `UserID` = ? ';
   db.query(query, user_id, callback)
 }

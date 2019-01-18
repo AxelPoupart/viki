@@ -44,11 +44,11 @@ function getUsers() {
 }
 
 // THis one is DONE
-function post_user(action) {
+function post_user(user) {
     console.log('POST user')
-    console.log(JSON.stringify(action))
-    let requestOptions = reqPost(action)
-    return fetch(api + `users/add`, requestOptions)
+    console.log(JSON.stringify(user))
+    let requestOptions = reqPost(user)
+    return fetch(api + `users/new_user'`, requestOptions)
         .then(res => {
             console.log(res)
             return res.json()
