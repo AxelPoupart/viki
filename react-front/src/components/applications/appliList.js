@@ -15,8 +15,8 @@ import Pagination from 'react-js-pagination';
 import AddAppli from './addAppli';
 
 import {
-    delete_appliById,
-    get_applis
+    deleteApplication,
+    getApplications
 } from '../../services/appliService.js'
 
 import './appliList.css';
@@ -40,10 +40,10 @@ class AppliList extends Component {
     };
 
     confirmAppSent = appli => {
-        console.log(appli);
         this.setState({ hide: false });
-        const applis = this.state.applis.concat([appli]);
-        this.setState({ applis });
+        const applis = this.state.applis
+        applis.push(appli)
+        this.setState({ applis: applis });
     };
 
     displayAdd() {
@@ -63,29 +63,28 @@ class AppliList extends Component {
         }
     }
 
-    display_applis() {
-        get_applis().then(applis => {
-            if (applis) {
-                for (const e of applis) {
-                    const current_appli = e;
-                    const newApplis = this.state.applis.concat([current_appli]);
-                    this.setState({ applis: newApplis });
-                }
-            }
+    getApplications() {
+        getApplications().then(applis => {
+            this.setState({ applis: applis }, () => this.props.exportApps(applis))
         })
     }
 
     deleteApp(key) {
-        delete_appliById(key)
-            .then(res => {
-                this.setState({ appli: [] });
-                this.display_applis()
-            })
-
+        if (window.confirm("Attention: En supprimant l'application vous perderez tous les services associés. Confirmez vous votre choix ?")) {
+            deleteApplication(key)
+                .then(res => {
+                    alert(res.msg)
+                    if (res.success) {
+                        let updatedList = this.state.applis
+                        updatedList = updatedList.filter(app => app._id != key)
+                        this.setState({ applis: updatedList })
+                    }
+                })
+        }
     }
 
     componentWillMount() {
-        this.display_applis()
+        this.getApplications()
     }
 
 
@@ -95,9 +94,9 @@ class AppliList extends Component {
             if (i < this.state.applis.length) pageItems.push(this.state.applis[i])
         }
         return (
-            <div id="appli" style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
 
-                <div id="appli-list">
+                <div style={{ alignSelf: 'center', width: '90%' }}>
                     {pageItems.map(appli => (
                         <div key={appli._id}>
                             <ExpansionPanel>
@@ -105,12 +104,18 @@ class AppliList extends Component {
                                     <Typography>{appli.label}</Typography>
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>
-                                    <Typography>
-                                        {appli.comment}
-                                    </Typography>
-                                    <IconButton aria-label="Delete" variant="contained" color="secondary" style={{ float: "right" }} onClick={() => this.deleteApp(appli._id)}>
-                                        <DeleteIcon />
-                                    </IconButton>
+                                    <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                                        <div>
+                                            <Typography>
+                                                {(appli.comment) ? appli.comment : "-Pas de commentaire-"}
+                                            </Typography>
+                                        </div>
+                                        <div style={{ alignSelf: "flex-end" }}>
+                                            <IconButton aria-label="Delete" variant="contained" color="secondary" onClick={() => this.deleteApp(appli._id)}>
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </div>
+                                    </div>
                                 </ExpansionPanelDetails>
                             </ExpansionPanel>
                         </div>

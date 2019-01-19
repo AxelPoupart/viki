@@ -4,7 +4,6 @@ const db = require('./start_cnx');
 // Select all virtual machines
 exports.get_all_vms = (callback) => {
     let query = 'SELECT * FROM `virtualMachines`';
-    console.log(query);
     return db.query(query, callback)
 }
 
@@ -12,7 +11,6 @@ exports.get_all_vms = (callback) => {
 exports.post_new_vm = (vm, callback) => {
     let set = vm
     let query = "INSERT INTO `virtualMachines` SET ?";
-    console.log(query);
     return db.query(query, [set], callback)
 }
 
@@ -21,7 +19,6 @@ exports.post_new_vm = (vm, callback) => {
 exports.delete_vm = (Id, callback) => {
     let set = {_id : Id}
     let query = "DELETE FROM `virtualMachines` WHERE `_id` = ?";
-    console.log(query);
     return db.query(query, Id, callback)
 }
 
@@ -29,6 +26,5 @@ exports.delete_vm = (Id, callback) => {
 exports.get_vms_search = (term, callback) => {
     const new_term = "%" + term + "%";
     let query = 'SELECT * FROM `virtualMachines` WHERE `label` LIKE ? OR `comment` LIKE ?';
-    console.log(query);
     return db.query(query, [new_term, new_term], callback)
 }

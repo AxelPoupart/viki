@@ -1,33 +1,30 @@
 const db = require("./start_cnx");
 
 exports.getUsers = callback => {
-  let query = "SELECT * FROM `Users`";
+  let query = "SELECT * FROM `users`";
   db.query(query, callback);
 };
 
 exports.add_new_user = (user, callback) => {
   let set = {
-    
     mail: user.email,
     hash: user.hash
-    
   };
-  let query = "INSERT INTO `Users` SET ?";
-  console.log(set);
+  let query = "INSERT INTO `users` SET ?";
 
   return db.query(query, [set], callback);
 };
 // A revoir
 // exports.set_user_privileges = (user_id, privileges_id, callback) => {
 //   let query =
-//     " UPDATE `UsersPrivileges` SET `PrivilegesID` = privileges_id  WHERE `UserID` = ?";
+//     " UPDATE `usersPrivileges` SET `PrivilegesID` = privileges_id  WHERE `UserID` = ?";
 
 //   return db.query(query, user_id, callback);
 // };
 
 exports.get_user_privileges = (user_id, callback) => {
   let query =
-    "SELECT * FROM `privileges`  JOIN `UsersPrivileges` up  ON `privileges._id` = `up.PrivilegesID` WHERE `up.UserID` = ? ";
+    "SELECT * FROM `privileges`  JOIN `usersPrivileges` up  ON `privileges._id` = `up.privilegesId` WHERE `up.userId` = ? ";
   db.query(query, user_id, callback);
 };
 
@@ -56,12 +53,12 @@ exports.getByStatus = (status, callback) => {
 
 exports.set_user_privileges = (user_id,privileges_id, callback) => {
   
-  let query = " UPDATE `usersPrivileges` SET `PrivilegesID` = privileges_id  WHERE `UserID` = ?";
+  let query = " UPDATE `usersPrivileges` SET `privilegesId` = privileges_id  WHERE `userID` = ?";
   
   return db.query(query, user_id, callback)
 }
 
 exports.get_user_privileges = (user_id, callback) => {
-  let query = 'SELECT label FROM `privileges`  JOIN `usersPrivileges`  ON `privileges._id` = `usersPrivileges.PrivilegesID` WHERE `UserID` = ? ';
+  let query = 'SELECT label FROM `privileges`  JOIN `usersPrivileges`  ON `privileges._id` = `usersPrivileges.privilegesId` WHERE `userId` = ? ';
   db.query(query, user_id, callback)
 }

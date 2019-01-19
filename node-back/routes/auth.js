@@ -3,7 +3,7 @@ const router = express.Router();
 const user_db = require("../db handeling/sqlUser");
 const bcrypt =require('bcryptjs');
 router.post("/authenticate", (req, res) => {
-  console.log("AUTH middleware");
+  console.log("AUTH middleware!");
   mail = req.body.mail;
   password = req.body.password;
   

@@ -22,7 +22,7 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use(bodyParser());
+app.use(bodyParser({extended: true}));
 
 app.use(
   session({
@@ -43,7 +43,7 @@ try {
 
 //Connect to mongoDB server (Chat)
 try {
-  mongoose.connect('mongodb://localhost/chat-back');
+  mongoose.connect('mongodb://localhost/chat-back', {useNewUrlParser: true});
 mongoose.set('debug', true);
 
 const connection = mongoose.connection;

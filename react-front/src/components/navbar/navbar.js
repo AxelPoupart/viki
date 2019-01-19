@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Menu from "@material-ui/core/Menu";
@@ -79,7 +78,7 @@ class Navbar extends React.Component {
       <div>
         <AppBar position="sticky">
           <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', flexDirection:"row", justifyContent:'center' }}>
+            <div style={{ display: 'flex', flexDirection:"row", justifyContent:'space-around' }}>
               <IconButton
                 color="inherit"
                 aria-label="Menu"
@@ -115,12 +114,12 @@ class Navbar extends React.Component {
 
                 {this.display_admin_menu(user)}
               </Menu>
-              <Typography variant="h6" color="inherit">
-                ViKi, {this.props.page}
-              </Typography>
+              <h5 style={{margin: "auto"}}>
+                ViKi - {this.props.page}
+              </h5>
             </div>
             <div>
-              <Button variant="contained" color="secondary"> Logout </Button>
+              <Button variant="contained" color="secondary"><Link style={{color: "white"}} to="/logout">Logout</Link></Button>
             </div>
           </Toolbar>
         </AppBar>

@@ -12,7 +12,7 @@ let menu = {
     position: 'static',
     overflow: 'scroll',
     maxHeight: '150px',
-  }
+}
 
 export default class PairAppMachine extends React.Component {
     constructor(props) {
@@ -33,7 +33,7 @@ export default class PairAppMachine extends React.Component {
     }
 
     handleChange = (event) => {
-        this.setState({ [event.target.name]: event.target.value }, () => {this.props.updatePairedMachine(this.props.index, this.state.machine, this.state.service);})
+        this.setState({ [event.target.name]: event.target.value }, () => { this.props.updatePairedMachine(this.props.index, this.state.machine, this.state.service); })
     }
 
     handleSelect = (value) => {
@@ -44,7 +44,7 @@ export default class PairAppMachine extends React.Component {
 
     render() {
         return (
-            <div style={{marginTop:'20px'}} >
+            <div style={{ marginTop: '20px' }} >
                 <div>
                     <Autocomplete
                         name='machine'
@@ -60,7 +60,7 @@ export default class PairAppMachine extends React.Component {
                         onChange={this.handleChange}
                         onSelect={this.handleSelect}
                         menuStyle={menu}
-                        inputProps={{name: 'machine', placeholder:'Machine associée'}}
+                        inputProps={{ name: 'machine', placeholder: 'Machine associée' }}
                     />
                 </div>
                 <div>

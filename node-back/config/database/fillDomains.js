@@ -52,30 +52,37 @@ const db = require('../../db handeling/start_cnx'); // connect to the sql db
 
 // Create the logs in the database
 let doms = Object.keys(domainsMap)
-let syntaxe = "INSERT INTO `domains` (`_id`, `label`, `parentId`) VALUES " //('1', 'a', '1')
-for (let _id = 1; _id <= doms.length; _id++) {
+storedID = {}
+let syntaxe = "INSERT INTO `domains` (`label`) VALUES "
+for (let dom of doms) {
     // Add the parent domain
-    let query = syntaxe + `('${_id}', '${doms[_id - 1]}', '${_id}')`;
-    db.query(query, (err) => {
+    let query = syntaxe + `('${dom}')`;
+    db.query(query, (err, res) => {
         if (err) {
             console.log(`WARNING: could not proceed with query: ${query}\n`);
-        } else console.log(`SUCCESS: New entry (Domain): ${doms[_id-1]}\n`);
+        } else {
+            insertSubdoms(dom, res.insertId)
+            db.query(`UPDATE \`domains\` SET \`parentId\` = ${res.insertId} WHERE \`domains\`.\`_id\` = ${res.insertId}`);
+            console.log(`SUCCESS: New entry (Domain): ${dom}\n`);
+        }
     })
 }
 
-for (let _id = 1; _id <= doms.length; _id++) {
-    let subdoms = domainsMap[doms[_id - 1]]
-    for (let i = 0; i < subdoms.length; i++) {
-        let query = syntaxe.replace('`_id`, ', '') + `('${subdoms[i]}', '${_id}')`
-        db.query(query, (err)=>{
+insertSubdoms = (dom, domID) => {
+    let subdoms = domainsMap[dom];
+    syntaxe = "INSERT INTO `domains` (`label`, `parentId`) VALUES "
+    for (let subdom of subdoms) {
+        let query = syntaxe + `('${subdom}', '${domID}')`
+        db.query(query, (err) => {
             if (err) {
                 console.log(`WARNING: could not proceed with query: ${query}\n`);
-            } else console.log(`SUCCESS: New entry (Subdomain): ${subdoms[i]}\n`);
+            } else console.log(`SUCCESS: New entry (Subdomain): ${subdom}\n`);
+            if (dom == doms[doms.length - 1] && subdom == subdoms[subdoms.length - 1]) {
+                db.end((err) => {
+                    if (err) throw err;
+                    console.log('Ending connexion !')
+                });
+            }
         })
     }
 }
-
-db.end((err)=>{
-    if (err) throw err;
-    console.log('Ending connexion !')
-});

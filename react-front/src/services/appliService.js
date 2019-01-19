@@ -1,19 +1,19 @@
 import { generateRequest } from './generalService'
 
-let api = 'http://localhost:5000/content/appliservice/';
+let api = 'http://localhost:5000/content/appservice/';
 
-// This one is DONE
-function get_applis() {
+// Get applications list from the back
+function getApplications() {
     let requestOptions = generateRequest('GET')
     return fetch(api + 'applis', requestOptions)
         .then(res => res.json())
         .catch(err => console.log(err))
 }
 
-// This one is DONE
-function post_appli(appli) {
+// Create a new application
+function createApplication(appli) {
     let requestOptions = generateRequest('POST', appli)
-    
+
     return fetch(api + `add`, requestOptions)
         .then(res => {
             return res.json()
@@ -21,37 +21,23 @@ function post_appli(appli) {
         .catch(err => console.log(err))
 }
 
-// This one is DONE
-function get_applisBySearch(term) {
-    let requestOptions = generateRequest('GET')
-    return fetch(api + `applis/search/${term}`, requestOptions)
-        .then(res => res.json())
-}
-
-
-// THis one is DONE
-function delete_appliById(Id) {
-    console.log('DELETE appli')
-    let requestOptions = {
-        credentials: 'include',
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json; charset=utf-8",
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify({ Id: Id })
-    }
-    return fetch(api + `applis/delete`, requestOptions)
+// Delete applications
+function deleteApplication(_Id) {
+    let requestOptions = generateRequest('DELETE', { appId: _Id })
+    return fetch(api + `applis`, requestOptions)
         .then(res => {
             console.log(res)
             return res.json()
         })
 }
 
+function searchApplications(term) {
+    console.log("Hello world");    
+}
 
 export {
-    delete_appliById,
-    get_applisBySearch,
-    post_appli,
-    get_applis,
+    searchApplications,
+    deleteApplication,
+    createApplication,
+    getApplications,
 }

@@ -1,4 +1,4 @@
-let api = 'http://localhost:5000/content/applicationservice/';
+let api = 'http://localhost:5000/content/services/';
 
 function generateRequest(method, body = {}) {
     let requestOptions = {
@@ -13,9 +13,8 @@ function generateRequest(method, body = {}) {
 }
 
 function get_campuses() {
-    console.log('get fucking campuses')
     let requestOptions = generateRequest('GET')
-    return fetch(api + 'newapp/campuses', requestOptions)
+    return fetch(api + 'campuses', requestOptions)
         .then(res => {
             return res.json()
         })
@@ -24,7 +23,7 @@ function get_campuses() {
 
 function get_domains() {
     let requestOptions = generateRequest('GET')
-    return fetch(api + 'newapp/domains', requestOptions)
+    return fetch(api + 'domains', requestOptions)
         .then(res => res.json())
         .catch(err => console.log(err))
 }

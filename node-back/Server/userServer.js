@@ -56,11 +56,11 @@ router.route('/users/changestatus').post((req, res) => {
 //add user
 router.route('/users/new_user').post((req, res) => {
     let info = req.body;
-    
-    email = req.body.email;
-    password = req.body.password;
+    console.log('CREATE NEW USER')
+    email = info.email;
+    password = info.password;
     hash = bcrypt.hashSync(password, 8);
-    user={"email":email,"hash":hash}
+    user={"mail":email,"hash":hash}
     sqlUser.new_user(user, (err) => {
         if (err)
             console.log(err);
