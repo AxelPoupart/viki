@@ -116,7 +116,8 @@ class Navbar extends React.Component {
                 {this.display_admin_menu(user)}
               </Menu>
               <Typography variant="h6" color="inherit">
-                ViKi, {this.props.page}
+                ViKi
+                {this.props.page}
               </Typography>
             </div>
             <div>

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const user_db = require("../db handeling/sqlUser");
-const crypto =requir("crypto")
+const crypto =require("crypto")
 router.post("/authenticate", (req, res) => {
   console.log("AUTH middleware");
   email = req.body.email;

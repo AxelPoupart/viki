@@ -14,7 +14,6 @@ router.get('/campuses', (req, res) => {
 })
 
 router.get('/domains', (req, res) => {
-    console.log('DOMAIN GETTER')
     handelers.get_all_domains((err, results) => {
         if (err) throw err;
         let domains = {}, subDomains = {};
