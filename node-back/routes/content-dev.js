@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router();
 
 const ActionServer = require('../Server/actionServer')
-const AppliServer = require('../Server/appliServer')
+const AppliServer = require('../Server/appServer')
 const VmServer = require('../Server/vmServer')
 const UserServer = require('../Server/userServer')
 const Chat = require('../model_mongo/Chat')

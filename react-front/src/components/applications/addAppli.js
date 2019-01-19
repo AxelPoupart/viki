@@ -6,7 +6,7 @@ import { Select, FormControl, InputLabel, MenuItem, TextField, Button, Card, Car
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import { post_appli } from '../../services/appliService';
+import { createApplication } from '../../services/appliService';
 import { get_domains } from '../../services/generalService';
 import { get_vms } from '../../services/vmService';
 
@@ -14,9 +14,9 @@ export default class AddAppli extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            appCode: "",
-            appLabel: "",
-            appComment: "",
+            code: "",
+            label: "",
+            comment: "",
             domains: [],
             selectedDomain: "",
             subDomains: {},
@@ -28,8 +28,8 @@ export default class AddAppli extends Component {
                 service: ''
             }],
             newApplication: {
-                appCode: '',
-                appLabel: '',
+                code: '',
+                label: '',
                 appDomain: '',
                 appSubDomain: '',
                 comment: '',
@@ -82,22 +82,22 @@ export default class AddAppli extends Component {
     // Upon submitting the form, do a form control to prevent empty fields
     handleSubmit(event) {
         event.preventDefault();
-        if (!this.state.appCode.trim()) {
+        if (!this.state.code.trim()) {
             alert("Please fill in the aplication code");
-        } else if (!this.state.appLabel.trim()) {
+        } else if (!this.state.label.trim()) {
             alert("Please fill in the application label");
         } else {
             // if the form control is successful, send a post request to the server
             this.filterMachines(() => this.setState({
                 newApplication: {
-                    appCode: this.state.appCode,
-                    appLabel: this.state.appLabel,
+                    code: this.state.code,
+                    label: this.state.label,
                     appDomain: this.state.selectedDomain,
                     appSubDomain: this.state.selectedSubDomain,
-                    comment: this.state.appComment,
+                    comment: this.state.comment,
                     pairedMachines: this.state.pairedMachines
                 }
-            }, () => post_appli(this.state.newApplication)
+            }, () => createApplication(this.state.newApplication)
                 .then(res => {
                     if (res.success) {
                         alert(res.msg)
@@ -108,13 +108,13 @@ export default class AddAppli extends Component {
                         this.setState({ selectedDomain: this.state.domains[1] })
                         this.setState({ subDomainOptions: this.state.subDomains[this.state.domains[1]] }, () => this.setState({ selectedSubDomain: this.state.subDomainOptions[0] }))
                         this.setState({
-                            appCode: '',
-                            appLabel: '',
-                            appComment: '',
+                            code: '',
+                            label: '',
+                            comment: '',
                             pairedMachines: [],
                             newApplication: {
-                                appCode: '',
-                                appLabel: '',
+                                code: '',
+                                label: '',
                                 appDomain: '',
                                 appSubDomain: '',
                                 comment: '',
@@ -182,7 +182,7 @@ export default class AddAppli extends Component {
                         <CardContent id="addCard">
                             <form onSubmit={this.handleSubmit}>
                                 <TextField
-                                    name="appCode"
+                                    name="code"
                                     type="text"
                                     fullWidth
                                     margin="normal"
@@ -190,11 +190,11 @@ export default class AddAppli extends Component {
                                     label="Code de l'application"
                                     placeholder="Obligatoire"
                                     onChange={this.handleChange}
-                                    value={this.state.appCode}
+                                    value={this.state.code}
                                 />
 
                                 <TextField
-                                    name="appLabel"
+                                    name="label"
                                     type="text"
                                     fullWidth
                                     margin="normal"
@@ -202,11 +202,11 @@ export default class AddAppli extends Component {
                                     label="Libellé de l'application"
                                     placeholder="Obligatoire"
                                     onChange={this.handleChange}
-                                    value={this.state.appLabel}
+                                    value={this.state.label}
                                 />
 
                                 <TextField
-                                    name="appComment"
+                                    name="comment"
                                     type="text"
                                     label="Description"
                                     placeholder="Description de l'application"
@@ -214,7 +214,7 @@ export default class AddAppli extends Component {
                                     margin="normal"
                                     variant="filled"
                                     onChange={this.handleChange}
-                                    value={this.state.appComment}
+                                    value={this.state.comment}
                                 />
 
                                 <FormControl

@@ -1,88 +1,64 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Link } from "react-router-dom";
+import Autocomplete from 'react-autocomplete';
 
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Typography from '@material-ui/core/Typography';
-import DeleteIcon from '@material-ui/icons/Delete';
-import SearchIcon from '@material-ui/icons/Search';
-import IconButton from '@material-ui/core/IconButton';
-import InputBase from '@material-ui/core/InputBase';
+let menu = {
+    borderRadius: '3px',
+    boxShadow: '0 2px 12px rgba(0, 0, 0, 0.1)',
+    background: 'rgba(255, 255, 255, 0.9)',
+    padding: '2px 0',
+    fontSize: '90%',
+    position: 'static',
+    maxHeight: '150px',
+}
 
-import { 
-    delete_appliById,
-    get_applisBySearch } from '../../services/appliService.js'
-
-import './appliSearch.css';
-
-class AppliSearch extends Component {
-
-    state = { applis: [], term: ""}
-
-    handleChange(e) {
-        const term = e.target.value
-        this.setState({ term })
-        const applis = [];
-        this.setState( {applis} );
-        if(term !== "" ) {
-            get_applisBySearch(term).then(appli => {
-                for (var e in appli) {
-                    const current_appli = appli[e];
-                    const applis = this.state.applis.concat([current_appli]);
-                    this.setState( {applis} );
-                }
-            })
+export default class AppliSearch extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            searchTerm: "",
+            appList: []
         }
+        this.handleChange.bind(this);
+        this.handleSelect.bind(this)
     }
 
-    suppress_appli(key) {
-        delete_appliById(key)
-        .then(res => {
-            this.setState( {appli: []} );
-            this.display_applis() 
-        })
+    handleChange = (event) => {
+
+        this.setState({ [event.target.name]: event.target.value })
     }
 
+    handleSelect = (value) => {
+        alert(`This action should redirect to ${value} application page`)
+    }
+
+    loadApplications = () => {
+        let apps = this.props.importApps();
+        this.setState({ appList: apps });
+    }
 
     render() {
         return (
-            <div id="appli-search">
-
-                <div id="SearchBar">
-                    <div>
-                        <SearchIcon />
-                    </div>
-                    <InputBase
-                        placeholder="Search…"
-                        name="term"
-                        onChange={this.handleChange.bind(this)}
-                        margin="dense"
-                        value={this.state.term}
+            <div style={{ margin: '20px', display: 'flex', flexDirection: 'column', width: '100%' }} >
+                <div style={{alignSelf:'center'}}>
+                    <Autocomplete
+                        name='searchTerm'
+                        items={this.props.apps}
+                        getItemValue={(item) => item.label}
+                        renderItem={(item, isHighlighted) =>
+                            <div key={this.props.apps.indexOf(item)} style={{ background: isHighlighted ? '#eee' : 'white', margin:'5px' }}>
+                                <Link to='#'>{item.label}</Link>
+                            </div>
+                        }
+                        shouldItemRender={(item, value) => value.length > 2 && (item.label.toLowerCase().indexOf(value.toLowerCase()) > -1 || (item.comment && item.comment.toLowerCase().indexOf(value.toLowerCase()) > -1))}
+                        value={this.state.searchTerm}
+                        onChange={this.handleChange}
+                        onSelect={this.handleSelect}
+                        menuStyle={menu}
+                        inputProps={{ name: 'searchTerm', placeholder: 'Chercher une application' }}
                     />
                 </div>
-                
-                {this.state.applis.map(appli => (
-                    <div key={appli._id}>
-                    <ExpansionPanel key={appli._id}>
-                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                            <Typography>{appli.Label}</Typography>
-                        </ExpansionPanelSummary>
-                        <ExpansionPanelDetails>
-                            <Typography>
-                                {appli.Comment}.
-                            </Typography>
-                            <IconButton aria-label="Delete" variant="contained" color="secondary" style={{float: "right" }} onClick={() => this.suppress_v(appli._id)}>
-                                <DeleteIcon />
-                            </IconButton>
-                        </ExpansionPanelDetails>
-                    </ExpansionPanel>
-                    </div>
-                ))}
             </div>
-        );
+        )
     }
 }
-
-
-export default AppliSearch

@@ -1,18 +1,16 @@
+import { generateRequest } from "./generalService";
+
 function get_auth(mail, password) {
     localStorage.clear();
-    const requestOptions = {
-        credentials: "include",
-        method: "POST",
-        headers: { "Content-Type": "application/json"},
-        body: JSON.stringify({
-            mail: mail,
-            password: password
-        })
-    };
-
+    const requestOptions = generateRequest('POST', {
+        mail: mail,
+        password: password
+    })
+    console.log('Attempting authentification');
+    
     return fetch("http://localhost:5000/auth/authenticate", requestOptions)
         .then(res => res.json())
-        .catch(error => console.log(error));
+        .catch(error => alert(error));
 }
 
 export {

@@ -12,7 +12,7 @@ import CardContent from '@material-ui/core/CardContent';
 import {post_action} from '../../services/actionService';
 
 import './addAction.css';
-import { get_applis } from '../../services/appliService';
+import { getApplications } from '../../services/appliService';
 
 
 
@@ -40,7 +40,7 @@ class AddAction extends Component {
     }
 
     componentWillMount() {
-        get_applis()
+        getApplications()
             .then(appli => {
                 for (var e in appli) {
                     const current_appli = appli[e];

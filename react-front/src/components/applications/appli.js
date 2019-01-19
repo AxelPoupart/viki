@@ -4,27 +4,31 @@ import Navbar from '../navbar/navbar';
 import AppliList from './appliList';
 import AppliSearch from './appliSearch';
 
-import './appli.css';
-import AddAppli from './addAppli';
-
-
 class Appli extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { applications: [] }
+        this.loadApplications = this.loadApplications.bind(this);
+        this.importApplications = this.importApplications.bind(this);
+    }
 
-    state = { user: null, actions: [] }
+    loadApplications = (appList) => {
+        this.setState({ applications: appList });
+    }
 
-    handleLogout = (event) => {
-        this.props.history.push('/login');
+    importApplications = () => {
+        return this.state.applications;
     }
 
     render() {
         return (
-            <div className="home_global">
+            <div className="">
 
                 <Navbar page="Gestion des applications" />
 
-                <AppliSearch />
+                <AppliSearch importApps={this.importApplications} apps={this.state.applications} />
 
-                <AppliList />
+                <AppliList exportApps={this.loadApplications} />
 
             </div>
         );

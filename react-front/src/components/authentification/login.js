@@ -1,5 +1,5 @@
 import React from "react";
-import {Link, Redirect} from "react-router-dom";
+import {Redirect} from "react-router-dom";
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -8,8 +8,6 @@ import CardContent from '@material-ui/core/CardContent';
 
 import { get_auth } from '../../services/authService'
 import './login.css';
-
-import Navbar from '../navbar/navbar';
 
 class Login extends React.Component {
 
@@ -29,6 +27,7 @@ class Login extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.logout = this.logout.bind(this);
         this.login = this.login.bind(this);
+        this.validateForm = this.validateForm.bind(this)
     }
 
     

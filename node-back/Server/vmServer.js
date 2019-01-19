@@ -4,10 +4,7 @@ const handelers = require('../db handeling/sql_handelers');
 
 const sqlVm = require('../db handeling/sqlVm')
 
-const app = express();
 const router = express.Router();
-
-
 
 
 // Add a new VM : DONE
@@ -24,7 +21,6 @@ router.route('/vms/add').post((req, res) => {
 // Get all vms : DONE
 router.route('/vms').get((req, res) => {
     sqlVm.get_all_vms((err, vms) => {
-        console.log(vms)
         return res.json(vms);
     });
 });
@@ -47,15 +43,6 @@ router.route('/vms/search/:term').get((req, res) => {
         return res.json(vms);
     });
 });
-
-
-
-
-
-
-
-
-
 
 router.route('/vmservice/vms/add').post((req, res) => {
     let vm = req //transformer req pour que ca colle
