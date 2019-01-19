@@ -3,7 +3,7 @@ const express = require('express')
 const handelers = require('../db handeling/sql_handelers');
 
 const sqlUser = require('../db handeling/sqlUser')
-
+const bcrypt =require('bcryptjs');
 const app = express();
 const router = express.Router();
 
@@ -53,6 +53,21 @@ router.route('/users/changestatus').post((req, res) => {
     });
 });
 
+//add user
+router.route('/users/new_user').post((req, res) => {
+    let info = req.body;
+    console.log('CREATE NEW USER')
+    email = info.email;
+    password = info.password;
+    hash = bcrypt.hashSync(password, 8);
+    user={"mail":email,"hash":hash}
+    sqlUser.new_user(user, (err) => {
+        if (err)
+            console.log(err);
+        else console.log("new user " + user)    
+        
+    });
+});
 
 
 module.exports = router;

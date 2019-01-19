@@ -37,7 +37,7 @@ class Login extends React.Component {
         // Ask for authentification service
         return get_auth(useremail, password)
             .then(user => {
-                if (user.name === useremail) {
+                if (user.mail === useremail) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem("user", JSON.stringify(user));
                     console.log("succes ?");
