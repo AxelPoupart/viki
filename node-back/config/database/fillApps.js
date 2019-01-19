@@ -42,7 +42,9 @@ insertApplication = (rowInfo, end) => {
     apps.push(appName);
     getDomainByName(domain, (err, res) => {
         if (err) throw err;
-
+        
+        console.log(res);
+        console.log(domain);
         db.query('INSERT INTO `applications` SET ?', [{ code: code, label: appName, domainId: res[0]._id }], (err) => {
             if (err) console.log(`WARNING: failed entry: ${appName}`)
             else console.log(`SUCCESS: new entry (APPS): ${appName}`);
