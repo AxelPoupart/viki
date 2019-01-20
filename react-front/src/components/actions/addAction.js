@@ -34,7 +34,6 @@ class AddAction extends Component {
     addAction = (action) => {
         return post_action(action)
         .then(res => {
-            console.log('POST lançé')
             return res
         })
     }
@@ -44,7 +43,6 @@ class AddAction extends Component {
             .then(appli => {
                 for (var e in appli) {
                     const current_appli = appli[e];
-                    console.log(current_appli);
                     const applis = this.state.applis.concat([current_appli]);
                     this.setState( {applis} )
                 }
@@ -81,13 +79,12 @@ class AddAction extends Component {
     };
 
     handleInputChange = e => {
-        console.log(e.target.name);
         this.setState({ [e.target.name]: e.target.value });
     };
 
     handleAppliChange = e => {
-        console.log(e.target.value);
         this.setState({ applicationId: e.target.value });
+        this.setState({ applicationLabel: e.target.name });
     };
 
     handleClockChange(value, formattedValue) {
@@ -162,7 +159,7 @@ class AddAction extends Component {
                         >
                             {this.state.applis.map(appli => (
                                 <div key={appli._id}>
-                                    <MenuItem value= {appli._id} onClick={this.handleAppliChange} >{appli.label}</MenuItem>
+                                    <MenuItem name={appli.label}  value= {appli._id} onClick={this.handleAppliChange} >{appli.label}</MenuItem>
                                 </div>
                                 ))}
                         </Select>
@@ -171,7 +168,6 @@ class AddAction extends Component {
 
                     <TextField
                         name="closingTime"
-                        label="Closing Time"
                         type="date"
                         value={this.state.closingTime}
                         onChange={this.handleInputChange.bind(this)}

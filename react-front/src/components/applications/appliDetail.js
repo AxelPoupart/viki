@@ -57,12 +57,12 @@ export default class AppliDetail extends Component {
                     </div>
 
                     <div className="actionList">
-                        <ActionList variant="progress" />
+                        <ActionList variant="progress" tag={this.state.application._id} />
                     </div>
 
 
                     <div className="doneList">
-                        <ActionList variant="done" />
+                        <ActionList variant="done" tag={this.state.application._id}/>
                     </div>
 
                 </div>
