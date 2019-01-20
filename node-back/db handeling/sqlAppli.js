@@ -13,7 +13,7 @@ exports.getApplicationById = (_id, callback) => {
 }
 
 exports.deleteCoupledVms = (appId, callback) => {
-    db.query(`DELETE FROM \`applicationsVm\` WHERE \`applicationId\` = ${appId} `, callback)
+    db.query(`DELETE FROM \`applicationsVm\` WHERE \`applicationId\` =  ${appId} `, callback)
 }
 
 // Create a new application
