@@ -59,7 +59,7 @@ class Action extends Component {
 
             <div className="chatList" >
                 <div className="chat">
-                    <ChatContainer/>
+                    <ChatContainer tag = "general" />
                 </div>
 
                 <div className="progressList">

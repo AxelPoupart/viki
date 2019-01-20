@@ -15,7 +15,7 @@ import {get_messages, sendChat} from '../../services/chatService';
 
 class ChatContainer extends Component {
 
-    state = { newMessage: '' , messages: [], el: null};
+    state = { newMessage: '' , messages: [], el: null, user: null};
 
     handleInputChange = e => {
         this.setState({ newMessage: e.target.value });
@@ -35,15 +35,31 @@ class ChatContainer extends Component {
         get_messages()
         .then(mes => {
             for (var e in mes) {
-                const current_message = mes[e];
-                const messages = this.state.messages.concat([current_message]);
-                this.setState( {messages} );
+                if( this.props.tag === "general" ) {
+                    const current_message = mes[e];
+                    const messages = this.state.messages.concat([current_message]);
+                    this.setState( {messages} );
+                } else {
+                    const tag = this.props.tag;
+                    const current_message = mes[e];
+                    if (current_message.chat.indexOf(tag) !== -1 ) {
+                        const messages = this.state.messages.concat([current_message]);
+                        this.setState( {messages} );
+                    }
+                    
+                }
+                
             }
         })
     }
 
     componentWillMount() {
         this.read()
+        console.log(localStorage.user);
+        var user = localStorage.getItem('user');
+        user = JSON.parse(user)
+        console.log(user)
+        this.setState( { user} );
     }
 
     componentDidMount() {
@@ -77,13 +93,17 @@ class ChatContainer extends Component {
                         Chat
                         </Typography>
 
+                        <Typography color="textSecondary" gutterBottom>
+                        # {this.props.tag}
+                        </Typography>
+
                         <List dense style={{maxHeight: 200, overflow: 'auto'}} >
                             <div ref={el => { this.el = el; }}>
                             {this.state.messages.map(msg => (
                             <ListItem key={msg._id} className="message">
                                 <ListItemText
                                 primary={msg.chat}
-                                secondary="message.user"
+                                secondary={this.state.user.mail}
                                 />
                             </ListItem>
                             ))}

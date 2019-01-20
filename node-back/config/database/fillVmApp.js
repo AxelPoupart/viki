@@ -43,18 +43,21 @@ addPair = (rowInfo, end) => {
             else {
                 getApplicationByName(app, (err, appRes)=>{
                     if (err) console.log(`WARNING: failed entry: ${runningService}`);
-                    else {                        
-                        let query = 'INSERT INTO `applicationsVm` SET ?'
-                        let set = {
-                            applicationId: appRes[0]._id,
-                            machineId: machineRes[0]._id,
-                            runningService: runningService
-                        }
-                        db.query(query, [set], (err)=>{
-                            if (err) console.log(`WARNING: failed entry: ${runningService}`);
-                            else console.log(`SUCCESS: new entry (VM/APPS): ${runningService}`);
-                            if (end) endCnx();
-                        })
+                    else {
+                        if (appRes[0] && machineRes[0]) {
+                            let query = 'INSERT INTO `applicationsVm` SET ?'
+                            let set = {
+                                applicationId: appRes[0]._id,
+                                machineId: machineRes[0]._id,
+                                runningService: runningService
+                            }
+                            db.query(query, [set], (err)=>{
+                                if (err) console.log(`WARNING: failed entry: ${runningService}`);
+                                else console.log(`SUCCESS: new entry (VM/APPS): ${runningService}`);
+                                if (end) endCnx();
+                            })
+                        }                      
+                        
                     }
                 })
             };                        

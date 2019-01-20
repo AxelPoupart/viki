@@ -123,6 +123,10 @@ class ActionList extends Component {
                                     {act.comment}
                                 </Typography>
 
+                                <Typography>
+                                    {act.comment}
+                                </Typography>
+
                                 <Checkbox
                                     checked={(act.status === "Done")}
                                     onChange={(e => this.handleChangeStatus(e, act._id, act.status))}
