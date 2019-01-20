@@ -12,6 +12,23 @@ router.get('/applis', (req, res) => {
     });
 });
 
+// Send an application given its id
+router.get('/applis/:_id', (req, res) => {
+    let appId = req.params._id
+    sqlAppli.getApplicationById(appId, (err, application)=>{
+        if (err) {
+            console.log(err);
+            return res.send({success: false, msg:"The query of the required application failed"})
+        }
+        if (application) {            
+            return res.send({
+                success: true,
+                application: application[0]
+            })
+        }
+    })
+})
+
 // Add a new application to the database
 router.post('/add', (req, res) => {
     let appli = req.body

@@ -8,6 +8,7 @@ import Action from "./components/actions/actions";
 import Vm from "./components/virtualMachines/vm";
 import Appli from "./components/applications/appli";
 import User from "./components/users/users";
+import AppliDetail from "./components/applications/appliDetail";
 
 
 // This defines the routes to the different Pages
@@ -18,8 +19,8 @@ const Page = () => (
     <PrivateRoute path="/logout/" component={Logout} />
     <PrivateRoute path="/actions/" component={Action} />
     <PrivateRoute path="/vms/" component={Vm} />
-    <PrivateRoute path="/applis/" component={Appli} />
-    <PrivateRoute path="/users/" component={User} />
+    <PrivateRoute path="/applis/:id" component={AppliDetail} />
+    <PrivateRoute path="/applis" component={Appli} />
     <PrivateRoute path="/users/" component={User} />
 
     <Redirect from="/" to="/login/" />

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from "react-router-dom";
 import Autocomplete from 'react-autocomplete';
 
 let menu = {
@@ -24,12 +23,12 @@ export default class AppliSearch extends React.Component {
     }
 
     handleChange = (event) => {
-
         this.setState({ [event.target.name]: event.target.value })
     }
 
     handleSelect = (value) => {
-        alert(`This action should redirect to ${value} application page`)
+        let selectedApp = this.props.apps.filter(app => app.label===value)[0];
+        window.location.replace(`/applis/${selectedApp._id}`);
     }
 
     loadApplications = () => {
@@ -43,11 +42,11 @@ export default class AppliSearch extends React.Component {
                 <div style={{alignSelf:'center'}}>
                     <Autocomplete
                         name='searchTerm'
-                        items={this.props.apps}
+                        items={(this.props.apps) ? this.props.apps : []}
                         getItemValue={(item) => item.label}
                         renderItem={(item, isHighlighted) =>
                             <div key={this.props.apps.indexOf(item)} style={{ background: isHighlighted ? '#eee' : 'white', margin:'5px' }}>
-                                <Link to='#'>{item.label}</Link>
+                                {item.label}
                             </div>
                         }
                         shouldItemRender={(item, value) => value.length > 2 && (item.label.toLowerCase().indexOf(value.toLowerCase()) > -1 || (item.comment && item.comment.toLowerCase().indexOf(value.toLowerCase()) > -1))}

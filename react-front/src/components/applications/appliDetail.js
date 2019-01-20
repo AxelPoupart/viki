@@ -1,71 +1,74 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
 
 import Divider from '@material-ui/core/Divider';
-
 import Navbar from '../navbar/navbar';
-import ChatContainer from './chatContainer';
-import ActionList from './actionsList';
-import Button from '@material-ui/core/Button';
+import ActionList from '../actions/actionsList';
+import ChatContainer from '../actions/chatContainer';
 
-import ChatContainer from './chatContainer';
-
-import { 
-    
-    } from '../../services/userService.js'
-
-
-import './appliDetail.css';
+import { getApplicationById } from '../../services/appliService'
 
 export default class AppliDetail extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-
+            application: {}
         }
+        this.getApplication = this.getApplication.bind(this)
+    }
+
+    getApplication = (appId) => {
+        getApplicationById(appId)
+            .then(res => {
+                console.log(res);
+                
+                if (res.success) {
+                    this.setState({ application: res.application })
+                } else {
+                    console.log('WTF IS HAPPENING');
+                    
+                    alert(res.msg)
+                }
+            })
+    }
+
+    componentWillMount() {
+        let location = window.location.pathname.split('/');
+        let appId = location[location.length-1];
+        this.getApplication(appId)
     }
 
 
     render() {
-        return  (
-          <div className="appliDetailGlobal">
-  
-              <Navbar>
-                  <Link className="nav-link" to="/logout">
-                      <Button variant="contained" color="secondary"> Logout </Button>
-                  </Link>
-              </Navbar>
-  
-              <div className="switchStatus">
-                  {//this.switchStatus().bind(this)
-                  }
-              </div>
-  
-              <div className="grid" >
+        return (
+            <div className="appliDetailGlobal">
 
-                  <div className="chat">
-                      <ChatContainer tag={ }/>
-                  </div>
-  
-                  <div className="actionList">
-                      <ActionList variant="progress" />  
-                  </div>
-  
-                  <div className = "divider" >
-                      <Divider />
-                  </div>
-  
-                  
-  
-                  <div className="doneList">
-                      <ActionList variant="done"/>  
-                  </div>
-                  
-              </div>
-              
-  
-          </div>
+                <Navbar page={'Gestion des applications: ' + this.state.application.label}/>
+
+                <div className="switchStatus">
+                    {//this.switchStatus().bind(this)
+                    }
+                </div>
+
+                <div className="grid" >
+
+                    <div className="chat">
+                        <ChatContainer tag={this.state.application.label} />
+                    </div>
+
+                    <div className="actionList">
+                        <ActionList variant="progress" />
+                    </div>
+
+
+                    <div className="doneList">
+                        <ActionList variant="done" />
+                    </div>
+
+                </div>
+
+
+            </div>
         );
     }
 

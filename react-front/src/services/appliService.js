@@ -15,9 +15,7 @@ function createApplication(appli) {
     let requestOptions = generateRequest('POST', appli)
 
     return fetch(api + `add`, requestOptions)
-        .then(res => {
-            return res.json()
-        })
+        .then(res => res.json())
         .catch(err => console.log(err))
 }
 
@@ -31,13 +29,21 @@ function deleteApplication(_Id) {
         })
 }
 
-function searchApplications(term) {
-    console.log("Hello world");    
+function getApplicationById(appId) {
+    let requestOptions = generateRequest('GET');
+    console.log(`GET APP with id ${appId}`);
+    
+    return fetch(api + `applis/${appId}`, requestOptions)
+        .then(res =>res.json())
+        .catch(err => {
+            console.log(err)
+            return alert('The request could not proceed. Check the console for more information.')
+        })
 }
 
 export {
-    searchApplications,
+    getApplicationById,
     deleteApplication,
     createApplication,
-    getApplications,
+    getApplications
 }

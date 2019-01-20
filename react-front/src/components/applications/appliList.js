@@ -1,15 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import Typography from '@material-ui/core/Typography';
-import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
 import Fab from '@material-ui/core/Fab';
+import Icon from '@material-ui/core/Icon';
+
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
+
 import Pagination from 'react-js-pagination';
 
 import AddAppli from './addAppli';
@@ -22,7 +24,7 @@ import {
 import './appliList.css';
 
 
-class AppliList extends Component {
+class AppliList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -31,6 +33,7 @@ class AppliList extends Component {
             activePage: 1,
             itemsPerPage: 10
         };
+        this.redirectToApp = this.redirectToApp.bind(this);
 
     }
 
@@ -73,12 +76,11 @@ class AppliList extends Component {
         if (window.confirm("Attention: En supprimant l'application vous perderez tous les services associés. Confirmez vous votre choix ?")) {
             deleteApplication(key)
                 .then(res => {
-                    alert(res.msg)
                     if (res.success) {
                         let updatedList = this.state.applis
-                        updatedList = updatedList.filter(app => app._id != key)
+                        updatedList = updatedList.filter(app => app._id !== key)
                         this.setState({ applis: updatedList })
-                    }
+                    } else alert(res.msg);
                 })
         }
     }
@@ -87,6 +89,9 @@ class AppliList extends Component {
         this.getApplications()
     }
 
+    redirectToApp(_id) {
+        window.location.replace(`/applis/${_id}`);
+    }
 
     render() {
         let pageItems = [];
@@ -110,10 +115,28 @@ class AppliList extends Component {
                                                 {(appli.comment) ? appli.comment : "-Pas de commentaire-"}
                                             </Typography>
                                         </div>
-                                        <div style={{ alignSelf: "flex-end" }}>
-                                            <IconButton aria-label="Delete" variant="contained" color="secondary" onClick={() => this.deleteApp(appli._id)}>
+                                        <div style={{ alignSelf: "flex-end", margin:'10px'}}>
+                                            <Fab
+                                                variant="extended"
+                                                size="small"
+                                                color="primary"
+                                                aria-label="Details"
+                                                onClick={() => this.redirectToApp(appli._id)}
+                                                style={{marginRight:'5px'}}
+                                            >
+                                                <Icon>edit_icon</Icon>
+                                                Détails
+                                            </Fab>
+                                            <Fab
+                                                variant="extended"
+                                                size="small"
+                                                color="secondary"
+                                                aria-label="Delete"
+                                                onClick={() => this.deleteApp(appli._id)}
+                                            >
                                                 <DeleteIcon />
-                                            </IconButton>
+                                                Supprimer
+                                            </Fab>
                                         </div>
                                     </div>
                                 </ExpansionPanelDetails>

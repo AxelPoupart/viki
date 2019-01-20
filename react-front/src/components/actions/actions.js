@@ -49,10 +49,7 @@ class Action extends Component {
       return  (
         <div className="homeGlobal">
 
-            <Navbar>
-                <Link className="nav-link" to="/logout">
-                    <Button variant="contained" color="secondary"> Logout </Button>
-                </Link>
+            <Navbar page='Liste des actions'>
             </Navbar>
 
             <div className="switchStatus">
@@ -67,10 +64,6 @@ class Action extends Component {
 
                 <div className="progressList">
                     <ActionList variant="progress"/>  
-                </div>
-
-                <div className = "divider" >
-                    <Divider />
                 </div>
 
                 

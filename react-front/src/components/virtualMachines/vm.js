@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 
 import Navbar from '../navbar/navbar';
@@ -22,7 +21,7 @@ class Vm extends Component {
       return  (
         <div id="home_global">
 
-            <Navbar />
+            <Navbar page='Gestion des machines virtuelles'/>
 
             <div>
                 <VmSearch />
