@@ -5,8 +5,8 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Fab from '@material-ui/core/Fab';
 import Icon from '@material-ui/core/Icon';
+import Fab from '@material-ui/core/Fab';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -16,10 +16,7 @@ import Pagination from 'react-js-pagination';
 
 import AddAppli from './addAppli';
 
-import {
-    deleteApplication,
-    getApplications
-} from '../../services/appliService.js'
+import { deleteApplication, getApplications } from '../../services/appliService.js'
 
 import './appliList.css';
 
@@ -115,14 +112,14 @@ class AppliList extends React.Component {
                                                 {(appli.comment) ? appli.comment : "-Pas de commentaire-"}
                                             </Typography>
                                         </div>
-                                        <div style={{ alignSelf: "flex-end", margin:'10px'}}>
+                                        <div style={{ alignSelf: "flex-end", margin: '10px' }}>
                                             <Fab
                                                 variant="extended"
                                                 size="small"
                                                 color="primary"
                                                 aria-label="Details"
                                                 onClick={() => this.redirectToApp(appli._id)}
-                                                style={{marginRight:'5px'}}
+                                                style={{ marginRight: '5px' }}
                                             >
                                                 <Icon>edit_icon</Icon>
                                                 Détails
