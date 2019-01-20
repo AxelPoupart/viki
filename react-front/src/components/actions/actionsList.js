@@ -59,8 +59,16 @@ class ActionList extends Component {
         for (var e in act) {
             const current_action = act[e];
             console.log(current_action);
-            const actions = this.state.actions.concat([current_action]);
-            this.setState( {actions} );
+            if (this.props.tag) {
+                if (current_action.applicationId === this.props.tag) {
+                    const actions = this.state.actions.concat([current_action]);
+                    this.setState( {actions} );
+                }
+            } else {
+                const actions = this.state.actions.concat([current_action]);
+                this.setState( {actions} );
+            }
+            
         }
     }
 
@@ -118,6 +126,10 @@ class ActionList extends Component {
 
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
+
+                                <Typography>
+                                    {act.comment}
+                                </Typography>
 
                                 <Typography>
                                     {act.comment}

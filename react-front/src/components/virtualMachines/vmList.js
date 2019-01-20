@@ -98,6 +98,14 @@ class VmList extends Component {
                                 <ExpansionPanelDetails>
                                     <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
                                         <Typography>
+                                            {'Emplacement de la VM: ' + vm.campus}
+                                        </Typography>
+                                        
+                                        <Typography>
+                                            {vm.filePath}
+                                        </Typography>
+                                        
+                                        <Typography>
                                             {'Stratégie de sauvegarde: ' + vm.backupPolicy}
                                         </Typography>
                                     </div>

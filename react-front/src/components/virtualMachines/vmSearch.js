@@ -25,7 +25,7 @@ class VmSearch extends Component {
         this.setState({ term })
         const vms = [];
         this.setState( {vms} );
-        if(term !== "" ) {
+        if(term !== "" && term.length > 2 ) {
             get_vmsBySearch(term).then(vm => {
                 for (var e in vm) {
                     const current_vm = vm[e];
@@ -66,15 +66,25 @@ class VmSearch extends Component {
                     <div key={vm._id}>
                     <ExpansionPanel key={vm._id}>
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                            <Typography>{vm.Label}</Typography>
+                            <Typography>{vm.label}</Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
-                            <Typography>
-                                {vm.Comment}.
-                            </Typography>
-                            <IconButton aria-label="Delete" variant="contained" color="secondary" style={{float: "right" }} onClick={() => this.suppress_vm(vm._id)}>
-                                <DeleteIcon />
-                            </IconButton>
+                            <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                                <Typography>
+                                    {'Emplacement de la VM: ' + vm.campus}
+                                </Typography>
+                
+                                <Typography>
+                                    {vm.filePath}
+                                </Typography>
+                      
+                                <Typography>
+                                    {' Stratégie de sauvegarde: ' + vm.backupPolicy}
+                                </Typography>
+                                <IconButton aria-label="Delete" variant="contained" color="secondary" style={{float: "right" }} onClick={() => this.suppress_vm(vm._id)}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </div>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
                     </div>
