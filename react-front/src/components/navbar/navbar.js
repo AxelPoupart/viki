@@ -57,8 +57,6 @@ class Navbar extends React.Component {
 
 	display_admin_menu = (user) => {
 		if (user && user.privileges==="sysadmin" ){
-			
-			
 			return (
 			<MenuItem onClick={this.handleClose}>
 			<Link className="nav-link" to="users">

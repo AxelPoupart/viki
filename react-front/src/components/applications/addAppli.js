@@ -135,7 +135,7 @@ export default class AddAppli extends Component {
 
     updateSubDomains = (event) => {
         let selectedDomain = event.target.value
-        this.setState({ selectedDomain: selectedDomain})
+        this.setState({ selectedDomain: selectedDomain })
         let subDomainOptions = this.state.subDomains[selectedDomain]
         this.setState({ subDomainOptions: subDomainOptions }, () => this.setState({ selectedSubDomain: this.state.subDomainOptions[0] }))
     }
@@ -177,103 +177,101 @@ export default class AddAppli extends Component {
 
         return (
             <div>
-                <div id="container">
-                    <Card >
-                        <CardContent id="addCard">
-                            <form onSubmit={this.handleSubmit}>
-                                <TextField
-                                    name="code"
-                                    type="text"
-                                    fullWidth
-                                    margin="normal"
-                                    variant="filled"
-                                    label="Code de l'application"
-                                    placeholder="Obligatoire"
+                <Card style={{ width: '100%' }}>
+                    <CardContent id="addCard">
+                        <form onSubmit={this.handleSubmit}>
+                            <TextField
+                                name="code"
+                                type="text"
+                                fullWidth
+                                margin="normal"
+                                variant="filled"
+                                label="Code de l'application"
+                                placeholder="Obligatoire"
+                                onChange={this.handleChange}
+                                value={this.state.code}
+                            />
+
+                            <TextField
+                                name="label"
+                                type="text"
+                                fullWidth
+                                margin="normal"
+                                variant="filled"
+                                label="Libellé de l'application"
+                                placeholder="Obligatoire"
+                                onChange={this.handleChange}
+                                value={this.state.label}
+                            />
+
+                            <TextField
+                                name="comment"
+                                type="text"
+                                label="Description"
+                                placeholder="Description de l'application"
+                                fullWidth
+                                margin="normal"
+                                variant="filled"
+                                onChange={this.handleChange}
+                                value={this.state.comment}
+                            />
+
+                            <FormControl
+                                fullWidth
+                                margin="normal"
+                                variant="filled"
+                            >
+                                <InputLabel>Domain</InputLabel>
+                                <Select
+                                    name="Domaine"
+                                    value={this.state.selectedDomain}
+                                    onChange={this.updateSubDomains}
+                                >
+                                    {domainsOptions}
+                                </Select>
+                            </FormControl>
+
+                            <FormControl
+                                fullWidth
+                                margin="normal"
+                                variant="filled"
+                            >
+                                <InputLabel>Sous domaine</InputLabel>
+                                <Select
+                                    name="selectedSubDomain"
+                                    value={this.state.selectedSubDomain}
                                     onChange={this.handleChange}
-                                    value={this.state.code}
-                                />
-
-                                <TextField
-                                    name="label"
-                                    type="text"
-                                    fullWidth
-                                    margin="normal"
-                                    variant="filled"
-                                    label="Libellé de l'application"
-                                    placeholder="Obligatoire"
-                                    onChange={this.handleChange}
-                                    value={this.state.label}
-                                />
-
-                                <TextField
-                                    name="comment"
-                                    type="text"
-                                    label="Description"
-                                    placeholder="Description de l'application"
-                                    fullWidth
-                                    margin="normal"
-                                    variant="filled"
-                                    onChange={this.handleChange}
-                                    value={this.state.comment}
-                                />
-
-                                <FormControl
-                                    fullWidth
-                                    margin="normal"
-                                    variant="filled"
                                 >
-                                    <InputLabel>Domain</InputLabel>
-                                    <Select
-                                        name="Domaine"
-                                        value={this.state.selectedDomain}
-                                        onChange={this.updateSubDomains}
-                                    >
-                                        {domainsOptions}
-                                    </Select>
-                                </FormControl>
+                                    {subDomainOptions}
+                                </Select>
+                            </FormControl>
 
-                                <FormControl
-                                    fullWidth
-                                    margin="normal"
-                                    variant="filled"
-                                >
-                                    <InputLabel>Sous domaine</InputLabel>
-                                    <Select
-                                        name="selectedSubDomain"
-                                        value={this.state.selectedSubDomain}
-                                        onChange={this.handleChange}
-                                    >
-                                        {subDomainOptions}
-                                    </Select>
-                                </FormControl>
+                            <FormControl
+                                fullWidth
+                                margin="normal"
+                                variant="filled"
+                            >
+                                {pairedMachines}
+                            </FormControl>
 
-                                <FormControl
-                                    fullWidth
-                                    margin="normal"
-                                    variant="filled"
-                                >
-                                    {pairedMachines}
-                                </FormControl>
+                            <FormControl
+                                fullWidth
+                                margin="normal"
+                                variant="filled"
+                            >
+                                <Fab style={{ position: "absolute", right: "0px" }} size="small" color="primary" aria-label="Add a new pair vm/app" onClick={this.addPair.bind(this)}>
+                                    <AddIcon />
+                                </Fab>
+                                <Fab style={{ position: "absolute", right: "50px" }} size="small" color="secondary" aria-label="Delete last pair vm/app" onClick={this.deletePair.bind(this)}>
+                                    <DeleteIcon />
+                                </Fab>
+                            </FormControl>
 
-                                <FormControl
-                                    fullWidth
-                                    margin="normal"
-                                    variant="filled"
-                                >
-                                    <Fab style={{ position: "absolute", right: "0px" }} size="small" color="primary" aria-label="Add a new pair vm/app" onClick={this.addPair.bind(this)}>
-                                        <AddIcon />
-                                    </Fab>
-                                    <Fab style={{ position: "absolute", right: "50px" }} size="small" color="secondary" aria-label="Delete last pair vm/app" onClick={this.deletePair.bind(this)}>
-                                        <DeleteIcon />
-                                    </Fab>
-                                </FormControl>
+                            <Button variant="contained" color="primary" onClick={this.handleSubmit.bind(this)} >Ajouter l'application</Button>
+                        </form>
 
-                                <Button variant="contained" color="primary" onClick={this.handleSubmit.bind(this)} >Ajouter l'application</Button>
-                            </form>
-
-                        </CardContent>
-                    </Card>
-                </div>
+                    </CardContent>
+                </Card>
             </div>
         );
     }

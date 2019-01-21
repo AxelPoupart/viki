@@ -20,13 +20,9 @@ export default class AppliDetail extends Component {
     getApplication = (appId) => {
         getApplicationById(appId)
             .then(res => {
-                console.log(res);
-                
                 if (res.success) {
                     this.setState({ application: res.application })
                 } else {
-                    console.log('WTF IS HAPPENING');
-                    
                     alert(res.msg)
                 }
             })

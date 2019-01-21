@@ -1,7 +1,6 @@
 import React from 'react';
 import Autocomplete from 'react-autocomplete';
 
-import { TextField, Divider } from '@material-ui/core';
 
 let menu = {
     borderRadius: '3px',
@@ -11,7 +10,11 @@ let menu = {
     fontSize: '90%',
     position: 'static',
     overflow: 'scroll',
-    maxHeight: '150px',
+    maxHeight: '150px'
+}
+
+let inputStyle = {
+    width: '100%'
 }
 
 export default class PairAppMachine extends React.Component {
@@ -44,8 +47,8 @@ export default class PairAppMachine extends React.Component {
 
     render() {
         return (
-            <div style={{ marginTop: '20px' }} >
-                <div>
+            <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-between' }} >
+                <div style={{ width: '100%' }}>
                     <Autocomplete
                         name='machine'
                         items={this.props.machines}
@@ -60,22 +63,20 @@ export default class PairAppMachine extends React.Component {
                         onChange={this.handleChange}
                         onSelect={this.handleSelect}
                         menuStyle={menu}
-                        inputProps={{ name: 'machine', placeholder: 'Machine associée' }}
+                        inputProps={{ name: 'machine', placeholder: 'Machine associée', size:'30' }}
                     />
                 </div>
-                <div>
-                    <TextField
+                <div style={{ width: '100%' }}>
+                    <input
                         name="service"
                         type="text"
-                        fullWidth
                         margin="normal"
-                        variant="filled"
                         placeholder="Service associé"
                         value={this.state.service}
                         onChange={this.handleChange}
+                        style={{ width: '80%' }}
                     />
                 </div>
-                <Divider />
             </div>
         )
     }

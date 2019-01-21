@@ -1,33 +1,10 @@
+import { generateRequest } from "./generalService";
+
 const api = 'http://localhost:5000/content-dev/actionservice/';
-
-function reqGet() {
-    let requestOptions = {
-        credentials: 'include',
-        method: 'GET',
-        headers: {
-            "Content-Type": "application/json"
-        }
-    }
-    return requestOptions;
-}
-
-function reqPost(obj) {
-    let requestOptions = {
-        credentials: 'include',
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(obj)
-    }
-    return requestOptions;
-}
-
 
 // THis one is DONE
 function get_actions() {
-    console.log('GET actions')
-    let requestOptions = reqGet();
+    let requestOptions = generateRequest('GET');
     return fetch(api + 'actions', requestOptions)
     .then(res => {
         if (res.ok) {
@@ -39,32 +16,25 @@ function get_actions() {
 
 // THis one is DONE
 function post_action(action) {
-    console.log('POST action')
-    console.log(JSON.stringify(action))
-    let requestOptions = reqPost(action)
+    let requestOptions = generateRequest('POST', action)
     return fetch(api + `actions/add`, requestOptions)
         .then(res => {
-            console.log(res)
             return res.json()
         })
 }
 
 // THis one is DONE
 function delete_actionById(Id) {
-    console.log('DELETE action')
-    let requestOptions = reqPost({Id: Id})
+    let requestOptions = generateRequest('POST', {Id: Id})
     return fetch(api + `actions/delete`, requestOptions)
         .then(res => {
-            console.log(res)
             return res.json()
         })
 }
 
-
 // THis one is DONE
 function changeActionStatus(id, status) {
-    console.log('CHANGE user status')
-    let requestOptions = reqPost({
+    let requestOptions = generateRequest('POST', {
         id: id,
         status: status
         })
@@ -75,8 +45,7 @@ function changeActionStatus(id, status) {
 
 // THis one is DONE
 function getActionsByStatus(status) {
-    console.log('GET actions')
-    let requestOptions = reqGet();
+    let requestOptions = generateRequest('GET');
     return fetch(api + `actions/status/${status}`, requestOptions)
     .then(res =>  res.json())
 }
@@ -89,53 +58,25 @@ function getActionsByStatus(status) {
 
 
 function get_actionById(id) {
-    console.log('GET action by Id')
-    let requestOptions = {
-        credentials: 'include',
-        method: 'GET',
-        headers: {
-            "Content-Type": "application/json"
-        },
-    }
+    let requestOptions = generateRequest('GET');
     return fetch(api + `actions/${id}`, requestOptions)
         .then(res => res.json())
 }
 
 function get_actionsByUser(id) {
-    console.log('GET action by User')
-    let requestOptions = {
-        credentials: 'include',
-        method: 'GET',
-        headers: {
-            "Content-Type": "application/json"
-        },
-    }
+    let requestOptions = generateRequest('GET')
     return fetch(api + `actions/user/${id}`, requestOptions)
         .then(res => res.json())
 }
 
 function get_actionsByAppli(id) {
-    console.log('GET action by Appli')
-    let requestOptions = {
-        credentials: 'include',
-        method: 'GET',
-        headers: {
-            "Content-Type": "application/json"
-        },
-    }
+    let requestOptions = generateRequest('GET');
     return fetch(api + `actions/appli/${id}`, requestOptions)
         .then(res => res.json())
 }
 
 function get_actionsBySearch(term) {
-    console.log('GET action by searching')
-    let requestOptions = {
-        credentials: 'include',
-        method: 'GET',
-        headers: {
-            "Content-Type": "application/json"
-        },
-    }
+    let requestOptions = generateRequest('GET')
     return fetch(api + `actions/search/${term}`, requestOptions)
         .then(res => res.json())
 
