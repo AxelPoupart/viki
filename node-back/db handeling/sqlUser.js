@@ -6,8 +6,9 @@ exports.getUsers = callback => {
 };
 
 exports.add_new_user = (user, callback) => {
+  console.log(user)
   let set = {
-    mail: user.email,
+    mail: user.mail,
     hash: user.hash
   };
   let query = "INSERT INTO `users` SET ?";
@@ -15,6 +16,11 @@ exports.add_new_user = (user, callback) => {
   return db.query(query, [set], callback);
 };
 
+exports.get_User_Id=(mail,callback) => {
+  let query = ` SELECT \`_id\` FROM \`users\`  WHERE \`mail\` = ? `;
+
+  return db.query(query,mail, callback);
+};
 
 exports.get_user_privileges = (user_id, callback) => {
   let query =
@@ -60,6 +66,14 @@ exports.get_By_PrivilegeID = (privilegeId, callback) => {
   console.log(query);
   return db.query(query, [privilegeId], callback);
 };
+
+exports.create_user_privileges = (user_id,privileges_id, callback) => {
+  
+  let query = `INSERT INTO \`usersPrivileges\` SET ?`;
+  
+  return db.query(query, [{userId:user_id,privilegesId:privileges_id}], callback)
+}
+
 
 exports.set_user_privileges = (user_id,privileges_id, callback) => {
   

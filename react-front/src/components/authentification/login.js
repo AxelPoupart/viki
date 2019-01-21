@@ -80,6 +80,7 @@ class Login extends React.Component {
         {this.redirect()}
 
         <Card id="loginForm">
+        Viki
           <CardContent>
             <form onSubmit={this.handleSubmit}>
               <TextField
@@ -110,9 +111,9 @@ class Login extends React.Component {
             </form>
           </CardContent>
         </Card>
-        {/* <div className="AddUser">
+        <div id="register">
           <AddUser />
-        </div> */}
+        </div>
       </div>
     );
   }

@@ -27,7 +27,7 @@ class AddUser extends Component {
   }
 
   handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({ [event.target.id]: event.target.value });
   };
 
   validateForm() {
@@ -36,7 +36,7 @@ class AddUser extends Component {
 
   add_user(mail, password) {
     let user = {
-      mail: mail,
+      email: mail,
       password: password
     };
     post_user(user);
@@ -51,11 +51,14 @@ class AddUser extends Component {
     }
   }
 
-  Render() {
+  render() {
     return (
+      <div>
+      
       <Card id="userform">
         <CardContent>
           <form onSubmit={this.handleSubmit}>
+          
             <TextField
               id="mail"
               label="email"
@@ -84,6 +87,7 @@ class AddUser extends Component {
           </form>
         </CardContent>
       </Card>
+      </div>
     );
   }
 }

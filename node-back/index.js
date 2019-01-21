@@ -41,19 +41,19 @@ try {
 }
 
 
-// //Connect to mongoDB server (Chat)
-// try {
-//   mongoose.connect('mongodb://localhost/chat-back', {useNewUrlParser: true});
-// mongoose.set('debug', true);
+//Connect to mongoDB server (Chat)
+try {
+  mongoose.connect('mongodb://localhost/chat-back', {useNewUrlParser: true});
+mongoose.set('debug', true);
 
-// const connection = mongoose.connection;
+const connection = mongoose.connection;
 
-// connection.once('open', () => {
-//     console.log('MongoDB database connection established successfully!')
-// });
-// } catch (error) {
-//   console.log(error)
-// }
+connection.once('open', () => {
+    console.log('MongoDB database connection established successfully!')
+});
+} catch (error) {
+  console.log(error)
+}
 
 
 

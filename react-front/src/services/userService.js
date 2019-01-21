@@ -12,7 +12,7 @@ function getUsers() {
 function post_user(user) {
     console.log('POST user')
     let requestOptions = generateRequest('POST', user);
-    return fetch(api + `users/new_user'`, requestOptions)
+    return fetch("http://localhost:5000/auth/authenticate/newuser", requestOptions)
         .then(res => {
             console.log(res)
             return res.json()

@@ -8,3 +8,9 @@ textField {
     margin-right: 10px;
     width: 200,
   }
+
+#register
+{
+  max-width: 300px;
+  margin: 50px auto;
+}
