@@ -9,12 +9,13 @@ import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 
 import {
-    getByStatus,
+    getByPrivilege,
     getUsers,
-    changeUserStatus
+    changeUserPrivilege
 } from '../../services/userService.js'
 
 import './userList.css';
+
 
 
 class UserList extends Component {
@@ -22,12 +23,12 @@ class UserList extends Component {
     state = { users: [], switch: "users"}
 
 
-    displayIngesys() {
+    display_by_privilege(privilege) {
         const users = [];
         this.setState( {users} );
-        getByStatus("ingesys").then(inge => {
-            for (var e in inge) {
-                const currentUser = inge[e];
+        getByPrivilege(privilege).then(user => {
+            for (var e in user) {
+                const currentUser = user[e];
                 const users = this.state.users.concat([currentUser]);
                 this.setState( {users} );
             }
@@ -37,9 +38,9 @@ class UserList extends Component {
     displayAll() {
         const users = [];
         this.setState( {users} );
-        getUsers().then(inge => {
-            for (var e in inge) {
-                const currentUser = inge[e];
+        getUsers().then(user => {
+            for (var e in user) {
+                const currentUser = user[e];
                 console.log(currentUser);
                 const users = this.state.users.concat([currentUser]);
                 this.setState( {users} );
@@ -48,34 +49,43 @@ class UserList extends Component {
     }
 
     handleSwitch() {
-        const users = [];
-        this.setState( {users} );
+        
+        
         if (this.state.switch === "users") {
-            const elemt = "ingesys"
+            const elemt = "usersys"
             this.setState( {switch: elemt} )
-            this.displayAll()
-        } else { 
+            this.display_by_privilege("usersys")
+        } else if (this.state.switch === "usersys") { 
+            const elemt = "visiteur"
+            this.setState( {switch: elemt} )
+            this.display_by_privilege("visiteur")
+        } else if (this.state.switch === "visiteur") { 
+            const elemt = "sysadmin"
+            this.setState( {switch: elemt} )
+            this.display_by_privilege("sysadmin")
+        } else  { 
             const elemt = "users"
             this.setState( {switch: elemt} )
-            this.displayIngesys()
+            this.displayAll()
         }
+
     }
 
     promoteUser(id, dir, status) {
 
 
-        if (dir === 'up' && status === 'ingesys') {
-            return changeUserStatus(id, 'admin')
+        if (dir === 'up' && status === 'usersys') {
+            return changeUserPrivilege(id, 'admin')
                 .then(this.displayAll())
         } else if (dir === 'up' && status === 'user') {
-            return changeUserStatus(id, 'ingesys')
-                .then(this.displayIngesys())
-        } else if (dir === 'down' && status === 'ingesys') {
-            return changeUserStatus(id, 'user')
+            return changeUserPrivilege(id, 'usersys')
+                .then(this.display_by_privilege())
+        } else if (dir === 'down' && status === 'usersys') {
+            return changeUserPrivilege(id, 'user')
                 .then(this.displayAll())
         } else if (dir === 'down' && status === 'admin') {
-            return changeUserStatus(id, 'ingesys')
-                .then(this.displayIngesys())
+            return changeUserPrivilege(id, 'usersys')
+                .then(this.display_by_privilege())
         }
         
     }
@@ -84,7 +94,7 @@ class UserList extends Component {
 
 
     componentWillMount() {
-        this.displayIngesys()
+        this.display_by_privilege()
     }
 
 
@@ -103,24 +113,24 @@ class UserList extends Component {
                 <Divider />
 
                 <div className="ingesysList">
-                    {this.state.users.map(inge => (
-                        <div key={inge._id}>
+                    {this.state.users.map(user => (
+                        <div key={user._id}>
                         <ExpansionPanel>
                             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 
-                                <Typography>{inge.name} &nbsp;</Typography>
+                                <Typography>{user.name} &nbsp;</Typography>
 
-                                <Typography>&nbsp; {inge.status}</Typography>
+                                <Typography>&nbsp; {user.status}</Typography>
 
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
 
                                 <Typography>
-                                    {inge.mail} &nbsp; &nbsp; &nbsp; &nbsp;
+                                    {user.mail} &nbsp; &nbsp; &nbsp; &nbsp;
                                 </Typography>
 
-                                <Button onClick={(e => this.promoteUser(inge._id, 'up', inge.status))} variant="contained" > Promote </Button>
-                                <Button onClick={e => this.promoteUser(inge._id, 'down', inge.status)} variant="contained" > Downgrade </Button>
+                                <Button onClick={(e => this.promoteUser(user._id, 'up', user.status))} variant="contained" > Promote </Button>
+                                <Button onClick={e => this.promoteUser(user._id, 'down', user.status)} variant="contained" > Downgrade </Button>
 
                             </ExpansionPanelDetails>
                         </ExpansionPanel>

@@ -31,7 +31,7 @@ router.post("/authenticate", (req, res) => {
       req.session.usermail = user.mail;
       user_db.get_user_privileges(user.id, (err, results) => {
         if (err) console.log(err);
-        req.session.privilege =results;
+        req.session.privilege =JSON.parse(JSON.stringify(results));
         res.json(user);
         console.log(req.session.privilege + req.session.id);
       });

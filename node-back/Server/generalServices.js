@@ -5,7 +5,7 @@ const router = express.Router()
 router.get('/domains', (req, res) => {
     handelers.get_all_domains((err, results) => {
         if (err) throw err;
-        let domains = {}, subDomains = {};
+        /*let domains = {}, subDomains = {};
         results.forEach(dom => {
             if (dom['_id'] === dom['parentId']) {
                 domains[dom['_id']] = dom['label'];
@@ -17,7 +17,8 @@ router.get('/domains', (req, res) => {
         res.json({
             domains: domains,
             subDomains: subDomains
-        })
+        })*/
+        res.json(results);
     })
 })
 

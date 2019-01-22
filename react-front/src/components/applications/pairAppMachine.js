@@ -1,6 +1,6 @@
 import React from 'react';
 import Autocomplete from 'react-autocomplete';
-
+import { get_vms } from '../../services/vmService';
 
 let menu = {
     borderRadius: '3px',
@@ -13,26 +13,31 @@ let menu = {
     maxHeight: '150px'
 }
 
-let inputStyle = {
-    width: '100%'
-}
-
 export default class PairAppMachine extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             machine: "",
-            service: ""
+            service: "",
+            machines: []
         }
         this.handleChange.bind(this);
         this.handleSelect.bind(this)
     }
 
+    getMachines(callback) {
+        get_vms()
+            .then(machines => this.setState({ machines: machines }, callback))
+    }
+
     componentDidMount() {
-        this.setState({
-            machine: this.props.pair.machine,
-            service: this.props.pair.service
-        })
+        this.getMachines(() => {
+            console.log(this.props.pair)
+            this.setState({
+                machine: this.props.pair.machine!=undefined ? this.props.pair.machine : this.state.machines.find(item => item._id === this.props.pair.machineId).label,
+                service: this.props.pair.service ? this.props.pair.service : this.props.pair.runningService
+            })
+        });
     }
 
     handleChange = (event) => {
@@ -51,10 +56,10 @@ export default class PairAppMachine extends React.Component {
                 <div style={{ width: '100%' }}>
                     <Autocomplete
                         name='machine'
-                        items={this.props.machines}
+                        items={this.state.machines}
                         getItemValue={(item) => item.label}
                         renderItem={(item, isHighlighted) =>
-                            <div key={this.props.machines.indexOf(item)} style={{ background: isHighlighted ? '#eee' : 'white' }}>
+                            <div key={this.state.machines.indexOf(item)} style={{ background: isHighlighted ? '#eee' : 'white' }}>
                                 {item.label}
                             </div>
                         }
@@ -63,7 +68,7 @@ export default class PairAppMachine extends React.Component {
                         onChange={this.handleChange}
                         onSelect={this.handleSelect}
                         menuStyle={menu}
-                        inputProps={{ name: 'machine', placeholder: 'Machine associée', size:'30' }}
+                        inputProps={{ name: 'machine', placeholder: 'Machine associée', size: '30' }}
                     />
                 </div>
                 <div style={{ width: '100%' }}>

@@ -22,8 +22,8 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use(bodyParser({extended: true}));
-
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 app.use(
   session({
     name: "wiki-dty",
@@ -41,19 +41,19 @@ try {
 }
 
 
-//Connect to mongoDB server (Chat)
-try {
-  mongoose.connect('mongodb://localhost/chat-back', {useNewUrlParser: true});
-mongoose.set('debug', true);
+// //Connect to mongoDB server (Chat)
+// try {
+//   mongoose.connect('mongodb://localhost/chat-back', {useNewUrlParser: true});
+// mongoose.set('debug', true);
 
-const connection = mongoose.connection;
+// const connection = mongoose.connection;
 
-connection.once('open', () => {
-    console.log('MongoDB database connection established successfully!')
-});
-} catch (error) {
-  console.log(error)
-}
+// connection.once('open', () => {
+//     console.log('MongoDB database connection established successfully!')
+// });
+// } catch (error) {
+//   console.log(error)
+// }
 
 
 

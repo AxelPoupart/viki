@@ -4,19 +4,21 @@ import { Link } from "react-router-dom";
 import Navbar from '../navbar/navbar';
 import UserList from './userList';
 import Button from '@material-ui/core/Button';
-
+import AddUser from "../users/addUser";
 
 import './users.css';
 
 class User extends Component {
 
-  state = { user: null, actions: []  }
+  
+  
 
 
 
   render() {
       return  (
         <div className="homeGlobal">
+        <AddUser/>
 
             <Navbar>
 
