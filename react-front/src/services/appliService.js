@@ -31,17 +31,39 @@ function deleteApplication(_Id) {
 
 function getApplicationById(appId) {
     let requestOptions = generateRequest('GET');
-    console.log(`GET APP with id ${appId}`);
-    
+
     return fetch(api + `applis/${appId}`, requestOptions)
-        .then(res =>res.json())
+        .then(res => res.json())
         .catch(err => {
             console.log(err)
-            return alert('The request could not proceed. Check the console for more information.')
+            return alert('The request could not proceed. Check the console for more details.')
+        })
+}
+
+function getPairedMachines(appId) {
+    console.log('get paired machines with ' + appId)
+    let requestOptions = generateRequest('GET');
+    return fetch(api + `pairs/${appId}`, requestOptions)
+        .then(res => res.json())
+        .catch(err => {
+            console.log(err)
+            return alert('Error while fetching paired machines. Check the console for more details.')
+        })
+}
+
+function updateApplication(newUpdate) {
+    let requestOptions = generateRequest('PUT', newUpdate);
+    return fetch(api + '/applis', requestOptions)
+        .then(res => res.json())
+        .catch(err => {
+            console.log(err)
+            return alert('Error while fetching updating application. Check the console for more details.')
         })
 }
 
 export {
+    updateApplication,
+    getPairedMachines,
     getApplicationById,
     deleteApplication,
     createApplication,

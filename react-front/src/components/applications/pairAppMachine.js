@@ -1,7 +1,10 @@
 import React from 'react';
 import Autocomplete from 'react-autocomplete';
+import { get_vms } from '../../services/vmService';
 
-import { TextField, Divider } from '@material-ui/core';
+import { Fab, FormControl } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+
 
 let menu = {
     borderRadius: '3px',
@@ -11,7 +14,7 @@ let menu = {
     fontSize: '90%',
     position: 'static',
     overflow: 'scroll',
-    maxHeight: '150px',
+    maxHeight: '150px'
 }
 
 export default class PairAppMachine extends React.Component {
@@ -19,17 +22,18 @@ export default class PairAppMachine extends React.Component {
         super(props);
         this.state = {
             machine: "",
-            service: ""
+            service: "",
+            machines: []
         }
         this.handleChange.bind(this);
-        this.handleSelect.bind(this)
+        this.handleSelect.bind(this);
+        this.delete = this.delete.bind(this);
+        this.getLabels = this.getLabels.bind(this);
     }
 
-    componentDidMount() {
-        this.setState({
-            machine: this.props.pair.machine,
-            service: this.props.pair.service
-        })
+    getMachines(callback) {
+        get_vms()
+            .then(machines => this.setState({ machines: machines }, callback))
     }
 
     handleChange = (event) => {
@@ -42,16 +46,36 @@ export default class PairAppMachine extends React.Component {
         })
     }
 
+    delete() {
+        this.props.delete(this.props.index)
+    }
+
+    getLabels() {
+        let machine = this.props.pair.machine != undefined ? this.props.pair.machine : this.state.machines.find(item => item._id === this.props.pair.machineId).label;
+        let service = this.props.pair.service ? this.props.pair.service : this.props.pair.runningService;
+        this.props.updatePairedMachine(this.props.index, machine, service);
+        this.setState({
+            machine: machine,
+            service: service
+        })
+    }
+
+    componentWillMount() {
+        this.getMachines(() => {
+            this.getLabels();
+        });
+    }
+
     render() {
         return (
-            <div style={{ marginTop: '20px' }} >
-                <div>
+            <div style={{ marginTop: '0px', display: 'flex', justifyContent: 'space-between' }} >
+                <div style={{ width: '80%', marginRight: '10px' }}>
                     <Autocomplete
                         name='machine'
-                        items={this.props.machines}
+                        items={this.state.machines}
                         getItemValue={(item) => item.label}
                         renderItem={(item, isHighlighted) =>
-                            <div key={this.props.machines.indexOf(item)} style={{ background: isHighlighted ? '#eee' : 'white' }}>
+                            <div key={this.state.machines.indexOf(item)} style={{ background: isHighlighted ? '#eee' : 'white' }}>
                                 {item.label}
                             </div>
                         }
@@ -60,22 +84,29 @@ export default class PairAppMachine extends React.Component {
                         onChange={this.handleChange}
                         onSelect={this.handleSelect}
                         menuStyle={menu}
-                        inputProps={{ name: 'machine', placeholder: 'Machine associée' }}
+                        inputProps={{ name: 'machine', placeholder: 'Machine associée', size: '30' }}
                     />
                 </div>
-                <div>
-                    <TextField
+                <div style={{ width: '80%' }}>
+                    <input
                         name="service"
                         type="text"
-                        fullWidth
                         margin="normal"
-                        variant="filled"
                         placeholder="Service associé"
                         value={this.state.service}
                         onChange={this.handleChange}
                     />
                 </div>
-                <Divider />
+                <div>
+                    <FormControl
+                        margin="normal"
+                        variant="filled"
+                    >
+                        <Fab style={{position:'relative', bottom:'20px'}} size="small" color="secondary" aria-label="Delete" onClick={this.delete}>
+                            <DeleteIcon />
+                        </Fab>
+                    </FormControl>
+                </div>
             </div>
         )
     }

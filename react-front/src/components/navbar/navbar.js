@@ -75,10 +75,10 @@ class Navbar extends React.Component {
     const user = JSON.parse(this.state.user)
 
     return (
-      <div>
+      <div style={{marginBottom: '30px'}}>
         <AppBar position="sticky">
           <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', flexDirection:"row", justifyContent:'space-around' }}>
+            <div style={{ display: 'flex', flexDirection: "row", justifyContent: 'space-around' }}>
               <IconButton
                 color="inherit"
                 aria-label="Menu"
@@ -114,12 +114,12 @@ class Navbar extends React.Component {
 
                 {this.display_admin_menu(user)}
               </Menu>
-              <h5 style={{margin: "auto"}}>
+              <h5 style={{ margin: "auto" }}>
                 ViKi - {this.props.page}
               </h5>
             </div>
             <div>
-              <Button variant="contained" color="secondary"><Link style={{color: "white"}} to="/logout">Logout</Link></Button>
+              <Button variant="contained" color="secondary"><Link style={{ color: "white" }} to="/logout">Logout</Link></Button>
             </div>
           </Toolbar>
         </AppBar>

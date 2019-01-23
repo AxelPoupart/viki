@@ -50,10 +50,10 @@ router.route("/users/:id").get((req, res) => {
 //Get by privilege
 router.route("/users/Privilege/:privilege").get((req, res) => {
   privilege = req.params.privilege;
-  sqlUser.get_By_Label(privilege, (err, res) => {
+  sqlUser.get_By_Label(privilege, (err, priv) => {
     if (err) console.log(err);
-    else console.log(res._id);
-    sqlUser.get_By_PrivilegeID(res._id, (err, users) => {
+    else console.log(priv._id);
+    sqlUser.get_By_PrivilegeID(priv._id, (err, users) => {
       if (err) console.log(err);
       else res.json(users);
     });
