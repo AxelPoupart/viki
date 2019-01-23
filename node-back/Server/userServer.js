@@ -8,13 +8,33 @@ const app = express();
 const router = express.Router();
 
 // Get all users : DONE
-router.route("/users").get((req, res) => {
-  sqlUser.getUsers((err, users) => {
+router.route("/users").get(  (req, res) => {
+  sqlUser.getUsers(async (err, users) => {
     if (err) console.log(err);
     else {
-      console.log(users);
-      return res.json(users);
-    }
+      userlist=JSON.parse(users)
+      for (i in users){
+        let id=users[i]._id;
+        let users[i].privileges =""
+        
+        users[i].privileges = await sqlUser.get_user_privileges(id,(err,result)=> {
+          if (err) console.log(err);
+          else {
+            console.log(result)
+            if (!result===[]){
+              return result[0].label
+            }
+            return ""
+          
+          
+          }
+        })}
+        
+        res.json(users)
+      }
+      
+      
+    
   });
 });
 

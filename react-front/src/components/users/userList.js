@@ -52,10 +52,10 @@ class UserList extends Component {
         
         
         if (this.state.switch === "users") {
-            const elemt = "usersys"
-            this.setState( {switch: elemt} )
-            this.display_by_privilege("usersys")
-        } else if (this.state.switch === "usersys") { 
+            const elemt = "ingesys"
+            this.setState( {switch:elemt} )
+            this.display_by_privilege("ingesys")
+        } else if (this.state.switch === "ingesys") { 
             const elemt = "visiteur"
             this.setState( {switch: elemt} )
             this.display_by_privilege("visiteur")
@@ -94,7 +94,7 @@ class UserList extends Component {
 
 
     componentWillMount() {
-        this.display_by_privilege()
+        this.displayAll()
     }
 
 

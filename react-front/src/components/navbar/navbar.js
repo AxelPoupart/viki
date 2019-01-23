@@ -62,7 +62,7 @@ class Navbar extends React.Component {
 			return (
 			<MenuItem onClick={this.handleClose}>
 			<Link className="nav-link" to="/users">
-				dans le futur page admin
+				Esapce Administrateurs
 			</Link>
         </MenuItem>
       )
