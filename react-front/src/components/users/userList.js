@@ -118,9 +118,9 @@ class UserList extends Component {
                         <ExpansionPanel>
                             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 
-                                <Typography>{user.name} &nbsp;</Typography>
+                                <Typography>{user.mail} &nbsp;</Typography>
 
-                                <Typography>&nbsp; {user.status}</Typography>
+                                <Typography>&nbsp; {user.privilege}</Typography>
 
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>

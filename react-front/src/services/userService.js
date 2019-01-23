@@ -41,7 +41,7 @@ function getUserById(id) {
 
 // THis one is DONE
 function getByPrivilege(privilege) {
-    console.log('GET ingesys')
+    console.log('GET '+privilege)
     let requestOptions = generateRequest('GET');
     return fetch(api + `users/Privilege/${privilege}`, requestOptions)
         .then(res => res.json())

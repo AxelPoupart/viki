@@ -12,24 +12,8 @@ router.route("/users").get(  (req, res) => {
   sqlUser.getUsers(async (err, users) => {
     if (err) console.log(err);
     else {
-      userlist=JSON.parse(users)
-      for (i in users){
-        let id=users[i]._id;
-        let users[i].privileges =""
-        
-        users[i].privileges = await sqlUser.get_user_privileges(id,(err,result)=> {
-          if (err) console.log(err);
-          else {
-            console.log(result)
-            if (!result===[]){
-              return result[0].label
-            }
-            return ""
-          
-          
-          }
-        })}
-        
+      
+        console.log(users)
         res.json(users)
       }
       
@@ -53,7 +37,7 @@ router.route("/users/Privilege/:privilege").get((req, res) => {
   sqlUser.get_By_Label(privilege, (err, priv) => {
     if (err) console.log(err);
     else console.log(priv._id);
-    sqlUser.get_By_PrivilegeID(priv._id, (err, users) => {
+    sqlUser.get_By_PrivilegeID(priv[0]._id, (err, users) => {
       if (err) console.log(err);
       else res.json(users);
     });
