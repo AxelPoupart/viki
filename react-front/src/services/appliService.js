@@ -51,7 +51,18 @@ function getPairedMachines(appId) {
         })
 }
 
+function updateApplication(newUpdate) {
+    let requestOptions = generateRequest('PUT', newUpdate);
+    return fetch(api + '/applis', requestOptions)
+        .then(res => res.json())
+        .catch(err => {
+            console.log(err)
+            return alert('Error while fetching updating application. Check the console for more details.')
+        })
+}
+
 export {
+    updateApplication,
     getPairedMachines,
     getApplicationById,
     deleteApplication,

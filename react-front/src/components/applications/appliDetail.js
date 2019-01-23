@@ -6,9 +6,8 @@ import ActionList from '../actions/actionsList';
 import ChatContainer from '../actions/chatContainer';
 import PairAppMachine from './pairAppMachine';
 import AddIcon from '@material-ui/icons/Add';
-import DeleteIcon from '@material-ui/icons/Delete';
 
-import { getApplicationById, getPairedMachines } from '../../services/appliService'
+import { getApplicationById, getPairedMachines, updateApplication } from '../../services/appliService'
 import { get_domains } from '../../services/generalService';
 import './appliDetail.css'
 
@@ -18,6 +17,15 @@ export default class AppliDetail extends Component {
         super(props)
         this.state = {
             application: {},
+            update: {
+                _id: '',
+                code: '',
+                label: '',
+                domainId: '',
+                comment: '',
+                pairedMachines: []
+            },
+            label: '',
             domains: [],
             selectedDomain: "",
             subDomains: [],
@@ -71,7 +79,7 @@ export default class AppliDetail extends Component {
         getApplicationById(appId)
             .then(res => {
                 if (res.success) {
-                    this.setState({ application: res.application, comment: res.application.comment ? res.application.comment : "" }, () => {
+                    this.setState({ application: res.application, comment: res.application.comment ? res.application.comment : "", label: res.application.label }, () => {
                         callback1();
                         callback2();
                     })
@@ -99,6 +107,7 @@ export default class AppliDetail extends Component {
             machine: machine,
             service: service
         }
+        this.setState({ pairedMachines: pairedMachines })
     }
 
     addPair = () => {
@@ -107,10 +116,38 @@ export default class AppliDetail extends Component {
         this.setState({ pairedMachines: pairedMachines });
     }
 
-    deletePair = () => {
+    deletePair = (key) => {
         let pairedMachines = this.state.pairedMachines;
-        pairedMachines.pop();
+        pairedMachines[key] = null;
         this.setState({ pairedMachines: pairedMachines });
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        if (!this.state.label.trim()) {
+            alert("Le nom de l'application ne peut pas être vide");
+        } else {
+            this.setState({
+                update: {
+                    _id: this.state.application._id,
+                    code: this.state.application.code,
+                    label: this.state.label,
+                    domainId: this.state.subDomains.find(item => item.label === this.state.selectedSubDomain)._id,
+                    comment: this.state.comment,
+                    pairedMachines: this.state.pairedMachines.filter(item => item && (item.machine || item.service))
+                }
+            }, () => {
+                updateApplication(this.state.update)
+                    .then(res => {
+                        if (res.msg) {
+                            alert(res.msg)
+                            if (res.success) {
+                                window.location.replace('/applis/')
+                            }
+                        }
+                    })
+            })
+        }
     }
 
     componentWillMount() {
@@ -129,52 +166,64 @@ export default class AppliDetail extends Component {
             return <MenuItem key={subDomain} value={subDomain}>{subDomain}</MenuItem>
         })
         let pairedMachines = this.state.pairedMachines.map(pair => {
-            return (
-                <PairAppMachine key={this.state.pairedMachines.indexOf(pair)} index={this.state.pairedMachines.indexOf(pair)} machines={this.state.machines} pair={pair} updatePairedMachine={this.updatePairedMachine.bind(this)} />
-            )
+            if (pair) {
+                return (
+                    <PairAppMachine key={this.state.pairedMachines.indexOf(pair)} index={this.state.pairedMachines.indexOf(pair)} pair={pair} updatePairedMachine={this.updatePairedMachine.bind(this)} delete={this.deletePair.bind(this)} />
+                )
+            }
         })
         return (
             <div>
                 <Navbar page={'Gestion des applications: ' + this.state.application.label} />
                 <div className="information">
                     <div className="info">
-                        <TextField
-                            disabled
-                            value={`Code: ${this.state.application.code}`}
-                            fullWidth
-                            margin="normal"
-                            variant="outlined"
-                        />
-
-                        <FormControl
-                            fullWidth
-                            margin="normal"
-                            variant="filled"
-                        >
-                            <InputLabel>Domain</InputLabel>
-                            <Select
-                                name="Domaine"
-                                value={this.state.selectedDomain}
-                                onChange={this.updateSubDomains}
-                            >
-                                {domainsOptions}
-                            </Select>
-                        </FormControl>
-
-                        <FormControl
-                            fullWidth
-                            margin="normal"
-                            variant="filled"
-                        >
-                            <InputLabel>Sous domaine</InputLabel>
-                            <Select
-                                name="selectedSubDomain"
-                                value={this.state.selectedSubDomain}
+                        <div className="inline">
+                            <TextField
+                                disabled
+                                value={`Code: ${this.state.application.code}`}
+                                margin="normal"
+                                variant="outlined"
+                            />
+                            <TextField
+                                name='label'
+                                label="Nom de l'application"
+                                value={this.state.label}
                                 onChange={this.handleChange}
+                                margin="normal"
+                                fullWidth
+                            />
+                        </div>
+                        <div className="inline">
+                            <FormControl
+                                fullWidth
+                                margin="normal"
+                                variant="filled"
                             >
-                                {subDomainOptions}
-                            </Select>
-                        </FormControl>
+                                <InputLabel>Domain</InputLabel>
+                                <Select
+                                    name="Domaine"
+                                    value={this.state.selectedDomain}
+                                    onChange={this.updateSubDomains}
+                                >
+                                    {domainsOptions}
+                                </Select>
+                            </FormControl>
+
+                            <FormControl
+                                fullWidth
+                                margin="normal"
+                                variant="filled"
+                            >
+                                <InputLabel>Sous domaine</InputLabel>
+                                <Select
+                                    name="selectedSubDomain"
+                                    value={this.state.selectedSubDomain}
+                                    onChange={this.handleChange}
+                                >
+                                    {subDomainOptions}
+                                </Select>
+                            </FormControl>
+                        </div>
 
                         <TextField
                             name='comment'
@@ -203,13 +252,11 @@ export default class AppliDetail extends Component {
                             margin="normal"
                             variant="filled"
                         >
-                            <Fab style={{ position: "absolute", right: "0px" }} size="small" color="primary" aria-label="Add a new pair vm/app" onClick={this.addPair.bind(this)}>
+                            <Fab style={{ position: "absolute", right: "-10px" }} size="small" color="primary" aria-label="Add a new pair vm/app" onClick={this.addPair.bind(this)}>
                                 <AddIcon />
                             </Fab>
-                            <Fab style={{ position: "absolute", right: "50px" }} size="small" color="secondary" aria-label="Delete last pair vm/app" onClick={this.deletePair.bind(this)}>
-                                <DeleteIcon />
-                            </Fab>
                         </FormControl>
+                        <Button variant="contained" color="primary" onClick={this.handleSubmit.bind(this)} >Enregistrer</Button>
                     </div>
                     <div className="doneActions">
                         <h3>Completed actions</h3>

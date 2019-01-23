@@ -60,10 +60,9 @@ router.delete('/applis', (req, res) => {
     })
 })
 
+// Collect paired machines to a given application
 router.get('/pairs/:_id', (req, res) => {
-    console.log(req.params)
     let appId = req.params._id
-    console.log('GET REQ for '+appId);
     sqlAppli.getPairedMachines(appId, (err, pairedMachines) => {
         if (err) {
             console.log('Error while querying paired machines');
@@ -71,6 +70,25 @@ router.get('/pairs/:_id', (req, res) => {
             return res.json({ success: false, msg: 'The request could not proceed' })
         }
         return res.json({ success: true, pairedMachines: pairedMachines })
+    })
+})
+
+router.put('/applis', (req, res) => {
+    let appUpdate = req.body;
+    sqlAppli.updateApplication(appUpdate, (err) => {
+        if (err) {
+            console.log('Error while updating the application');
+            console.log(err)
+            return res.json({ success: false, msg: 'The request could not proceed' })
+        }
+        sqlAppli.updatePairs(appUpdate, (err) => {
+            if (err) {
+                console.log('Error while updating paired machines');
+                console.log(err)
+                return res.json({ success: false, msg: 'The request could not proceed' })
+            }
+            res.json({ success: true, msg: 'Application updated successfully' })
+        })
     })
 })
 

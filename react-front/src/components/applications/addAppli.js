@@ -58,7 +58,7 @@ export default class AddAppli extends Component {
     filterMachines = (callback) => {
         let pairedMachines = this.state.pairedMachines;
         for (let pair of pairedMachines) {
-            if (!pair.machine && !pair.service) pairedMachines.splice(pairedMachines.indexOf(pair), 1)
+            if (!pair || (!pair.machine && !pair.service)) pairedMachines.splice(pairedMachines.indexOf(pair), 1)
         }
         this.setState({ pairedMachines: pairedMachines }, callback);
     }
@@ -131,9 +131,9 @@ export default class AddAppli extends Component {
         this.setState({ pairedMachines: pairedMachines });
     }
 
-    deletePair = () => {
+    deletePair = (key) => {
         let pairedMachines = this.state.pairedMachines;
-        pairedMachines.pop();
+        pairedMachines[key] = null;
         this.setState({ pairedMachines: pairedMachines });
     }
 
@@ -155,9 +155,11 @@ export default class AddAppli extends Component {
         })
 
         let pairedMachines = this.state.pairedMachines.map(pair => {
-            return (
-                <PairAppMachine key={this.state.pairedMachines.indexOf(pair)} index={this.state.pairedMachines.indexOf(pair)} pair={pair} updatePairedMachine={this.updatePairedMachine.bind(this)} />
-            )
+            if (pair) {
+                return (
+                    <PairAppMachine key={this.state.pairedMachines.indexOf(pair)} index={this.state.pairedMachines.indexOf(pair)} pair={pair} updatePairedMachine={this.updatePairedMachine.bind(this)} delete={this.deletePair.bind(this)} />
+                )
+            }
         })
 
         return (

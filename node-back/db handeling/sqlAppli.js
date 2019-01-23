@@ -59,6 +59,37 @@ exports.delete_appli = (appId, callback) => {
 }
 
 exports.getPairedMachines = (appId, callback) => {
-    console.log(appId)
     return db.query(`SELECT * FROM \`applicationsVm\` WHERE \`applicationId\` = ${appId} `, callback)
+}
+
+exports.updateApplication = (update, callback) => {
+    let appId = update._id;
+    let set = {
+        code: update.code,
+        label: update.label,
+        comment: update.comment,
+        domainId: update.domainId
+    };
+    let query = `UPDATE \`applications\` SET ? WHERE \`applications\`.\`_id\` = ${appId}`
+    db.query(query, [set], callback);
+}
+
+exports.updatePairs = (appUpdate, callback) => {
+    let query1 = `DELETE FROM \`applicationsVm\` WHERE \`applicationId\` = ${appUpdate._id}`;
+    let updatedList = appUpdate.pairedMachines;
+    db.query(query1, (err) => {
+        if (err) throw err;
+        let query = "INSERT INTO `applicationsVm` (`applicationId`, `machineId`, `runningService`) VALUES "
+        for (let pair of updatedList) {
+            sql_mw.get_machine_by_label(pair.machine, (err, machine)=> {
+                if (err) throw err;
+                let q = query + `('${appUpdate._id}', ${machine[0]._id}, '${pair.service}')`;
+                db.query(q, (err)=>{
+                    if (err) throw err
+                })
+            })
+            
+        }
+        callback();
+    })
 }
