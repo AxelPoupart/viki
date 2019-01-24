@@ -56,7 +56,7 @@ class Navbar extends React.Component {
 	}
 
 	display_admin_menu = (user) => {
-		if (user && user.privileges[0].label==="sysadmin" ){
+		if (user){if( user.privileges[0].label==="sysadmin" ){
 			
 			
 			return (
@@ -66,7 +66,7 @@ class Navbar extends React.Component {
 			</Link>
         </MenuItem>
       )
-    } else
+    }} else
       return null;
   }
 
