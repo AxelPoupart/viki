@@ -18,12 +18,13 @@ class User extends Component {
   render() {
       return  (
         <div className="homeGlobal">
-        <AddUser/>
+        
 
-            <Navbar>
+            <Navbar page="Gestion des utilisateurs" >
 
                 <div className="switch">
                    <Link className="nav-link" to="/actions">
+                   
                         <Button variant="contained"> Switch status </Button>
                     </Link>
                 </div>

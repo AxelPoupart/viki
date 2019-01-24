@@ -8,13 +8,17 @@ const app = express();
 const router = express.Router();
 
 // Get all users : DONE
-router.route("/users").get((req, res) => {
-  sqlUser.getUsers((err, users) => {
+router.route("/users").get(  (req, res) => {
+  sqlUser.getUsers(async (err, users) => {
     if (err) console.log(err);
     else {
-      console.log(users);
-      return res.json(users);
-    }
+      
+        console.log(users)
+        res.json(users)
+      }
+      
+      
+    
   });
 });
 
@@ -33,7 +37,7 @@ router.route("/users/Privilege/:privilege").get((req, res) => {
   sqlUser.get_By_Label(privilege, (err, priv) => {
     if (err) console.log(err);
     else console.log(priv._id);
-    sqlUser.get_By_PrivilegeID(priv._id, (err, users) => {
+    sqlUser.get_By_PrivilegeID(priv[0]._id, (err, users) => {
       if (err) console.log(err);
       else res.json(users);
     });
