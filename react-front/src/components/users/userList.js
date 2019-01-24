@@ -9,25 +9,26 @@ import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 
 import {
-    getByStatus,
+    getByPrivilege,
     getUsers,
-    changeUserStatus
+    changeUserPrivilege
 } from '../../services/userService.js'
 
 import './userList.css';
 
 
+
 class UserList extends Component {
 
-    state = { users: [], switch: "users"}
+    state = { users: [], switch: "visiteur"}
 
 
-    displayIngesys() {
+    display_by_privilege(privilege) {
         const users = [];
         this.setState( {users} );
-        getByStatus("ingesys").then(inge => {
-            for (var e in inge) {
-                const currentUser = inge[e];
+        getByPrivilege(privilege).then(user => {
+            for (var e in user) {
+                const currentUser = user[e];
                 const users = this.state.users.concat([currentUser]);
                 this.setState( {users} );
             }
@@ -37,9 +38,9 @@ class UserList extends Component {
     displayAll() {
         const users = [];
         this.setState( {users} );
-        getUsers().then(inge => {
-            for (var e in inge) {
-                const currentUser = inge[e];
+        getUsers().then(user => {
+            for (var e in user) {
+                const currentUser = user[e];
                 console.log(currentUser);
                 const users = this.state.users.concat([currentUser]);
                 this.setState( {users} );
@@ -48,35 +49,44 @@ class UserList extends Component {
     }
 
     handleSwitch() {
-        const users = [];
-        this.setState( {users} );
+        
+        
         if (this.state.switch === "users") {
             const elemt = "ingesys"
+            this.setState( {switch:elemt} )
+            this.display_by_privilege("ingesys")
+        } else if (this.state.switch === "ingesys") { 
+            const elemt = "visiteur"
             this.setState( {switch: elemt} )
-            this.displayAll()
-        } else { 
-            const elemt = "users"
+            this.display_by_privilege("visiteur")
+        } else if (this.state.switch === "visiteur") { 
+            const elemt = "sysadmin"
             this.setState( {switch: elemt} )
-            this.displayIngesys()
+            this.display_by_privilege("sysadmin")
+        } else  { 
+            const elemt = "ingesys"
+            this.setState( {switch: elemt} )
+            this.display_by_privilege("ingesys")
         }
+
     }
 
-    promoteUser(id, dir, status) {
+    promoteUser(id, dir, privilegesiD) {
 
 
-        if (dir === 'up' && status === 'ingesys') {
-            return changeUserStatus(id, 'admin')
-                .then(this.displayAll())
-        } else if (dir === 'up' && status === 'user') {
-            return changeUserStatus(id, 'ingesys')
-                .then(this.displayIngesys())
-        } else if (dir === 'down' && status === 'ingesys') {
-            return changeUserStatus(id, 'user')
-                .then(this.displayAll())
-        } else if (dir === 'down' && status === 'admin') {
-            return changeUserStatus(id, 'ingesys')
-                .then(this.displayIngesys())
-        }
+        if (dir === 'up' && privilegesiD == '2') {
+            return changeUserPrivilege(id, 'sysadmin')
+            .then(()=>{this.setState( {switch: "sysadmin"} );setTimeout(this.display_by_privilege('sysadmin'),100)})
+        } else if (dir === 'up' && privilegesiD == '3') {
+            return changeUserPrivilege(id, 'ingesys')
+            .then(()=>{this.setState( {switch: "ingesys"} );setTimeout(this.display_by_privilege('ingesys'),100)})
+        } else if (dir === 'down' && privilegesiD == '2') {
+            return changeUserPrivilege(id, 'visiteur')
+                .then(()=>{this.setState( {switch: "visiteur"} );setTimeout(this.display_by_privilege('visiteur'),100)})
+        } else if (dir === 'down' && privilegesiD == '1') {
+            return changeUserPrivilege(id, 'ingesys')
+            .then(()=>{this.setState( {switch: "ingesys"} );setTimeout(this.display_by_privilege('ingesys'),100)})
+        } else alert("not possible");
         
     }
 
@@ -84,7 +94,7 @@ class UserList extends Component {
 
 
     componentWillMount() {
-        this.displayIngesys()
+        this.display_by_privilege('visiteur')
     }
 
 
@@ -103,24 +113,24 @@ class UserList extends Component {
                 <Divider />
 
                 <div className="ingesysList">
-                    {this.state.users.map(inge => (
-                        <div key={inge._id}>
+                    {this.state.users.map(user => (
+                        <div key={user._id}>
                         <ExpansionPanel>
                             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 
-                                <Typography>{inge.name} &nbsp;</Typography>
+                                <Typography>{user.mail} &nbsp;</Typography>
 
-                                <Typography>&nbsp; {inge.status}</Typography>
+                                <Typography>&nbsp; {user.privilege}</Typography>
 
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
 
                                 <Typography>
-                                    {inge.mail} &nbsp; &nbsp; &nbsp; &nbsp;
+                                     User ID {user._id} &nbsp; &nbsp; &nbsp; &nbsp;
                                 </Typography>
 
-                                <Button onClick={(e => this.promoteUser(inge._id, 'up', inge.status))} variant="contained" > Promote </Button>
-                                <Button onClick={e => this.promoteUser(inge._id, 'down', inge.status)} variant="contained" > Downgrade </Button>
+                                <Button onClick={(e => this.promoteUser(user._id, 'up', user.privilegesId))} variant="contained" > Promote </Button>
+                                <Button onClick={e => this.promoteUser(user._id, 'down', user.privilegesId)} variant="contained" > Downgrade </Button>
 
                             </ExpansionPanelDetails>
                         </ExpansionPanel>

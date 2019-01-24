@@ -55,9 +55,10 @@ class ActionList extends Component {
         }
     }
 
-    prom(act) {
-        for (var e in act) {
-            const current_action = act[e];
+    // Given an app id in props, filter the actions concerning that application only
+    filterActionsByApp(actionsList) {
+        for (var e in actionsList) {
+            const current_action = actionsList[e];
             console.log(current_action);
             if (this.props.tag) {
                 if (current_action.applicationId === this.props.tag) {
@@ -77,10 +78,10 @@ class ActionList extends Component {
         this.setState( {actions} );
         if (this.props.variant ===  "progress") {
             getActionsByStatus("In Progress")
-                .then(act => this.prom(act));
+                .then(act => this.filterActionsByApp(act));
         } else if (this.props.variant ===  "done") {
             getActionsByStatus("Done")
-                .then(act => this.prom(act));
+                .then(act => this.filterActionsByApp(act));
         }
     }
 

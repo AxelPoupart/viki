@@ -1,14 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const user_db = require("../db handeling/sqlUser");
+
 const bcrypt =require('bcryptjs');
+const sqlUser = require("../db handeling/sqlUser");
+
 router.post("/authenticate", (req, res) => {
   console.log("AUTH middleware!");
   mail = req.body.mail;
   password = req.body.password;
   
 
-  user_db.getUsers((err, results) => {
+  sqlUser.getUsers((err, results) => {
     if (err) {
       console.log(err);
       res.status(400).send({ message: "Authentication error of some kind" });
@@ -29,9 +31,9 @@ router.post("/authenticate", (req, res) => {
       req.session.user_id = user.id;
       req.session.auth = true;
       req.session.usermail = user.mail;
-      user_db.get_user_privileges(user.id, (err, results) => {
+      sqlUser.get_user_privileges(user.id, (err, results) => {
         if (err) console.log(err);
-        req.session.privilege =results;
+        req.session.privilege =JSON.parse(JSON.stringify(results));
         res.json(user);
         console.log(req.session.privilege + req.session.id);
       });
@@ -55,6 +57,45 @@ router.get("/authenticate", (req, res) => {
   } else {
     res.status(400).send({ message: "Not Logged in" });
   }
+});
+
+
+
+//add user
+router.post("/authenticate/newuser", (req, res) => {
+  let info = req.body;
+  console.log("CREATE NEW USER");
+  email = info.email;
+  password = info.password;
+  hash = bcrypt.hashSync(password, 8);
+  user = { mail: email, hash: hash };
+  sqlUser.add_new_user(user, err => {
+    if (err) {
+      console.log(err);
+      res.status(400);
+    } else {
+      sqlUser.get_User_Id(email, (err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(400);
+        } else {
+          console.log(result);
+          let id = result[0]._id;
+          
+          console.log("new user " + id);
+          sqlUser.create_user_privileges(id, "3", err => {
+            if (err) {
+              console.log(err);
+              res.status(400);
+            } else {
+              console.log("enfin");
+              res.status(200).send({ message: "User created" });
+            }
+          });
+        }
+      });
+    }
+  });
 });
 
 module.exports = router;

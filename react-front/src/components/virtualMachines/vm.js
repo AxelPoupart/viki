@@ -10,12 +10,18 @@ import './vm.css';
 
 
 class Vm extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            machines: []
+        }
 
-  state = { user: null, actions: []  }
+        this.loadMachines = this.loadMachines.bind(this)
+    }
 
-  handleLogout = (event) => {
-      this.props.history.push('/login');
-  }
+  loadMachines = (vmsList) => {
+    this.setState({ machines: vmsList });
+}
 
   render() {
       return  (
@@ -24,13 +30,11 @@ class Vm extends Component {
             <Navbar page='Gestion des machines virtuelles'/>
 
             <div>
-                <VmSearch />
+                <VmSearch machines={this.state.machines}/>
             </div>
 
-            <Divider />
-
             <div id="vmlist">
-                <VmList />  
+                <VmList exportMachines={this.loadMachines} />  
             </div>
 
         </div>

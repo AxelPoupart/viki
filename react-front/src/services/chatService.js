@@ -1,6 +1,6 @@
 import { generateRequest } from "./generalService";
 
-const api = "http://localhost:5000/content-dev/chat-back"
+const api = "http://localhost:5000/content/chat-back"
 
 
 

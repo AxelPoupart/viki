@@ -1,22 +1,22 @@
 import { generateRequest } from './generalService'
 
-const api = 'http://localhost:5000/content-dev/userservice/';
+const api = 'http://localhost:5000/content/userservice/';
 
 function getUsers() {
     console.log('GET users')
     let requestOptions = generateRequest('GET');
     return fetch(api + 'users', requestOptions)
-        .then(res => res.json())
+        .then(res => res.json()).catch(err => console.log(err))
 }
 
 function post_user(user) {
     console.log('POST user')
     let requestOptions = generateRequest('POST', user);
-    return fetch(api + `users/new_user'`, requestOptions)
+    return fetch("http://localhost:5000/auth/authenticate/newuser", requestOptions)
         .then(res => {
             console.log(res)
             return res.json()
-        })
+        }).catch(err => console.log(err))
 }
 
 function delete_userById(id) {
@@ -26,34 +26,47 @@ function delete_userById(id) {
         .then(res => {
             console.log(res)
             return res.json()
-        })
+        }).catch(err => console.log(err))
+
 }
 
 // THis one is DONE
 function getUserById(id) {
     console.log('GET user By id')
     let requestOptions = generateRequest('GET');
-    return fetch(api + 'users/:id', requestOptions)
+    return fetch(api + `users/${id}`, requestOptions)
         .then(res => res.json())
+        .catch(err => console.log(err))
 }
 
 // THis one is DONE
-function getByStatus(status) {
-    console.log('GET ingesys')
+function getByPrivilege(privilege) {
+    console.log('GET '+privilege)
     let requestOptions = generateRequest('GET');
-    return fetch(api + `users/status/${status}`, requestOptions)
+    return fetch(api + `users/Privilege/${privilege}`, requestOptions)
         .then(res => res.json())
+        .catch(err => console.log(err))
 }
 
+function get_Privileges() {
+    console.log('GET privileges')
+    let requestOptions = generateRequest('GET');
+    return fetch(api + `users/privileges`, requestOptions)
+        .then(res => res.json())
+        .catch(err => console.log(err))
+}
+
+
 // THis one is DONE
-function changeUserStatus(id, status) {
-    console.log('CHANGE user status')
+function changeUserPrivilege(id, privilege) {
+    console.log('CHANGE user Privilege')
     let requestOptions = generateRequest('POST', {
         id: id,
-        status: status
+        privilege: privilege
     })
-    return fetch(api + 'users/changestatus', requestOptions)
+    return fetch(api + 'users/changePrivilege', requestOptions)
         .then(res => res.json())
+        .catch(err => console.log(err))
 }
 
 export {
@@ -61,6 +74,7 @@ export {
     delete_userById,
     getUserById,
     getUsers,
-    getByStatus,
-    changeUserStatus
+    getByPrivilege,
+    changeUserPrivilege,
+    get_Privileges
 }

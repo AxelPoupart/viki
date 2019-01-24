@@ -22,9 +22,6 @@ exports.delete_vm = (Id, callback) => {
     return db.query(query, Id, callback)
 }
 
-// Search a Vm by term (Label or Comment)
-exports.get_vms_search = (term, callback) => {
-    const new_term = "%" + term + "%";
-    let query = 'SELECT * FROM `virtualMachines` WHERE `label` LIKE ?';
-    return db.query(query, [new_term], callback)
-}
+exports.getPairedApps = (machineId, callback) => {
+    return db.query(`SELECT * FROM \`applicationsVm\` WHERE \`machineId\` = ${machineId} `, callback)
+} 

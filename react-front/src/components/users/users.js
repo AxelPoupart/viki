@@ -4,24 +4,27 @@ import { Link } from "react-router-dom";
 import Navbar from '../navbar/navbar';
 import UserList from './userList';
 import Button from '@material-ui/core/Button';
-
+import AddUser from "../users/addUser";
 
 import './users.css';
 
 class User extends Component {
 
-  state = { user: null, actions: []  }
+  
+  
 
 
 
   render() {
       return  (
         <div className="homeGlobal">
+        
 
-            <Navbar>
+            <Navbar page="Gestion des utilisateurs" >
 
                 <div className="switch">
                    <Link className="nav-link" to="/actions">
+                   
                         <Button variant="contained"> Switch status </Button>
                     </Link>
                 </div>

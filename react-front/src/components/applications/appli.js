@@ -9,15 +9,10 @@ class Appli extends Component {
         super(props);
         this.state = { applications: [] }
         this.loadApplications = this.loadApplications.bind(this);
-        this.importApplications = this.importApplications.bind(this);
     }
 
     loadApplications = (appList) => {
         this.setState({ applications: appList });
-    }
-
-    importApplications = () => {
-        return this.state.applications;
     }
 
     render() {
@@ -26,7 +21,7 @@ class Appli extends Component {
 
                 <Navbar page="Gestion des applications" />
 
-                <AppliSearch importApps={this.importApplications} apps={this.state.applications} />
+                <AppliSearch apps={this.state.applications} />
 
                 <AppliList exportApps={this.loadApplications} />
 

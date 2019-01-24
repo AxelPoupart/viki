@@ -22,8 +22,8 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use(bodyParser({extended: true}));
-
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 app.use(
   session({
     name: "wiki-dty",
@@ -60,15 +60,26 @@ connection.once('open', () => {
 
 // Defining routes
 app.use("/auth", auth);
-app.use("/content-dev", content_dev);
+
 
 app.use("/content", (req, res, next) => {
+  
+ 
   if (!req.session.auth) {    
     return res.status(401).send({ message: "Not authenticated" });
+    
   }
-  else {console.log("Authentified")}
+  else if (!(req.method=="GET")){
+    
+     if (!(req.session.privilege[0].label=="sysadmin"|| req.session.privilege[0].label=="ingesys")){
+
+    return res.status(401).send({ message: "Not allowed" });
+  }} else
+  {console.log("Authentified")}
   next();
 }, content);
+
+
 
 
 // Listening...

@@ -15,12 +15,12 @@ router.get('/applis', (req, res) => {
 // Send an application given its id
 router.get('/applis/:_id', (req, res) => {
     let appId = req.params._id
-    sqlAppli.getApplicationById(appId, (err, application)=>{
+    sqlAppli.getApplicationById(appId, (err, application) => {
         if (err) {
             console.log(err);
-            return res.send({success: false, msg:"The query of the required application failed"})
+            return res.send({ success: false, msg: "The query of the required application failed" })
         }
-        if (application) {            
+        if (application) {
             return res.send({
                 success: true,
                 application: application[0]
@@ -42,19 +42,52 @@ router.post('/add', (req, res) => {
 
 router.delete('/applis', (req, res) => {
     let appId = req.body.appId
-    sqlAppli.deleteCoupledVms(appId, (err)=>{
+    sqlAppli.deleteCoupledVms(appId, (err) => {
         if (err) {
             console.log('Error while deleting coupled machines');
             console.log(err);
-            
+
             return res.json({ success: false, msg: 'The request could not proceed' })
         };
         sqlAppli.delete_appli(appId, (err) => {
             if (err) {
                 console.log('Error while deleting an application');
+                console.log(err)
                 return res.json({ success: false, msg: 'The request could not proceed' })
             };
             return res.json({ success: true, msg: 'The application was deleted successfully' })
+        })
+    })
+})
+
+// Collect paired machines to a given application
+router.get('/pairs/:_id', (req, res) => {
+    let appId = req.params._id
+    sqlAppli.getPairedMachines(appId, (err, pairedMachines) => {
+        if (err) {
+            console.log('Error while querying paired machines');
+            console.log(err)
+            return res.json({ success: false, msg: 'The request could not proceed' })
+        }
+        return res.json({ success: true, pairedMachines: pairedMachines })
+    })
+})
+
+router.put('/applis', (req, res) => {
+    let appUpdate = req.body;
+    sqlAppli.updateApplication(appUpdate, (err) => {
+        if (err) {
+            console.log('Error while updating the application');
+            console.log(err)
+            return res.json({ success: false, msg: 'The request could not proceed' })
+        }
+        sqlAppli.updatePairs(appUpdate, (err) => {
+            if (err) {
+                console.log('Error while updating paired machines');
+                console.log(err)
+                return res.json({ success: false, msg: 'The request could not proceed' })
+            }
+            res.json({ success: true, msg: 'Application updated successfully' })
         })
     })
 })

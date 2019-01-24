@@ -1,19 +1,12 @@
-const express = require('express')
-
-const handelers = require('../db handeling/sql_handelers');
-
 const sqlAction = require('../db handeling/sqlAction')
-
-const app = express();
+const express = require('express')
 const router = express.Router();
 
 // Add a new Action : DONE
 router.route('/actions/add').post((req, res) => {
-    console.log(req.body);
     let action = req.body 
     sqlAction.post_new_action(action, (err) => {
-        console.log("Post presque done");
-        console.log(action);
+        if (err) throw err
         return res.json(action)
     });
 });
@@ -24,7 +17,6 @@ router.route('/actions').get((req, res) => {
         if (err)
             console.log(err);
         else {
-            console.log(actions)
             return res.json(actions);  
         }
     });
@@ -32,10 +24,8 @@ router.route('/actions').get((req, res) => {
 
 // Delete an action by Id
 router.route('/actions/delete').post((req, res) => {
-    console.log(req.body);
     let Id = req.body.Id
     sqlAction.delete_action(Id, (err) => {
-        console.log("Delete presque done");
         return res.json(req.body)
     });
 });
@@ -59,16 +49,10 @@ router.route('/actions/status/:status').get((req, res) => {
         if (err)
             console.log(err);
         else {
-            console.log(actions)
             return res.json(actions);  
         }
     });
 });
-
-
-
-
-
 
 router.route('/action/:id').get((req, res) => {
     let id = req.params.id; //à priori c'est ça mais pas sûr, à tester

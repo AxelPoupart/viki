@@ -56,17 +56,17 @@ class Navbar extends React.Component {
 	}
 
 	display_admin_menu = (user) => {
-		if (user && user.privileges==="sysadmin" ){
+		if (user){if( user.privileges[0].label==="sysadmin" ){
 			
 			
 			return (
 			<MenuItem onClick={this.handleClose}>
-			<Link className="nav-link" to="users">
-				dans le futur page admin
+			<Link className="nav-link" to="/users">
+				Esapce Administrateurs
 			</Link>
         </MenuItem>
       )
-    } else
+    }} else
       return null;
   }
 
@@ -75,10 +75,10 @@ class Navbar extends React.Component {
     const user = JSON.parse(this.state.user)
 
     return (
-      <div>
+      <div style={{marginBottom: '30px'}}>
         <AppBar position="sticky">
           <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', flexDirection:"row", justifyContent:'space-around' }}>
+            <div style={{ display: 'flex', flexDirection: "row", justifyContent: 'space-around' }}>
               <IconButton
                 color="inherit"
                 aria-label="Menu"
@@ -114,12 +114,12 @@ class Navbar extends React.Component {
 
                 {this.display_admin_menu(user)}
               </Menu>
-              <h5 style={{margin: "auto"}}>
+              <h5 style={{ margin: "auto" }}>
                 ViKi - {this.props.page}
               </h5>
             </div>
             <div>
-              <Button variant="contained" color="secondary"><Link style={{color: "white"}} to="/logout">Logout</Link></Button>
+              <Button variant="contained" color="secondary"><Link style={{ color: "white" }} to="/logout">Logout</Link></Button>
             </div>
           </Toolbar>
         </AppBar>
