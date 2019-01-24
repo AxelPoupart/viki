@@ -20,7 +20,7 @@ import './userList.css';
 
 class UserList extends Component {
 
-    state = { users: [], switch: "users"}
+    state = { users: [], switch: "visiteur"}
 
 
     display_by_privilege(privilege) {
@@ -64,29 +64,29 @@ class UserList extends Component {
             this.setState( {switch: elemt} )
             this.display_by_privilege("sysadmin")
         } else  { 
-            const elemt = "users"
+            const elemt = "ingesys"
             this.setState( {switch: elemt} )
-            this.displayAll()
+            this.display_by_privilege("ingesys")
         }
 
     }
 
-    promoteUser(id, dir, status) {
+    promoteUser(id, dir, privilegesiD) {
 
 
-        if (dir === 'up' && status === 'usersys') {
-            return changeUserPrivilege(id, 'admin')
-                .then(this.displayAll())
-        } else if (dir === 'up' && status === 'user') {
-            return changeUserPrivilege(id, 'usersys')
-                .then(this.display_by_privilege())
-        } else if (dir === 'down' && status === 'usersys') {
-            return changeUserPrivilege(id, 'user')
-                .then(this.displayAll())
-        } else if (dir === 'down' && status === 'admin') {
-            return changeUserPrivilege(id, 'usersys')
-                .then(this.display_by_privilege())
-        }
+        if (dir === 'up' && privilegesiD == '2') {
+            return changeUserPrivilege(id, 'sysadmin')
+            .then(()=>{this.setState( {switch: "sysadmin"} );setTimeout(this.display_by_privilege('sysadmin'),100)})
+        } else if (dir === 'up' && privilegesiD == '3') {
+            return changeUserPrivilege(id, 'ingesys')
+            .then(()=>{this.setState( {switch: "ingesys"} );setTimeout(this.display_by_privilege('ingesys'),100)})
+        } else if (dir === 'down' && privilegesiD == '2') {
+            return changeUserPrivilege(id, 'visiteur')
+                .then(()=>{this.setState( {switch: "visiteur"} );setTimeout(this.display_by_privilege('visiteur'),100)})
+        } else if (dir === 'down' && privilegesiD == '1') {
+            return changeUserPrivilege(id, 'ingesys')
+            .then(()=>{this.setState( {switch: "ingesys"} );setTimeout(this.display_by_privilege('ingesys'),100)})
+        } else alert("not possible");
         
     }
 
@@ -94,7 +94,7 @@ class UserList extends Component {
 
 
     componentWillMount() {
-        this.displayAll()
+        this.display_by_privilege('visiteur')
     }
 
 
@@ -126,11 +126,11 @@ class UserList extends Component {
                             <ExpansionPanelDetails>
 
                                 <Typography>
-                                    {user.mail} &nbsp; &nbsp; &nbsp; &nbsp;
+                                     User ID {user._id} &nbsp; &nbsp; &nbsp; &nbsp;
                                 </Typography>
 
-                                <Button onClick={(e => this.promoteUser(user._id, 'up', user.status))} variant="contained" > Promote </Button>
-                                <Button onClick={e => this.promoteUser(user._id, 'down', user.status)} variant="contained" > Downgrade </Button>
+                                <Button onClick={(e => this.promoteUser(user._id, 'up', user.privilegesId))} variant="contained" > Promote </Button>
+                                <Button onClick={e => this.promoteUser(user._id, 'down', user.privilegesId)} variant="contained" > Downgrade </Button>
 
                             </ExpansionPanelDetails>
                         </ExpansionPanel>

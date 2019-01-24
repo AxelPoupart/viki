@@ -127,13 +127,14 @@ class ActionList extends Component {
 
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
+                                <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
 
                                 <Typography>
                                     {act.comment}
                                 </Typography>
 
                                 <Typography>
-                                    {act.comment}
+                                    Application associée : {act.applicationId}
                                 </Typography>
 
                                 <Checkbox
@@ -145,7 +146,7 @@ class ActionList extends Component {
                                 <IconButton aria-label="Delete" variant="contained" color="secondary" style={{float: "right" }} onClick={() => this.suppress_action(act._id)}>
                                     <DeleteIcon />
                                 </IconButton>
-
+                            </div>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
                         </div>

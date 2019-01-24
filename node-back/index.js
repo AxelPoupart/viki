@@ -58,10 +58,19 @@ app.use("/auth", auth);
 app.use("/content", (req, res, next) => {
   if (!req.session.auth) {
     return res.status(401).send({ message: "Not authenticated" });
+    
   }
-  else { console.log("Authentified") }
+  else if (!(req.method=="GET")){
+    
+     if (!(req.session.privilege[0].label=="sysadmin"|| req.session.privilege[0].label=="ingesys")){
+
+    return res.status(401).send({ message: "Not allowed" });
+  }} else
+  {console.log("Authentified")}
   next();
 }, content);
+
+
 
 
 // Listening...

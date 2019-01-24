@@ -46,10 +46,20 @@ router.route("/users/Privilege/:privilege").get((req, res) => {
 
 //Change user privilege
 router.route("/users/changePrivilege").post((req, res) => {
-  let infos = req.body;
-  sqlUser.set_user_privileges(infos, (err, user) => {
+  let userid = req.body.id;
+  let privilegeid="";
+  if (req.body.privilege=="visiteur"){
+    privilegeid="3";
+  } else if (req.body.privilege=="ingesys"){
+    privilegeid="2";
+  } else if (req.body.privilege=="sysadmin"){
+    privilegeid="1";
+  } else {
+    res.status(400).send("privilege not recognised")
+  }
+  sqlUser.set_user_privileges(userid,privilegeid, (err) => {
     if (err) console.log(err);
-    else res.json(user);
+    else res.status(201).send("Privileges updated");
   });
 });
 
