@@ -65,7 +65,8 @@ class AppliList extends React.Component {
 
     getApplications() {
         getApplications().then(applis => {
-            this.setState({ applis: applis }, () => this.props.exportApps(applis))
+            this.setState({ applis: applis })
+            this.props.exportApps(applis)
         })
     }
 
@@ -73,11 +74,13 @@ class AppliList extends React.Component {
         if (window.confirm("Attention: En supprimant l'application vous perderez tous les services associés. Confirmez vous votre choix ?")) {
             deleteApplication(key)
                 .then(res => {
-                    if (res.success) {
-                        let updatedList = this.state.applis
-                        updatedList = updatedList.filter(app => app._id !== key)
-                        this.setState({ applis: updatedList })
-                    } else alert(res.msg);
+                    if (res) {
+                        if (res.success) {
+                            let updatedList = this.state.applis
+                            updatedList = updatedList.filter(app => app._id !== key)
+                            this.setState({ applis: updatedList })
+                        } else alert(res.msg);
+                    }
                 })
         }
     }

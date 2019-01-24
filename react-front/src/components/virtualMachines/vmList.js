@@ -9,11 +9,12 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import Pagination from 'react-js-pagination';
 import AddIcon from '@material-ui/icons/Add';
+import Icon from '@material-ui/core/Icon';
 import Fab from '@material-ui/core/Fab';
 
-import AddVm from './addVm';
-
 import { delete_vmById, get_vms } from '../../services/vmService.js'
+import MachineDetail from './machineDetail';
+import AddVm from './addVm';
 
 import './vmList.css';
 
@@ -22,9 +23,11 @@ class VmList extends Component {
         super(props);
         this.state = {
             vms: [],
+            selectedMachine: null,
             hide: false,
             activePage: 1,
-            itemsPerPage: 10
+            itemsPerPage: 10,
+            open: false
         }
     }
 
@@ -57,14 +60,11 @@ class VmList extends Component {
     }
 
     display_vms() {
-        let vmList = []
         get_vms()
             .then(vms => {
-                for (let vm of vms) {
-                    vmList.push(vm);
-                }
+                this.setState({ vms: vms })
+                this.props.exportMachines(vms)
             })
-            .then(() => this.setState({ vms: vmList }))
     }
 
     deleteMachine(key) {
@@ -73,7 +73,14 @@ class VmList extends Component {
                 this.setState({ vm: [] });
                 this.display_vms()
             })
+    }
 
+    handleClick(vm) {
+        this.setState({ selectedMachine: vm }, () => this.setState({ open: true }))
+    }
+
+    handleClose() {
+        this.setState({ open: false, selectedMachine: null })
     }
 
     componentWillMount() {
@@ -82,12 +89,14 @@ class VmList extends Component {
 
 
     render() {
+        let diag = this.state.open ? (<MachineDetail machine={this.state.selectedMachine} open={this.state.open} onClose={this.handleClose.bind(this)} />) : null
         let pageItems = [];
         for (let i = (this.state.activePage - 1) * this.state.itemsPerPage; i < this.state.activePage * this.state.itemsPerPage + 1; i++) {
             if (i < this.state.vms.length) pageItems.push(this.state.vms[i])
         }
         return (
             <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                {diag}
                 <div style={{ alignSelf: 'center', width: '90%' }}>
                     {pageItems.map(vm => (
                         <div key={vm._id}>
@@ -97,29 +106,39 @@ class VmList extends Component {
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>
                                     <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-                                        <Typography>
-                                            {'Emplacement de la VM: ' + vm.campus}
-                                        </Typography>
-                                        
-                                        <Typography>
-                                            {vm.filePath}
-                                        </Typography>
-                                        
-                                        <Typography>
-                                            {'Stratégie de sauvegarde: ' + vm.backupPolicy}
-                                        </Typography>
-                                    </div>
-                                    <div style={{ alignSelf: "flex-end", margin: '10px' }}>
-                                        <Fab
-                                            variant="extended"
-                                            size="small"
-                                            color="secondary"
-                                            aria-label="Delete"
-                                            onClick={() => this.deleteMachine(vm._id)}
-                                        >
-                                            <DeleteIcon />
-                                            Supprimer
-                                            </Fab>
+                                        <div>
+                                            <Typography>
+                                                {'Emplacement de la VM: ' + vm.campus}
+                                            </Typography>
+
+                                            <Typography>
+                                                {'Stratégie de sauvegarde: ' + vm.backupPolicy}
+                                            </Typography>
+                                        </div>
+
+                                        <div style={{ alignSelf: "flex-end", margin: '10px' }}>
+                                            <Fab
+                                                variant="extended"
+                                                size="small"
+                                                color="primary"
+                                                aria-label="Details"
+                                                onClick={() => this.handleClick(vm)}
+                                                style={{ marginRight: '5px' }}
+                                            >
+                                                <Icon>edit_icon</Icon>
+                                                Détails
+                                        </Fab>
+                                            <Fab
+                                                variant="extended"
+                                                size="small"
+                                                color="secondary"
+                                                aria-label="Delete"
+                                                onClick={() => this.deleteMachine(vm._id)}
+                                            >
+                                                <DeleteIcon />
+                                                Supprimer
+                                        </Fab>
+                                        </div>
                                     </div>
                                 </ExpansionPanelDetails>
                             </ExpansionPanel>

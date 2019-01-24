@@ -1,6 +1,6 @@
 import { generateRequest } from "./generalService";
 
-const api = 'http://localhost:5000/content-dev/actionservice/';
+const api = 'http://localhost:5000/content/actionservice/';
 
 // THis one is DONE
 function get_actions() {

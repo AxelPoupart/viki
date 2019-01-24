@@ -1,7 +1,5 @@
 const express = require('express')
 
-const handelers = require('../db handeling/sql_handelers');
-
 const sqlVm = require('../db handeling/sqlVm')
 
 const router = express.Router();
@@ -10,7 +8,7 @@ const router = express.Router();
 // Add a new VM : DONE
 router.route('/vms/add').post((req, res) => {
     console.log(req.body);
-    let vm = req.body 
+    let vm = req.body
     sqlVm.post_new_vm(vm, (err) => {
         console.log("Post presque done");
         console.log(vm);
@@ -47,11 +45,11 @@ router.route('/vms/search/:term').get((req, res) => {
 router.route('/vmservice/vms/add').post((req, res) => {
     let vm = req //transformer req pour que ca colle
     post_new_application(vm, (err, res) => {
-        res.status(200).json({'vm': 'Added successfully!'});
+        res.status(200).json({ 'vm': 'Added successfully!' });
     })
-    .catch(err => {
-        res.status(400).send('Failed to create new record');
-    });
+        .catch(err => {
+            res.status(400).send('Failed to create new record');
+        });
 });
 
 
@@ -60,7 +58,7 @@ router.route('/vmservice/vms').get((req, res) => {
         if (err)
             console.log(err);
         else {
-            res.status(200).json({'vm': 'get successfully'});
+            res.status(200).json({ 'vm': 'get successfully' });
             res.json(applications);
         }
     });
@@ -87,14 +85,16 @@ router.route('/vmservice/vms/appli/:appli').get((req, res) => {
     });
 });
 
-router.route(`/vmservice/vms/search/:term`).get((req, res) => {
-    const term = req.params.term; //recherche par lettres dans le 'title' (classique search bar)
-    get_applications_by_search(term, (err, applications) => {
-        if (err)
-            console.log(err);
-        else
-            res.json(applications);
-    });
-});
+router.get('/pairs/:_id', (req, res) => {
+    let machineId = req.params._id
+    sqlVm.getPairedApps(machineId, (err, pairedApps) => {
+        if (err) {
+            console.log('Error while querying paired machines');
+            console.log(err)
+            return res.json({ success: false, msg: 'The request could not proceed' })
+        }
+        return res.json({ success: true, pairedApps: pairedApps })
+    })
+})
 
 module.exports = router;

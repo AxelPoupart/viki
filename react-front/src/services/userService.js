@@ -1,6 +1,6 @@
 import { generateRequest } from './generalService'
 
-const api = 'http://localhost:5000/content-dev/userservice/';
+const api = 'http://localhost:5000/content/userservice/';
 
 function getUsers() {
     console.log('GET users')

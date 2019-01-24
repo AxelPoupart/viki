@@ -15,8 +15,7 @@ export default class AppliSearch extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            searchTerm: "",
-            appList: []
+            searchTerm: ""
         }
         this.handleChange.bind(this);
         this.handleSelect.bind(this)
@@ -29,11 +28,6 @@ export default class AppliSearch extends React.Component {
     handleSelect = (value) => {
         let selectedApp = this.props.apps.filter(app => app.label===value)[0];
         window.location.replace(`/applis/${selectedApp._id}`);
-    }
-
-    loadApplications = () => {
-        let apps = this.props.importApps();
-        this.setState({ appList: apps });
     }
 
     render() {
@@ -54,7 +48,7 @@ export default class AppliSearch extends React.Component {
                         onChange={this.handleChange}
                         onSelect={this.handleSelect}
                         menuStyle={menu}
-                        inputProps={{ name: 'searchTerm', placeholder: 'Chercher une application' }}
+                        inputProps={{ name: 'searchTerm', placeholder: 'Chercher une application', size:'40' }}
                     />
                 </div>
             </div>
