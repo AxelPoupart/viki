@@ -15,7 +15,7 @@ import {get_messages, sendChat} from '../../services/chatService';
 
 class ChatContainer extends Component {
 
-    state = { newMessage: '' , messages: [], el: null, user: null};
+    state = { newMessage: '#' , messages: [], el: null, user: null};
 
     handleInputChange = e => {
         this.setState({ newMessage: e.target.value });
@@ -41,6 +41,7 @@ class ChatContainer extends Component {
                     this.setState( {messages} );
                 } else {
                     const tag = this.props.tag;
+                    this.setState( { newMessage: '#' + tag})
                     const current_message = mes[e];
                     if (current_message.chat.indexOf(tag) !== -1 ) {
                         const messages = this.state.messages.concat([current_message]);

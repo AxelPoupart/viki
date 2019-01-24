@@ -1,4 +1,4 @@
-const api = 'http://localhost:5000/content-dev/actionservice/';
+const api = '/content-dev/actionservice/';
 
 function reqGet() {
     let requestOptions = {
