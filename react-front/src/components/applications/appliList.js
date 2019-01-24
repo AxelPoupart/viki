@@ -90,7 +90,7 @@ class AppliList extends React.Component {
     }
 
     redirectToApp(_id) {
-        window.location.replace(`/applis/${_id}`);
+        this.props.history.push(`/applis/${_id}`);
     }
 
     render() {

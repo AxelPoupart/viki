@@ -29,7 +29,8 @@ class AddAction extends Component {
             actionTakerId: 0,
             applicationId: "Application",
             applicationLabel: "",
-            applis: []
+            applis: [],
+            loadedApp: false
         }
     }
 
@@ -41,8 +42,12 @@ class AddAction extends Component {
     }
 
     componentWillMount() {
-        getApplications()
-            .then(applis => this.setState({ applis: applis }, () => this.setState({ applicationLabel: this.state.applis[0].label })))
+        if (this.props.application) {
+            this.setState({ applicationId: this.props.application._id, applicationLabel: this.props.application.label, loadedApp: true });
+        } else {
+            getApplications()
+                .then(applis => this.setState({ applis: applis }, () => this.setState({ applicationLabel: this.state.applis[0].label })))
+        }
     }
 
     handleSubmit = (e) => {
@@ -91,10 +96,27 @@ class AddAction extends Component {
         });
     }
 
+
     render() {
         let applicationOptions = this.state.applis.map(appli => {
             return <MenuItem key={appli._id} value={appli.label} >{appli.label}</MenuItem>
         })
+        let selectApplication = (
+            <FormControl
+                fullWidth
+                margin="normal"
+                variant="filled"
+            >
+                <InputLabel>Application</InputLabel>
+                <Select
+                    name="Application"
+                    value={this.state.applicationLabel}
+                    onChange={this.handleAppliChange.bind(this)}
+                >
+                    {applicationOptions}
+                </Select>
+            </FormControl>
+        )
         return (
             <div>
 
@@ -144,24 +166,7 @@ class AddAction extends Component {
                                         <MenuItem value="Hight">Hight</MenuItem>
                                     </Select>
                                 </FormControl>
-
-
-                                <FormControl
-                                    fullWidth
-                                    margin="normal"
-                                    variant="filled"
-                                >
-                                    <InputLabel>Application</InputLabel>
-                                    <Select
-                                        name="Application"
-                                        value={this.state.applicationLabel}
-                                        onChange={this.handleAppliChange.bind(this)}
-                                    >
-                                        {applicationOptions}
-                                    </Select>
-                                </FormControl>
-
-
+                                {this.state.loadedApp ? null:selectApplication}
                                 <TextField
                                     name="closingTime"
                                     type="date"

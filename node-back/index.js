@@ -5,7 +5,6 @@ const session = require("express-session");
 const mongoose = require("mongoose");
 const auth = require("./routes/auth");
 const content = require("./routes/content");
-const content_dev = require("./routes/content-dev");
 // Define the main app
 const app = express();
 const port = 5000;
@@ -22,7 +21,7 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(
   session({
@@ -41,32 +40,26 @@ try {
 }
 
 
-// //Connect to mongoDB server (Chat)
-// try {
-//   mongoose.connect('mongodb://localhost/chat-back', {useNewUrlParser: true});
-// mongoose.set('debug', true);
-
-// const connection = mongoose.connection;
-
-// connection.once('open', () => {
-//     console.log('MongoDB database connection established successfully!')
-// });
-// } catch (error) {
-//   console.log(error)
-// }
-
-
-
+//Connect to mongoDB server (Chat)
+try {
+  mongoose.connect('mongodb://localhost/chat-back', { useNewUrlParser: true });
+  mongoose.set('debug', true);
+  const connection = mongoose.connection;
+  connection.once('open', () => {
+    console.log('MongoDB database connection established successfully!')
+  });
+} catch (error) {
+  console.log(error)
+}
 
 // Defining routes
 app.use("/auth", auth);
-app.use("/content-dev", content_dev);
 
 app.use("/content", (req, res, next) => {
-  if (!req.session.auth) {    
+  if (!req.session.auth) {
     return res.status(401).send({ message: "Not authenticated" });
   }
-  else {console.log("Authentified")}
+  else { console.log("Authentified") }
   next();
 }, content);
 

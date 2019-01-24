@@ -119,7 +119,7 @@ class Navbar extends React.Component {
               </h5>
             </div>
             <div>
-              <Button variant="contained" color="secondary"><Link style={{ color: "white" }} to="/logout">Logout</Link></Button>
+              <Button variant="contained" color="secondary" onClick={()=> this.props.history.push('/logout')}>Logout</Button>
             </div>
           </Toolbar>
         </AppBar>

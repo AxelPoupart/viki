@@ -19,11 +19,11 @@ class Appli extends Component {
         return (
             <div className="">
 
-                <Navbar page="Gestion des applications" />
+                <Navbar history={this.props.history} page="Gestion des applications" />
 
-                <AppliSearch apps={this.state.applications} />
+                <AppliSearch history={this.props.history} apps={this.state.applications} />
 
-                <AppliList exportApps={this.loadApplications} />
+                <AppliList history={this.props.history} exportApps={this.loadApplications} />
 
             </div>
         );

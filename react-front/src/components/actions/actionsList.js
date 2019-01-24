@@ -43,7 +43,7 @@ class ActionList extends Component {
             return (
                 <div>
                     <Button color="primary" onClick={e => {this.setState({hide: false});}}>Cancel</Button>
-                    <AddAction onSubmit={this.handleSubmitAction} actions={this.state.actions} />
+                    <AddAction application={this.props.application} onSubmit={this.handleSubmitAction} actions={this.state.actions} />
                 </div>
             )
         } else if (this.props.variant === "progress") { 

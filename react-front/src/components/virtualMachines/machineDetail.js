@@ -44,7 +44,7 @@ export default class MachineDetail extends React.Component {
         e.preventDefault();
         let appLabel = e.target.name
         let appId = this.state.apps.find(item => item.label === appLabel)._id
-        window.location.replace(`/applis/${appId}`);
+        this.props.history.push(`/applis/${appId}`);
     }
 
     componentWillMount() {

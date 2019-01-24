@@ -39,7 +39,7 @@ export default class AppliSearch extends React.Component {
     }
 
     render() {
-        let diag = this.state.open ? (<MachineDetail machine={this.state.selectedMachine} open={this.state.open} onClose={this.handleClose.bind(this)}/>) : null
+        let diag = this.state.open ? (<MachineDetail history={this.props.history} machine={this.state.selectedMachine} open={this.state.open} onClose={this.handleClose.bind(this)}/>) : null
         return (
             <div style={{ margin: '20px', display: 'flex', flexDirection: 'column', width: '100%' }} >
                 <div style={{ alignSelf: 'center' }}>

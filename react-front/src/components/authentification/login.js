@@ -80,7 +80,7 @@ class Login extends React.Component {
         {this.redirect()}
 
         <Card id="loginForm">
-        Viki
+        <h3 style={{textAlign: 'center', marginTop: '20px'}}>Viki</h3>
           <CardContent>
             <form onSubmit={this.handleSubmit}>
               <TextField
@@ -112,6 +112,7 @@ class Login extends React.Component {
           </CardContent>
         </Card>
         <div id="register">
+          <h3 style={{textAlign: 'center'}}>Add new User</h3>
           <AddUser />
         </div>
       </div>

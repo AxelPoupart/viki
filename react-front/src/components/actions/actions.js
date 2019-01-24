@@ -49,8 +49,7 @@ class Action extends Component {
       return  (
         <div className="homeGlobal">
 
-            <Navbar page='Liste des actions'>
-            </Navbar>
+            <Navbar history={this.props.history} page='Liste des actions' />
 
             <div className="switchStatus">
                 {//this.switchStatus().bind(this)

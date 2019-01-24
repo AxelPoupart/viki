@@ -89,7 +89,7 @@ class VmList extends Component {
 
 
     render() {
-        let diag = this.state.open ? (<MachineDetail machine={this.state.selectedMachine} open={this.state.open} onClose={this.handleClose.bind(this)} />) : null
+        let diag = this.state.open ? (<MachineDetail history={this.props.history} machine={this.state.selectedMachine} open={this.state.open} onClose={this.handleClose.bind(this)} />) : null
         let pageItems = [];
         for (let i = (this.state.activePage - 1) * this.state.itemsPerPage; i < this.state.activePage * this.state.itemsPerPage + 1; i++) {
             if (i < this.state.vms.length) pageItems.push(this.state.vms[i])
@@ -160,12 +160,6 @@ class VmList extends Component {
                         onChange={(pageNumber) => this.setState({ activePage: pageNumber })}
                     />
                 </div>
-
-                <div id="vm-add" >
-                    {this.displayAdd()}
-                </div>
-
-
             </div>
         );
     }

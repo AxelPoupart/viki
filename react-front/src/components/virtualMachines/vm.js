@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import Divider from '@material-ui/core/Divider';
-
 import Navbar from '../navbar/navbar';
 import VmList from './vmList';
 import VmSearch from './vmSearch';
@@ -27,14 +25,12 @@ class Vm extends Component {
       return  (
         <div id="home_global">
 
-            <Navbar page='Gestion des machines virtuelles'/>
-
+            <Navbar history={this.props.history} page='Gestion des machines virtuelles'/>
             <div>
-                <VmSearch machines={this.state.machines}/>
+                <VmSearch history={this.props.history} machines={this.state.machines}/>
             </div>
-
             <div id="vmlist">
-                <VmList exportMachines={this.loadMachines} />  
+                <VmList history={this.props.history} exportMachines={this.loadMachines} />  
             </div>
 
         </div>

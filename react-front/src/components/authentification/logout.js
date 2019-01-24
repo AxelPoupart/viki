@@ -1,6 +1,8 @@
 import React from 'react'
+import { logout as loggingOut } from '../../services/authService';
 
 let logout = () => {
+  loggingOut()
   localStorage.clear();
   return (
     <div>

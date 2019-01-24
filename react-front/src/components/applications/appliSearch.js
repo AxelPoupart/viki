@@ -27,7 +27,7 @@ export default class AppliSearch extends React.Component {
 
     handleSelect = (value) => {
         let selectedApp = this.props.apps.filter(app => app.label===value)[0];
-        window.location.replace(`/applis/${selectedApp._id}`);
+        this.props.history.push(`/applis/${selectedApp._id}`);
     }
 
     render() {
