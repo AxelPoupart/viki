@@ -25,7 +25,7 @@ class AddAction extends Component {
             file: "",
             closingTime: "",
             comment: "",
-            creatorId: 1,
+            creatorId: JSON.parse(localStorage.getItem('user')).id,
             actionTakerId: 0,
             applicationId: "Application",
             applicationLabel: "",
@@ -85,7 +85,7 @@ class AddAction extends Component {
 
     handleAppliChange = e => {
         let selectedApp = e.target.value;
-        let appId = this.state.applis.filter(app => app.label === selectedApp)[0]
+        let appId = this.state.applis.find(app => app.label === selectedApp)._id
         this.setState({ applicationId: appId, applicationLabel: selectedApp });
     };
 

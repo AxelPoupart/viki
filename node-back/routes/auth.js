@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const sqlUser = require("../db handeling/sqlUser");
 
 router.post("/authenticate", (req, res) => {
+  console.log('eyyy')
   mail = req.body.mail;
   password = req.body.password;
 

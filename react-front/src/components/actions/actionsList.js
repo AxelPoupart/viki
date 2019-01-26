@@ -14,39 +14,44 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 import AddAction from './addAction';
 
-import { 
+import {
     delete_actionById,
     changeActionStatus,
     getActionsByStatus
 } from '../../services/actionService.js'
 
+import { getApplicationById } from '../../services/appliService'
+
 import './actionList.css';
 
 
 class ActionList extends Component {
-
-    state = { actions: [], hide: false}
+    constructor(props) {
+        super(props);
+        this.state = { actions: [], hide: false }
+        this.getApplicationLabel = this.getApplicationLabel.bind(this)
+    }
 
     handleAdd = (e) => {
         const hide = !this.state.hide;
-        this.setState( {hide} ); 
+        this.setState({ hide });
     };
 
     handleSubmitAction = act => {
         console.log(act);
         const actions = this.state.actions.concat([act]);
-        this.setState( {actions} );
+        this.setState({ actions });
     };
 
     displayAdd() {
         if (this.state.hide && this.props.variant === "progress") {
             return (
                 <div>
-                    <Button color="primary" onClick={e => {this.setState({hide: false});}}>Cancel</Button>
+                    <Button color="primary" onClick={e => { this.setState({ hide: false }); }}>Cancel</Button>
                     <AddAction application={this.props.application} onSubmit={this.handleSubmitAction} actions={this.state.actions} />
                 </div>
             )
-        } else if (this.props.variant === "progress") { 
+        } else if (this.props.variant === "progress") {
             return (
                 <Fab color="primary" aria-label="Add" onClick={this.handleAdd.bind(this)}>
                     <AddIcon />
@@ -56,85 +61,94 @@ class ActionList extends Component {
     }
 
     // Given an app id in props, filter the actions concerning that application only
-    filterActionsByApp(actionsList) {
+    filterActionsByApp(actionsList, callback) {
         for (var e in actionsList) {
             const current_action = actionsList[e];
             console.log(current_action);
             if (this.props.tag) {
                 if (current_action.applicationId === this.props.tag) {
                     const actions = this.state.actions.concat([current_action]);
-                    this.setState( {actions} );
+                    this.setState({ actions }, callback);
                 }
             } else {
                 const actions = this.state.actions.concat([current_action]);
-                this.setState( {actions} );
+                this.setState({ actions }, callback);
             }
-            
+
         }
     }
 
-    display_actions() {
+    display_actions(callback) {
         let actions = [];
-        this.setState( {actions} );
-        if (this.props.variant ===  "progress") {
+        this.setState({ actions });
+        if (this.props.variant === "progress") {
             getActionsByStatus("In Progress")
-                .then(act => this.filterActionsByApp(act));
-        } else if (this.props.variant ===  "done") {
+                .then(act => this.filterActionsByApp(act, callback));
+        } else if (this.props.variant === "done") {
             getActionsByStatus("Done")
-                .then(act => this.filterActionsByApp(act));
+                .then(act => this.filterActionsByApp(act, callback));
         }
+        callback();
     }
 
     suppress_action(key) {
         delete_actionById(key)
-        .then(res => {
-            this.setState( {actions: []} );
-            this.display_actions() 
-        })
+            .then(res => {
+                this.setState({ actions: [] });
+                this.display_actions(this.getApplicationLabel)
+            })
     }
-    
+
 
 
     handleChangeStatus(e, id, status) {
         console.log(e.target.checked)
         if (e.target.checked) {
             changeActionStatus(id, "Done")
-                .then(this.display_actions());  
-        } else { 
+                .then(this.display_actions(this.getApplicationLabel));
+        } else {
             changeActionStatus(id, "In Progress")
-                .then(this.display_actions());
+                .then(this.display_actions(this.getApplicationLabel));
         }
     }
 
+    getApplicationLabel() {
+        let actions = this.state.actions.map(action => {
+            let appId = action.applicationId
+            getApplicationById(appId)
+                .then(res => {
+                    if (res.success) {
+                        action.applicationLabel = res.application.label
+                    }
+                })
+            return action
+        })
+        this.setState({ actions: actions })
+    }
+
     componentWillMount() {
-        this.display_actions()
+        this.display_actions(this.getApplicationLabel)
     }
 
 
     render() {
-        return (
-            <div id="action">
+        let displayActs = (this.state.actions.map(act => {
+            console.log(act)
+            return (
+                <div key={act._id}>
+                    <ExpansionPanel key={act._id}>
+                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 
-                <div id="action-list">
-                    {this.state.actions.map(act => (
-                        <div key={act._id}>
-                        <ExpansionPanel key={act._id}>
-                            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography>{act.label} &nbsp; &nbsp; &nbsp; &nbsp;</Typography>
 
-                                <Typography>{act.label} &nbsp; &nbsp; &nbsp; &nbsp;</Typography>
+                            <Typography>{act.status}</Typography>
 
-                                <Typography>{act.status}</Typography>
-
-                            </ExpansionPanelSummary>
-                            <ExpansionPanelDetails>
-                                <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
+                            <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
 
                                 <Typography>
                                     {act.comment}
-                                </Typography>
-
-                                <Typography>
-                                    Application associée : {act.applicationId}
                                 </Typography>
 
                                 <Checkbox
@@ -143,20 +157,26 @@ class ActionList extends Component {
                                     value="checkedG"
                                 />
 
-                                <IconButton aria-label="Delete" variant="contained" color="secondary" style={{float: "right" }} onClick={() => this.suppress_action(act._id)}>
+                                <IconButton aria-label="Delete" variant="contained" color="secondary" style={{ float: "right" }} onClick={() => this.suppress_action(act._id)}>
                                     <DeleteIcon />
                                 </IconButton>
                             </div>
-                            </ExpansionPanelDetails>
-                        </ExpansionPanel>
-                        </div>
-                    ))}
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
+                </div>
+            )
+        }))
+        return (
+            <div id="action">
+
+                <div id="action-list">
+                    {displayActs}
                 </div>
 
                 <div id="action-add" >
                     {this.displayAdd()}
                 </div>
-                
+
 
             </div>
         );

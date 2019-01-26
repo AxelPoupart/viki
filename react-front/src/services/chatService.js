@@ -13,8 +13,8 @@ function get_messages() {
 }
 
 
-function sendChat(message) {
-    let requestOptions = generateRequest('POST', {chat: message})
+function sendChat(message, user) {
+    let requestOptions = generateRequest('POST', {chat: message, user: user})
     return fetch(api + `/add`, requestOptions)
         .then(res => {
             return res.json()

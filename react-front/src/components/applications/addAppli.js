@@ -70,6 +70,8 @@ export default class AddAppli extends Component {
             alert("Please fill in the aplication code");
         } else if (!this.state.label.trim()) {
             alert("Please fill in the application label");
+        } else if (this.state.comment.length > 255) {
+            alert("Comment is too long (max 255)");
         } else {
             // if the form control is successful, send a post request to the server
             this.filterMachines(() => this.setState({
@@ -199,6 +201,7 @@ export default class AddAppli extends Component {
                                 fullWidth
                                 margin="normal"
                                 variant="filled"
+                                inputProps={{maxlength:'255'}}
                                 onChange={this.handleChange}
                                 value={this.state.comment}
                             />
@@ -248,9 +251,6 @@ export default class AddAppli extends Component {
                             >
                                 <Fab style={{ position: "absolute", right: "0px" }} size="small" color="primary" aria-label="Add a new pair vm/app" onClick={this.addPair.bind(this)}>
                                     <AddIcon />
-                                </Fab>
-                                <Fab style={{ position: "absolute", right: "50px" }} size="small" color="secondary" aria-label="Delete last pair vm/app" onClick={this.deletePair.bind(this)}>
-                                    <DeleteIcon />
                                 </Fab>
                             </FormControl>
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 
-import Divider from '@material-ui/core/Divider';
+
 
 import Navbar from '../navbar/navbar';
 import ChatContainer from './chatContainer';
@@ -29,20 +29,6 @@ class Action extends Component {
             )
         }
     }
-    //verif de /content
-    // componentDidMount(){
-    //     let requestOptions = {
-    //         credentials: 'include',
-    //         method: 'GET',
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         }
-    //     }
-    //     fetch("http://localhost:5000/auth/authenticate", requestOptions)
-    //     .then(res =>  console.log(res))
-    // }
-
-
     
 
     render() {

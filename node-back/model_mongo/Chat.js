@@ -7,6 +7,9 @@ const Schema = mongoose.Schema;
 let Chat = new Schema({
     chat: {
         type: String
+    },
+    user: {
+        type: String
     }
 });
 

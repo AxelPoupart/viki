@@ -54,7 +54,7 @@ try {
 
 // Defining routes
 app.use("/auth", auth);
-
+ 
 app.use("/content", (req, res, next) => {
   if (!req.session.auth) {
     return res.status(401).send({ message: "Not authenticated" });
@@ -70,8 +70,12 @@ app.use("/content", (req, res, next) => {
   next();
 }, content);
 
+const userServer = require('./Server/userServer')
 
-
+app.use("/content-dev/userservice", (req, res, next) => {
+  console.log('WORKS')
+  next()
+}, userServer)
 
 // Listening...
 app.listen(port, () => {
